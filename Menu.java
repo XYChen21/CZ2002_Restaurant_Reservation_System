@@ -1,0 +1,104 @@
+package projectoop;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+import projectoop.Item.KindofFood;
+
+public class Menu {
+		static List<Item> menu=new ArrayList<Item>();  
+
+		public static void addMenu(Item i)
+		{boolean duplicate = false;
+		for(Item food:menu)
+			{if (food.getIndex() == i.getIndex())
+				{duplicate = true;
+				break;
+				
+				}}
+		if (duplicate == false)
+		{menu.add(i);}
+
+		else
+		{System.out.println("Duplicate index.");}
+		}
+
+
+
+		public static void removeMenu(int a)
+		{boolean removed = false;
+		int count = 0;
+
+		for(Item food:menu)
+			{if (food.getIndex() == a)
+				{
+				removed = true;
+				break;
+				}
+			count++;
+		}
+
+		if (removed == true)
+		{menu.remove(count);
+		System.out.println("Removed");}
+
+		if (removed == false)
+		{System.out.println("Nothing is removed.");}
+		}
+
+		public static void filterMenuByType(KindofFood k)
+		{List<Item> newMenu=new ArrayList<Item>(); 
+		boolean empty = true;
+		for(Item food:menu)
+			{if (food.getType() == k)
+				{newMenu.add(food);
+				empty = false;
+				}}
+
+		sortByDefault(newMenu);
+		printMenu(newMenu);
+
+		if (empty == true)
+		{System.out.println("There are no items with that category.");}
+		}
+
+		public static void filterMenuByPrice(Double a, Double b)
+		{List<Item> newMenu2=new ArrayList<Item>(); 
+		boolean empty = true;
+
+		for(Item food:menu)
+		{if (food.getPrice() >= a && food.getPrice()<=b)
+			{newMenu2.add(food);
+			empty = false;
+			}}
+
+		sortByDefault(newMenu2);
+		printMenu(newMenu2);
+
+		if (empty == true)
+		{System.out.println("There are no items within that price range.");}
+		}
+
+
+		public static void sortMenuByAlphabet() {
+			menu.sort(Comparator.comparing(Item::getName));
+			printMenu(menu);
+		}
+
+
+		public static void viewMenu()
+		{ sortByDefault(menu);
+			for(Item food:menu)  
+		    System.out.println(food.toString()); 
+		}
+
+		public static void sortByDefault(List<Item> k)
+		{k.sort(Comparator.comparing(Item::getIndex));
+		}
+
+		public static void printMenu(List<Item>a)
+		{for(Item food:a)  
+		    System.out.println(food.toString());}
+
+		}
