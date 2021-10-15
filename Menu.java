@@ -88,17 +88,21 @@ public class Menu {
 
 
 		public static void viewMenu()
-		{ sortByDefault(menu);
-			for(Item food:menu)  
-		    System.out.println(food.toString()); 
+		{System.out.println("************** MENU ****************" + '\n');
+		sortByDefault(menu);
+		for(Item food:menu)  
+		   System.out.println(food.toString());
+		System.out.println("*************************************");
 		}
 
-		public static void sortByDefault(List<Item> k)
+		private static void sortByDefault(List<Item> k)
 		{k.sort(Comparator.comparing(Item::getIndex));
 		}
 
-		public static void printMenu(List<Item>a)
-		{for(Item food:a)  
-		    System.out.println(food.toString());}
+		private static void printMenu(List<Item>a)
+		{System.out.println("************** MENU ****************" + '\n');
+		for(Item food:a)  
+		   System.out.println(food.toString());
+		System.out.println("*************************************");}
 
 		}

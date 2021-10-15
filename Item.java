@@ -34,8 +34,8 @@ this.name = name;
 this.description = description;
 this.price = price;
 this.type = type;
-
 }
+
 
 public int getIndex()
 {return ID;}
@@ -70,13 +70,22 @@ public void setPrice(double price)
 @Override
 public String toString() {
   return 
-      "Index = " + ID + '\n' +
+      "Item Index = " + ID + '\n' +
       "Name = " + name + '\n' +
       "Description = " + description + '\n' +
       "Price = " + price + '\n' +
       "Type = " + type + '\n'
       ;
 }
+
+public String toStringCust() {
+	  return 
+	      "Item Index = " + ID + '\n' +
+	      "Name = " + name + '\n' +
+	      "Description = " + description + '\n' +
+	      "Type = " + type + '\n'
+	      ;
+	}
 
 
 @Override
