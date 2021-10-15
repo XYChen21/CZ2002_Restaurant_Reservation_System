@@ -21,7 +21,7 @@ public class Menu {
 		{menu.add(i);}
 
 		else
-		{System.out.println("Duplicate index.");}
+		{System.out.println("Duplicate index of items in this menu.");}
 		}
 
 
@@ -41,10 +41,10 @@ public class Menu {
 
 		if (removed == true)
 		{menu.remove(count);
-		System.out.println("Removed");}
+		System.out.println("Item is removed.");}
 
 		if (removed == false)
-		{System.out.println("Nothing is removed.");}
+		{System.out.println("Item with that index does not exist. Nothing is removed.");}
 		}
 
 		public static void filterMenuByType(KindofFood k)
@@ -92,7 +92,6 @@ public class Menu {
 		sortByDefault(menu);
 		for(Item food:menu)  
 		   System.out.println(food.toString());
-		System.out.println("*************************************");
 		}
 
 		private static void sortByDefault(List<Item> k)
@@ -102,7 +101,6 @@ public class Menu {
 		private static void printMenu(List<Item>a)
 		{System.out.println("************** MENU ****************" + '\n');
 		for(Item food:a)  
-		   System.out.println(food.toString());
-		System.out.println("*************************************");}
+		   System.out.println(food.toString());}
 
 		}

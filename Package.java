@@ -33,7 +33,7 @@ public class Package {
 	{menuItemPackage.add(i);}
 
 	else
-	{System.out.println("Duplicate index.");}
+	{System.out.println("Duplicate index of items in this package.");}
 	}
 	
 	public void setPackagePrice()
@@ -56,10 +56,10 @@ public class Package {
 
 	if (removed == true)
 	{menuItemPackage.remove(count);
-	System.out.println("Removed");}
+	System.out.println("Item in package is removed.");}
 
 	if (removed == false)
-	{System.out.println("Nothing is removed.");}
+	{System.out.println("Item with that index does not exist in this package. Nothing is removed.");}
 	}
 	
 	

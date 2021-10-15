@@ -25,7 +25,7 @@ public class PackageMenu {
 		{menuPackage.add(p);}
 
 	else
-		{System.out.println("Duplicate index.");}
+		{System.out.println("Duplicate index of packages.");}
 		
 	}
 	
@@ -44,10 +44,10 @@ public class PackageMenu {
 
 	if (removed == true)
 	{menuPackage.remove(count);
-	System.out.println("Removed");}
+	System.out.println("Package is removed.");}
 
 	if (removed == false)
-	{System.out.println("Nothing is removed.");}
+	{System.out.println("Package with that index does not exist. Nothing is removed.");}
 	}
 
 

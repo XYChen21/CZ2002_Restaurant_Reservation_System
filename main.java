@@ -14,13 +14,13 @@ public class main {
 				+ "\n" +
 				"2. Remove item from menu"
 				+ "\n" + 
-				"3. View normal menu" 
+				"3. View menu based on index of item" 
 				+ "\n" +
 				"4. View menu based type of item" 
 				+ "\n" +
 				"5. View menu based on price"
 				+ "\n" +
-				"6. View menu based on name"
+				"6. View menu based on name of item"
 				+ "\n" +
 				"7. Create a new promotional package"
 				+ "\n" +
@@ -30,13 +30,13 @@ public class main {
 				+ "\n" + 
 				"10. Remove an existing promotional package entirely"
 				+ "\n" + 
-				"11. View promotional package menu"
+				"11. View promotional package menu based on index of package"
 				+ "\n" +
 				"12. View promotional package menu based on price"
 				+ "\n" +
-				"13. View promotional package menu based on name"
+				"13. View promotional package menu based on name of package"
 				+ "\n" +
-				"14. View all menu"
+				"14. View both menus"
 				+ "\n" +
 				"15. Quit"
 				+ "\n"
@@ -48,16 +48,16 @@ public class main {
 		while (e != 15)
 			{if (e == 1)
 				{
-				System.out.println("What is the index?");
+				System.out.println("Create an index for the item you want to add.");
 				int a = sc.nextInt();
 				sc.nextLine();
-				System.out.println("What item do you want to add in the menu?");
+				System.out.println("What is the name of the item you want to add in the menu?");
 				String s = sc.nextLine();
-				System.out.println("What is the description?");
+				System.out.println("What is the description of the item?");
 				String b = sc.nextLine();
 				System.out.println("What is the price?");
 				double c = sc.nextDouble();
-				System.out.println("What is the type of food?  1: Main, 2: Sides, 3: Beverage, 4: Dessert");
+				System.out.println("What is the type of the item?  1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
 				int d = sc.nextInt(); // Assume userInput = 0
 				KindofFood f= KindofFood.getTypeByOrdinal(d);
 		
@@ -65,7 +65,7 @@ public class main {
 				Menu.addMenu(i);}
 		
 			else if (e == 2)
-				{System.out.println("What item do you want to remove? Enter the index.");
+				{System.out.println("Enter the index of the item you want to remove.");
 				int x = sc.nextInt();
 				Menu.removeMenu(x);
 		
@@ -76,7 +76,7 @@ public class main {
 				Menu.viewMenu();}
 			
 			else if (e == 4)
-			{System.out.println("Which kind of item do you want to see? 1: Main, 2: Sides, 3: Beverage, 4: Dessert");
+			{System.out.println("Which kind of items do you want to view? 1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
 			int y = sc.nextInt();
 			KindofFood kind= KindofFood.getTypeByOrdinal(y);
 			Menu.filterMenuByType(kind);
@@ -85,9 +85,9 @@ public class main {
 			}
 			
 			else if (e == 5)
-			{System.out.println("What is your desired price range? Enter lower limit of price range.");
+			{System.out.println("What is the price range of items you want to view? Enter the lower limit of price range.");
 			double a = sc.nextDouble();
-			System.out.println("Enter upper limit of price range.");
+			System.out.println("Enter the upper limit of price range.");
 			double b = sc.nextDouble();
 			Menu.filterMenuByPrice(a, b);
 				
@@ -100,26 +100,26 @@ public class main {
 			
 			else if (e == 7)
 			{
-			System.out.println("How many items are there in this package?");
+			System.out.println("How many items are there in this new package?");
 			int number = sc.nextInt();
-			System.out.println("What is the index of the package?");
+			System.out.println("Create an index for this new package.");
 			int a = sc.nextInt();
 			sc.nextLine();
-			System.out.println("What is the name of your package?");
+			System.out.println("What is the name of this new package?");
 			String name = sc.nextLine();
 			Package p = new Package(name, a);
 			
 			for (int i=0; i< number; i++)
-				{System.out.println("What is the index of the package item?");
+				{System.out.println("Enter the index of the item inside this package.");
 				int ind = sc.nextInt();
 				sc.nextLine();
-				System.out.println("What item do you want to add in the menu?");
+				System.out.println("What is the name of the item you want to add in this package?");
 				String s = sc.nextLine();
-				System.out.println("What is the description?");
+				System.out.println("What is the description of the item?");
 				String b = sc.nextLine();
 				System.out.println("What is the price?");
 				double c = sc.nextDouble();
-				System.out.println("What is the type of food?  1: Main, 2: Sides, 3: Beverage, 4: Dessert");
+				System.out.println("What is the type of the item?  1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
 				int d = sc.nextInt(); // Assume userInput = 0
 				KindofFood f= KindofFood.getTypeByOrdinal(d);
 		
@@ -133,19 +133,19 @@ public class main {
 			}
 			
 			else if (e == 8)
-			{System.out.println("In which package do you want to add item in? Enter a package index.");
+			{System.out.println("In which package do you want to add an item in? Enter the index of the package.");
 			int addedNo = sc.nextInt();
 			Package p = PackageMenu.filterPackageMenuByIndex(addedNo);
-			System.out.println("What item do you want to add into this package? Enter an item index.");
+			System.out.println("Enter the index of the item you want to add inside this package.");
 			int index = sc.nextInt();
 			sc.nextLine();
-			System.out.println("What item do you want to add in the menu?");
+			System.out.println("What is the name of the item you want to add in this package?");
 			String s = sc.nextLine();
-			System.out.println("What is the description?");
+			System.out.println("What is the description of the item?");
 			String b = sc.nextLine();
 			System.out.println("What is the price?");
 			double c = sc.nextDouble();
-			System.out.println("What is the type of food?  1: Main, 2: Sides, 3: Beverage, 4: Dessert");
+			System.out.println("What is the type of the item? 1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
 			int d = sc.nextInt(); // Assume userInput = 0
 			KindofFood f= KindofFood.getTypeByOrdinal(d);
 	
@@ -155,16 +155,16 @@ public class main {
 			}
 			
 			else if (e == 9)
-			{System.out.println("From which package do you want to remove an item from? Enter a package index.");
+			{System.out.println("From which package do you want to remove an item from? Enter the index of the package.");
 			int removedNo = sc.nextInt();
 			Package p = PackageMenu.filterPackageMenuByIndex(removedNo);
-			System.out.println("What item do you want to remove from this package? Enter the item index.");
+			System.out.println("Enter the index of the item you want to remove from this package.");
 			int index = sc.nextInt();
 			p.removePackageItem(index);
 			}
 			
 			else if (e == 10)
-			{System.out.println("From which package do you want to remove? Enter the index.");
+			{System.out.println("Which package do you want to completely remove? Enter the index of the package.");
 			int removed = sc.nextInt();
 			PackageMenu.removePackageMenu(removed);
 			}
@@ -174,9 +174,9 @@ public class main {
 			}
 			
 			else if (e== 12)
-			{System.out.println("What is your desired price range? Enter lower limit of price range.");
+			{System.out.println("What is the price range of promotional packages you want to view? Enter the lower limit of price range.");
 			double a = sc.nextDouble();
-			System.out.println("Enter upper limit of price range.");
+			System.out.println("Enter the upper limit of price range.");
 			double b = sc.nextDouble();
 			PackageMenu.filterPackageMenuByPrice(a, b);
 			
