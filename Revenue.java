@@ -59,7 +59,7 @@ public class Revenue {
 
     public void addOrder(Order o) {
         this.getOrders().add(o);
-        for (Map.Entry<Item, Integer> entry : o.items.entrySet()) {//whr to get ordered items/pkgs?
+        for (Map.Entry<Item, Integer> entry : o.orders.entrySet()) {//whr to get ordered items/pkgs?
             Item key = entry.getKey();
             int value = entry.getValue();
             this.getSaleItems().put(key, value + getSaleItems().getOrDefault(key, 0));
@@ -91,11 +91,12 @@ public class Revenue {
          * return:
          *      new Revenue within "start" and "end"
          */
-        ArrayList<Order> new_orders = this.getOrders().stream().filter(o -> (o.orderDateTime.isAfter(start) && o.orderDateTime.isBefore(end))).collect(Collectors.toCollection(ArrayList::new));
-        //time class type
+        ArrayList<Order> new_orders = this.getOrders().stream()
+        .filter(o -> (o.orderDateTime.isAfter(start) && o.orderDateTime.isBefore(end)))//time class type?
+        .collect(Collectors.toCollection(ArrayList::new));
         HashMap<Item, Integer> new_saleItems = new HashMap<>();
         for(Order o: new_orders){
-            for (Map.Entry<Item, Integer> entry : o.items.entrySet()) {
+            for (Map.Entry<Item, Integer> entry : o.orders.entrySet()) {
                 Item key = entry.getKey();
                 int value = entry.getValue();
                 new_saleItems.put(key, value + this.getSaleItems().getOrDefault(key, 0));
