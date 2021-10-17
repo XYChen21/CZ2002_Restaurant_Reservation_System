@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 public class Revenue {
     /**
      * orders:
@@ -13,9 +14,9 @@ public class Revenue {
      *      HashMap<Food_object, quantities> of individual saleItems
      */
     private ArrayList<Order> orders;
-    private HashMap<Food, Integer> saleItems;
+    private HashMap<Item, Integer> saleItems;//packages?
 
-    public Revenue(ArrayList<Order> orders, HashMap<Food, Integer> h){
+    public Revenue(ArrayList<Order> orders, HashMap<Item, Integer> h){
         this.orders = orders;
         this.saleItems = h;
     }
@@ -24,8 +25,8 @@ public class Revenue {
         Revenue temp = this.cut(start, end);
         double total = 0;
         for(Order o: temp.getOrders()){
-            total += o.subTotal;
-            System.out.println(o.subTotal);
+            total += o.Total;
+            System.out.println(o.Total);
             /**
              * sth to print
              */
@@ -35,8 +36,8 @@ public class Revenue {
     public void printRevenueReport() {
         double total = 0;
         for(Order o: this.getOrders()){
-            total += o.subTotal;
-            System.out.println(o.subTotal);
+            total += o.Total;
+            System.out.println(o.Total);
             /**
              * sth to print
              */
@@ -44,11 +45,11 @@ public class Revenue {
     }
 
     public double getTotalRevenue(LocalDateTime start, LocalDateTime end) {
-        return this.cut(start, end).getOrders().stream().mapToDouble(o -> o.subTotal).sum();
+        return this.cut(start, end).getOrders().stream().mapToDouble(o -> o.Total).sum();
     }
 
     public double getTotalRevenue() {
-        return this.getOrders().stream().mapToDouble(o -> o.subTotal).sum();
+        return this.getOrders().stream().mapToDouble(o -> o.Total).sum();
     }
 
     public void clear() {
@@ -58,15 +59,15 @@ public class Revenue {
 
     public void addOrder(Order o) {
         this.getOrders().add(o);
-        for (Map.Entry<Food, Integer> entry : o.items.entrySet()) {
-            Food key = entry.getKey();
+        for (Map.Entry<Item, Integer> entry : o.items.entrySet()) {//whr to get ordered items/pkgs?
+            Item key = entry.getKey();
             int value = entry.getValue();
             this.getSaleItems().put(key, value + getSaleItems().getOrDefault(key, 0));
         }
     }
 
     public void removeOrder(int orderId) {
-        this.getOrders().removeIf(o -> (o.id == orderId));
+        this.getOrders().removeIf(o -> (o.orderID == orderId));
     }
 
     public ArrayList<Order> sortOrders(boolean byDate) {
@@ -77,10 +78,10 @@ public class Revenue {
          */
         ArrayList<Order> temp = new ArrayList<>(this.getOrders());
         if(byDate){
-            temp.sort((a, b) -> a.time.compareTo(b.time));
+            temp.sort((a, b) -> a.orderDateTime.compareTo(b.orderDateTime));
         }
         else{
-            temp.sort((a, b) -> a.staff.compareTo(b.staff));
+            temp.sort((a, b) -> a.staffServer.compareTo(b.staffServer));
         }
         return temp;
     }
@@ -90,11 +91,12 @@ public class Revenue {
          * return:
          *      new Revenue within "start" and "end"
          */
-        ArrayList<Order> new_orders = this.getOrders().stream().filter(o -> (o.time.isAfter(start) && o.time.isBefore(end))).collect(Collectors.toCollection(ArrayList::new));
-        HashMap<Food, Integer> new_saleItems = new HashMap<>();
+        ArrayList<Order> new_orders = this.getOrders().stream().filter(o -> (o.orderDateTime.isAfter(start) && o.orderDateTime.isBefore(end))).collect(Collectors.toCollection(ArrayList::new));
+        //time class type
+        HashMap<Item, Integer> new_saleItems = new HashMap<>();
         for(Order o: new_orders){
-            for (Map.Entry<Food, Integer> entry : o.items.entrySet()) {
-                Food key = entry.getKey();
+            for (Map.Entry<Item, Integer> entry : o.items.entrySet()) {
+                Item key = entry.getKey();
                 int value = entry.getValue();
                 new_saleItems.put(key, value + this.getSaleItems().getOrDefault(key, 0));
             }
@@ -106,7 +108,7 @@ public class Revenue {
         return this.orders;
     }
 
-    public HashMap<Food, Integer> getSaleItems() {
+    public HashMap<Item, Integer> getSaleItems() {
         return this.saleItems;
     }
 }
