@@ -7,7 +7,7 @@ import java.util.List;
 import projectoop.Item.KindofFood;
 
 public class Menu {
-		static List<Item> menu=new ArrayList<Item>();  
+		private static List<Item> menu=new ArrayList<Item>();  
 
 		public static void addMenu(Item i)
 		{boolean duplicate = false;

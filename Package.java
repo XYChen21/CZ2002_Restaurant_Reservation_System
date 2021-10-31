@@ -41,6 +41,8 @@ public class Package {
 		{oriPrice += food.getPrice();}
 	finalPrice = oriPrice*0.90;}
 	
+
+	
 	public void removePackageItem(int a)
 	{boolean removed = false;
 	int count = 0;
