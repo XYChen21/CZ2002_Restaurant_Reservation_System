@@ -24,24 +24,34 @@ public class Revenue {
     public void printRevenueReport(LocalDateTime start, LocalDateTime end) {
         Revenue temp = this.cut(start, end);
         double total = 0;
+
+        System.out.println("                Restaurant Name                 ");
+        System.out.println("        ********************************        ");
+        System.out.println();
+        System.out.println("From \t" + start.toString() + "To \t" + end.toString());
+        System.out.println();
+        System.out.println("------------------------------------------------");
         for(Order o: temp.getOrders()){
+            System.out.println(o.toString());
             total += o.Total;
-            System.out.println(o.Total);
-            /**
-             * sth to print
-             */
         }
+        System.out.println("------------------------------------------------");
+        System.out.println("                                 Total: " + String.format("%-8.2f", total));
     }
 
     public void printRevenueReport() {
         double total = 0;
-        for(Order o: this.getOrders()){
+        Revenue temp = this;
+        System.out.println("                Restaurant Name                 ");
+        System.out.println("        ********************************        ");
+        System.out.println();
+        System.out.println("------------------------------------------------");
+        for(Order o: temp.getOrders()){
+            System.out.println(o.toString());
             total += o.Total;
-            System.out.println(o.Total);
-            /**
-             * sth to print
-             */
         }
+        System.out.println("------------------------------------------------");
+        System.out.println("                                 Total: " + String.format("%-8.2f", total));
     }
 
     public double getTotalRevenue(LocalDateTime start, LocalDateTime end) {
