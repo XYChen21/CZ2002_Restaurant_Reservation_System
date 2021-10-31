@@ -14,13 +14,13 @@ public class main {
 				+ "\n" +
 				"2. Remove item from menu"
 				+ "\n" + 
-				"3. View menu based on index of item" 
+				"3. Sort menu based on index of item" 
 				+ "\n" +
 				"4. View menu based type of item" 
 				+ "\n" +
 				"5. View menu based on price"
 				+ "\n" +
-				"6. View menu based on name of item"
+				"6. Sort menu based on name of item"
 				+ "\n" +
 				"7. Get specific menu item based on index"
 				+ "\n" +
@@ -32,11 +32,11 @@ public class main {
 				+ "\n" + 
 				"11. Remove an existing promotional package entirely"
 				+ "\n" + 
-				"12. View promotional package menu based on index of package"
+				"12. Sort promotional package menu based on index of package"
 				+ "\n" +
 				"13. View promotional package menu based on price"
 				+ "\n" +
-				"14. View promotional package menu based on name of package"
+				"14. Sort promotional package menu based on name of package"
 				+ "\n" +
 				"15. Get specific package based on index"
 				+ "\n" +

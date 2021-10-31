@@ -67,7 +67,7 @@ public class PackageMenu {
 	for(Package pack:a)  
 	   pack.toStringCustom();}
 	
-	public static void filterPackageMenuByPrice(Double a, Double b)
+	public static void filterPackageMenuByPrice(double a, double b)
 	{List<Package> menuPackage2 =new ArrayList<Package>(); 
 	boolean empty = true;
 
