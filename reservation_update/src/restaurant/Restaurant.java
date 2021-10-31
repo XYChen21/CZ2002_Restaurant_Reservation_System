@@ -139,6 +139,11 @@ public class Restaurant implements Serializable
 		String strDateTime = sc.nextLine();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		LocalDateTime dateTime = LocalDateTime.parse(strDateTime, formatter);
+		if (dateTime.isBefore(LocalDateTime.now())) 
+		{
+			System.out.println("Invalid time");
+			return false;
+		}
 		System.out.print("How many people? ");
 		int pax = sc.nextInt();
 		sc.nextLine();
