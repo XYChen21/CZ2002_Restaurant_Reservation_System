@@ -14,7 +14,7 @@ public class Revenue {
      *      HashMap<Food_object, quantities> of individual saleItems
      */
     private ArrayList<Order> orders;
-    private HashMap<Item, Integer> saleItems;//packages?
+    private HashMap<Item, Integer> saleItems;
 
     public Revenue(ArrayList<Order> orders, HashMap<Item, Integer> h){
         this.orders = orders;
@@ -24,6 +24,7 @@ public class Revenue {
     public void printRevenueReport(LocalDateTime start, LocalDateTime end) {
         Revenue temp = this.cut(start, end);
         double total = 0;
+        double p = 0;
 
         System.out.println("                Restaurant Name                 ");
         System.out.println("        ********************************        ");
@@ -31,9 +32,10 @@ public class Revenue {
         System.out.println("From \t" + start.toString() + "To \t" + end.toString());
         System.out.println();
         System.out.println("------------------------------------------------");
-        for(Order o: temp.getOrders()){
-            System.out.println(o.toString());
-            total += o.Total;
+        for(Map.Entry<Item, Integer> i: saleItems.entrySet()){
+            p = i.getValue() * i.getValue() * i.getKey().getPrice();
+            System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
+            total += p;
         }
         System.out.println("------------------------------------------------");
         System.out.println("                                 Total: " + String.format("%-8.2f", total));
@@ -42,13 +44,16 @@ public class Revenue {
     public void printRevenueReport() {
         double total = 0;
         Revenue temp = this;
+        double p = 0;
+
         System.out.println("                Restaurant Name                 ");
         System.out.println("        ********************************        ");
         System.out.println();
         System.out.println("------------------------------------------------");
-        for(Order o: temp.getOrders()){
-            System.out.println(o.toString());
-            total += o.Total;
+        for(Map.Entry<Item, Integer> i: saleItems.entrySet()){
+            p = i.getValue() * i.getValue() * i.getKey().getPrice();
+            System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
+            total += p;
         }
         System.out.println("------------------------------------------------");
         System.out.println("                                 Total: " + String.format("%-8.2f", total));
@@ -69,7 +74,7 @@ public class Revenue {
 
     public void addOrder(Order o) {
         this.getOrders().add(o);
-        for (Map.Entry<Item, Integer> entry : o.orders.entrySet()) {//whr to get ordered items/pkgs?
+        for (Map.Entry<Item, Integer> entry : o.orders.entrySet()) {
             Item key = entry.getKey();
             int value = entry.getValue();
             this.getSaleItems().put(key, value + getSaleItems().getOrDefault(key, 0));
