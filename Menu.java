@@ -102,5 +102,27 @@ public class Menu {
 		{System.out.println("************** MENU ****************" + '\n');
 		for(Item food:a)  
 		   System.out.println(food.toString());}
+		
+		public static int getItem(int index)
+		{int a = 0;
+		for(Item food:menu)
+		{if (food.getIndex() == index)
+			{return a;}
+			a++;}
+
+		return -1;
 
 		}
+		
+
+		public static Item getItemByIndex(int a)
+		{
+		System.out.println(menu.get(a).toString());
+		return menu.get(a);
+		
+			
+			
+		}}
+		
+		
+

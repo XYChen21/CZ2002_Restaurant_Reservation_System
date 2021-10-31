@@ -98,4 +98,24 @@ public class PackageMenu {
 
 	}
 	
+	public static int getPackage(int index)
+	{int a = 0;
+	for(Package pack:menuPackage)
+	{if (pack.getPackageIndex() == index)
+		{return a;}
+		a++;}
+
+	return -1;
+
+	}
+	
+
+	public static Package getPackageByIndex(int a)
+	{menuPackage.get(a).toStringCustom();
+	return menuPackage.get(a);
+	
+		
+		
+	}
+	
 }
