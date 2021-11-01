@@ -9,14 +9,14 @@ public class PackageMenu {
 	static List<Package> menuPackage=new ArrayList<Package>();
 	
 	public static void sortPackageMenuByAlphabet() {
-		menuPackage.sort(Comparator.comparing(Package::getPackageName));
+		menuPackage.sort(Comparator.comparing(Package::getName));
 		printPackageMenu(menuPackage);
 	}
 	
 	public static void addPackageMenu(Package p)
 	{boolean duplicate = false;
 	for(Package pack:menuPackage)
-	{if (pack.getPackageIndex() ==p.getPackageIndex())
+	{if (pack.getIndex() ==p.getIndex())
 		{duplicate = true;
 		break;
 		
@@ -34,7 +34,7 @@ public class PackageMenu {
 	int count = 0;
 
 	for(Package pack:menuPackage)
-		{if (pack.getPackageIndex() == a)
+		{if (pack.getIndex() == a)
 			{
 			removed = true;
 			break;
@@ -59,7 +59,7 @@ public class PackageMenu {
 	}
 
 	private static void sortByDefaultPackage(List<Package> k)
-	{k.sort(Comparator.comparing(Package::getPackageIndex));
+	{k.sort(Comparator.comparing(Package::getIndex));
 	}
 
 	private static void printPackageMenu(List<Package>a)
@@ -72,7 +72,7 @@ public class PackageMenu {
 	boolean empty = true;
 
 	for(Package pack:menuPackage)
-	{if (pack.getPackagePrice() >= a && pack.getPackagePrice()<=b)
+	{if (pack.getPrice() >= a && pack.getPrice()<=b)
 		{menuPackage2.add(pack);
 		empty = false;
 		}}
@@ -88,7 +88,7 @@ public class PackageMenu {
 	{
 	boolean empty = true;
 	for(Package pack:menuPackage)
-	{if (pack.getPackageIndex() == a)
+	{if (pack.getIndex() == a)
 		{p = pack;
 		empty = false;
 		}}
@@ -101,7 +101,7 @@ public class PackageMenu {
 	public static int getPackage(int index)
 	{int a = 0;
 	for(Package pack:menuPackage)
-	{if (pack.getPackageIndex() == index)
+	{if (pack.getIndex() == index)
 		{return a;}
 		a++;}
 

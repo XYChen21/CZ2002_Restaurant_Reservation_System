@@ -140,7 +140,7 @@ public class main {
 				Item j = new Item(ind, s, b, c, f);
 				p.addPackageItem(j);
 				}
-			p.setPackagePrice();
+			p.setPrice();
 			
 			PackageMenu.addPackageMenu(p);
 				

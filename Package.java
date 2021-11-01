@@ -7,7 +7,7 @@ import java.util.List;
 import projectoop.Item.KindofFood;
 
 
-public class Package {
+public class Package extends Food{
 	private List<Item> menuItemPackage;
 	private String name;
 	private double finalPrice;
@@ -36,7 +36,7 @@ public class Package {
 	{System.out.println("Duplicate index of items in this package.");}
 	}
 	
-	public void setPackagePrice()
+	public void setPrice()
 	{for(Item food:menuItemPackage)
 		{oriPrice += food.getPrice();}
 	finalPrice = oriPrice*0.90;}
@@ -65,14 +65,23 @@ public class Package {
 	}
 	
 	
-	public String getPackageName()
+	public String getName()
 	{return name;}
 	
-	public  double getPackagePrice()
+	public double getPrice()
 	{return finalPrice;}
 	
-	public int getPackageIndex()
+	public double getOriPrice()
+	{return oriPrice;}
+	
+	public int getIndex()
 	{return index;}
+	
+	public void setName(String name)
+	{this.name = name;}
+	
+	public void setIndex(int index)
+	{this.index = index;}
 	
 	public void toStringCustom() {
 	System.out.println("Package Index = " + index + '\n' +

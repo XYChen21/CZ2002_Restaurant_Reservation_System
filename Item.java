@@ -5,7 +5,7 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class Item implements Comparable<Item> {
+public class Item extends Food implements Comparable<Item>{
 	public enum KindofFood {
 		MAIN, SIDES, BEVERAGE, DESSERT;
 		
@@ -25,11 +25,11 @@ public class Item implements Comparable<Item> {
 	private String name;
 	private String description;
 	private double price;
-	private int ID;
+	private int index;
 	private KindofFood type;
 
 public Item(int ID, String name, String description, double price, KindofFood type)
-{this.ID = ID;
+{this.index = ID;
 this.name = name;
 this.description = description;
 this.price = price;
@@ -38,7 +38,7 @@ this.type = type;
 
 
 public int getIndex()
-{return ID;}
+{return index;}
 
 public KindofFood getType()
 {return type;}
@@ -53,7 +53,7 @@ public double getPrice()
 {return price;}
 
 public void setIndex()
-{this.ID = ID;}
+{this.index = index;}
 
 public void setType(KindofFood type)
 {this.type = type;}
@@ -70,7 +70,7 @@ public void setPrice(double price)
 @Override
 public String toString() {
   return 
-      "Item Index = " + ID + '\n' +
+      "Item Index = " + index + '\n' +
       "Name = " + name + '\n' +
       "Description = " + description + '\n' +
       "Price = " + price + '\n' +
@@ -80,7 +80,7 @@ public String toString() {
 
 public String toStringCust() {
 	  return 
-	      "Item Index = " + ID + '\n' +
+	      "Item Index = " + index + '\n' +
 	      "Name = " + name + '\n' +
 	      "Description = " + description + '\n' +
 	      "Type = " + type + '\n'
