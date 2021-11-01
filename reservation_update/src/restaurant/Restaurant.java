@@ -61,9 +61,10 @@ public class Restaurant implements Serializable
 		{
 			int tableID = res.getTableID();
 			Table t = tables.get(tableID);
-			if (LocalDateTime.now().isBefore(res.getTime())) //early arrival
+			LocalDateTime reservedTime = res.getTime();
+			if (LocalDateTime.now().isBefore(reservedTime)) //early arrival
 			{
-				System.out.println("A later reservation at " + res.getTime() + " was found");
+				System.out.println("A later reservation at " + reservedTime + " was found");
 				System.out.print("1.Assign reserved table? OR 2.Assign new table? (1/2) ");
 				int option  = sc.nextInt();
 				sc.nextLine();
