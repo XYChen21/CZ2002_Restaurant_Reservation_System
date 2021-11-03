@@ -1,62 +1,123 @@
 package restaurant;
-import java.time.LocalDateTime; // Used for time stamp java time
+import java.time.LocalDateTime; 
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter; 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Order {
-	String staffServer; // Restaurant serialize a Staff object then here we get it back through deserialize
-	LocalDateTime orderDateTime; // for sale revenue
-	int quantity;
-	boolean isAlaCarte;
-	int tableNo; 
-	static int orderID; // int orderID for sale revenue
-	// Restaurant keep track of orders -> orderID = len of array of orders + 1
-	double Total;// Total var -> sale revenue then minus off taxes
-	Item orderedItem; // Item object for respective food ordered
-	Package orderedPackage; // Package object for respective food ordered
-	Member isMem;
+	private String staffServer; // Restaurant serialize a Staff object then here we get it back through deserialize
+	private LocalDateTime orderDateTime; // for sale revenue
+	private int tableID; 
+	private int orderID; // int orderID for sale revenue
+	private double Total;// Total var -> sale revenue then minus off taxes
+	public HashMap<Item, Integer> ordersAC;// each order contains foodIndex and corresponding quantity
+	public HashMap<Package, Integer> ordersP;
 	
-	public static HashMap<Item, Integer> ordersAC = new HashMap<Item, Integer>(); // each order contains foodIndex and corresponding quantity
-	public static HashMap<Package, Integer> ordersP = new HashMap<Package, Integer>();
 	
-	public Order(int foodIndex, boolean isAlaCarte, int quantity, int id) {
-		tableNo = id; // id is a protected var from Table
-		orderID++; 
-		if (isAlaCarte == true) {orderedItem = getItemByIndex(foodIndex);}
-		else {orderedPackage = getPackageByIndex(foodIndex);}  // get the Food object from method from Menu class containing items and packages, HashMap of food name, description etc
-		// quantity per Food
-		this.quantity = quantity;
-		// get time of order stored in attribute Time local date time
+	public Order(int tableID, int orderID) {
+		/* Parameters
+		 * tableID : assign a table to the customer
+		 * orderID : generate an order number for customer 
+		*/
+		
+		ordersAC =  new HashMap<Item, Integer>(); // HashMap of orders for ala carte ie Items
+		ordersP = new HashMap<Package, Integer>(); //Hashmap of orders for promotional set ie Package
+		
+		this.tableID = tableID; // A table is assigned to the customer
+		this.orderID = orderID; // Obtain the order number for current customer
+
+		// Obtain time when order was created
 		LocalDateTime dt = LocalDateTime.now();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 		orderDateTime = dt.format(format);
 		orderDateTime = LocalDateTime.now();
-		// assign a staff to serve the customer
-		staffServer = whoToServe();
 		
+		// Assign a staff to serve the customer
+		staffServer = whoToServe();
 	}
 	
 	// addOrder method
-	public void addOrder() {
-		if (isAlaCarte == true) {
-			ordersAC.put(orderedItem.getName(), quantity);
-			System.out.printf("Successfully added " , quantity , " " + orderedItem.getName() + "\n"); 
+	public void addOrder(int foodIndex, boolean isAlaCarte, int quantity) 
+	{
+		/* Parameters
+		 * foodIndex : each food on the menu has a corresponding index to be indicated when ordering
+		 * isAlaCarte : check if food ordered is ala carte; true means ala carte, false means promotional set. 
+		 * 				This is impt as an ala carte Item or a set Package may have the same foodIndex, so we use this var to differentiate.
+		 * quantity : quantity of the food ordered eg 1, 2, ...
+		 * */
+		
+		// Our main control is isAlaCarte to decide which HashMap to access.
+		// Check if Item/Package is already in customer's order. If it is, we add the corresponding quantity assuming the customer wants to order more.
+		// Else, we create a new key for the Item/Package
+		
+		if (isAlaCarte == true) { // Get Item
+			Item orderedItem = getItemByIndex(foodIndex); // orderedItem is an Item object
+			if (ordersAC.get(orderedItem)) { // Item exists in the order
+				ordersAC.put(orderedItem, ordersAC.get(orderedItem)+quantity);
+			}
+			else { // Item does not exist in the order yet
+				ordersAC.put(orderedItem, quantity); // Add Item object (key) and quantity (value) to HashMap ordersAC
+			}
+			System.out.println("You have ordered " + ordersAC.get(orderedItem) + " " + orderedItem.getName()); 
 		}
-		else {
-			ordersP.put(orderedPackage.getPackageName(), quantity);
-			System.out.printf("Successfully added " , quantity , " " + orderedPackage.getPackageName() + "\n"); 
+		else { // Get Package
+			Package orderedPackage = getPackageByIndex(foodIndex); // orderedPackage is a Package object
+			if (ordersP.get(orderedPackage)) { // Package exists in the order
+				ordersP.put(orderedPackage,  ordersP.get(orderedPackage)+quantity);
+			}
+			else { // Package does not exist in the order yet
+				ordersP.put(orderedPackage, quantity); // Add Package object (key) and quantity (value) to HashMap ordersP
+			}
+			
+			System.out.println("You have ordered " + ordersP.get(orderedPackage) + " " + orderedPackage.getName()); 
 		}
 	}
 	
 	// removeOrder method
-	public void removeOrder() {
-		if (isAlaCarte == true) {
-			ordersAC.remove(orderedItem.getName());
+	public void removeOrder(int foodIndex, boolean isAlaCarte, int quantity) {
+		// Logic is similar to addOrder method
+		// However, for removeOrder quantity refers to the quantity of Item/Package to be removed from the order.
+		// If resulting quantity of the Item/Package goes to 0, remove the key from the HashMap ie totally cancel that Item/Package ordered.
+		
+		if (isAlaCarte == true) { // Get Item
+			Item removeItem = getItemByIndex(foodIndex); 
+			if (ordersAC.get(removeItem)) { // Item exists in the order
+				if (ordersAC.get(removeItem) - quantity == 0) { // Customer wants to completely remove Item from order
+					ordersAC.remove(removeItem);
+					System.out.println(removeItem.getName() + " is removed from your order.");
+				}
+				else if (ordersAC.get(removeItem) - quantity > 0){ // Customer wants a reduced quantity of Item ordered
+					ordersAC.put(removeItem, ordersAC.get(removeItem)-quantity);
+					System.out.println("You have ordered " + ordersAC.get(removeItem) + " " + removeItem.getName());
+				}
+				else { // Customer has entered an invalid quantity to be removed
+					System.out.println("Please re-enter a valid quantity to remove from current quantity of " + ordersAC.get(removeItem) + " " + removeItem.getName());
+				}
+			}
+			else { // Item does not exist in the order -- error message
+				System.out.println(removeItem.getName() + " does not exist in your order yet.");
+			}
 		}
-		else {
-			ordersP.remove(orderedPackage.getPackageName());
+		else { // Get Package 
+			Package removePackage = getPackageByIndex(foodIndex);
+			if (ordersP.get(removePackage)) { // Package exists in the order
+				if (ordersP.get(removePackage) - quantity == 0) { // Customer wants to completely remove Package from order
+					ordersP.remove(removePackage);
+					System.out.println(removePackage.getName() + " is removed from your order.");
+				}
+				else if (ordersP.get(removePackage) - quantity > 0){ // Customer wants a reduced quantity of Package ordered
+					ordersP.put(removePackage, ordersP.get(removePackage)-quantity);
+					System.out.println("You have ordered " + ordersP.get(removePackage) + " " + removePackage.getName());
+				}
+				else { // Customer has entered an invalid quantity to be removed
+					System.out.println("Please re-enter a valid quantity to remove from current quantity of " + ordersP.get(removePackage) + " " + removePackage.getName());
+				}
+			}
+			else { // Package does not exist in the order -- error message
+				System.out.println(removePackage.getName() + " does not exist in your order yet.");
+			}
+			
 		}
 	}
 	
@@ -64,31 +125,25 @@ public class Order {
 	public void viewOrder() {
 		if (!ordersAC.isEmpty()) {
 			ordersAC.forEach((key, value) -> {
-				System.out.println(String.format("%.2f", value) + "\t" + key.getName());
+				System.out.println(value + " " + key.getName());
 			});
 		}
 		if (!ordersP.isEmpty()) {
 			ordersP.forEach((key, value) -> {
-				System.out.println(String.format("%.2f", value) + "\t" + key.getPackageName());
+				System.out.println(value + " " + key.getName());
 			});
+		}
+		if (ordersAC.isEmpty() && ordersP.isEmpty()) {
+			System.out.println("You have not ordered any food yet.");
 		}
 	}
 	
 	public int printInvoice() {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Welcome to payment! May we have your contact number please?");
-		int contactNo = sc.nextInt();
-		System.out.println("May we have your name please?");
-		String name = sc.next();
-		boolean membership = isMem.isMember(contactNo, name);
-		if (!membership) {
-			System.out.println("Would you like to join us as a member? (Y/N)");
-			char ans = sc.next().charAt(0);
-			if (ans == 'Y') {
-				addMember(contactNo, name);
-				membership = true;
-			}
-		}
+		/* return type int -> tableNo (free up the table)
+		 */
+		
+		boolean membership = paymentMembership();
+		
 		// Print the Restaurant name and address
 		System.out.println("SCSE Restaurant\n" +
 		                   "Nanyang Technological University\n" +
@@ -96,11 +151,11 @@ public class Order {
 		                   "Singapore 639798\n" +
 			               "Tel: (65) 6790 5786\n");
 		// Print Check number -> orderID
-		System.out.printf("Check #: ", orderID + "\n");
+		System.out.println("Check #: "+ orderID);
 		// Print Staff name (Server)
 		System.out.println("Served by: " + staffServer);
 		// Print Table Number
-		System.out.printf("Table: ", tableNo + "\n");
+		System.out.println("Table: "+ tableID);
 		// Print DateTime  dd/mm/yyyy hh:mm
 		LocalDateTime dt = LocalDateTime.now();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
@@ -111,14 +166,14 @@ public class Order {
 		double subTotal=0;
 		if (!ordersAC.isEmpty()) {
 			ordersAC.forEach((key, value) -> {
-				System.out.println(String.format("%.2f", value) + " " + key.getName() + "\t" + String.format("%.2f", key.getPrice()));
+				System.out.println(value + " " + key.getName() + "\t" + String.format("%.2f", key.getPrice()));
 				subTotal += key.getPrice();
 			});
 		}
 		if(!ordersP.isEmpty()) {
 			ordersP.forEach((key, value) -> {
-				System.out.println(String.format("%.2f", value) + " " + key.getPackageName() + "\t" + String.format("%.2f", key.getPackagePrice()));
-				subTotal += key.getPackagePrice();
+				System.out.println(value + " " + key.getName() + "\t" + String.format("%.2f", key.getPrice()));
+				subTotal += key.getPrice();
 			});
 		}
 		// Print SubTotal
@@ -135,10 +190,11 @@ public class Order {
 			subTotal *= 0.9;
 		}
 		// Print Total
-		System.out.println("Total: $" + subTotal);
+		System.out.println("Total: $" + String.format("%.2f", subTotal));
 		// Revenue = Total - Taxes
 		Total = subTotal - taxes; 
 		// Method to free up availability of table by passing in table number -- find from Restaurant table array and call vacate() on that table
 		return tableNo;
+		}
 	}
 }
