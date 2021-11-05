@@ -138,8 +138,10 @@ public class Order {
 		}
 	}
 	
+	// 'Get' methods for Revenue class
 	public double getTotal() {return Total;}
 	public int getorderID() {return orderID;}
+	public LocalDateTime getTime() {return orderDateTime;}
 	
 	public int printInvoice(boolean membership) {
 		/* return type int -> tableNo (free up the table)
