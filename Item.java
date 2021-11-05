@@ -52,7 +52,7 @@ public String getDescription()
 public double getPrice()
 {return price;}
 
-public void setIndex()
+public void setIndex(int index)
 {this.index = index;}
 
 public void setType(KindofFood type)
