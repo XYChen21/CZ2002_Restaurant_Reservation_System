@@ -40,7 +40,7 @@ public class Revenue {
         }
         for(Map.Entry<Package, Integer> i: temp.salePkgs.entrySet()){
             p = i.getValue() * i.getValue() * i.getKey().getPackagePrice();
-            System.out.println(i.getValue().toString() + "\t" + i.getKey().getPackageName() + "\t\t\t" + p);
+            System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
             total += p;
         }
         System.out.println("------------------------------------------------");
@@ -63,7 +63,7 @@ public class Revenue {
         }
         for(Map.Entry<Package, Integer> i: temp.salePkgs.entrySet()){
             p = i.getValue() * i.getValue() * i.getKey().getPackagePrice();
-            System.out.println(i.getValue().toString() + "\t" + i.getKey().getPackageName() + "\t\t\t" + p);
+            System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
             total += p;
         }
         System.out.println("------------------------------------------------");
@@ -71,11 +71,11 @@ public class Revenue {
     }
 
     public double getTotalRevenue(LocalDateTime start, LocalDateTime end) {
-        return this.cut(start, end).getOrders().stream().mapToDouble(o -> o.Total).sum();
+        return this.cut(start, end).getOrders().stream().mapToDouble(o -> o.getTotal()).sum();
     }
 
     public double getTotalRevenue() {
-        return this.getOrders().stream().mapToDouble(o -> o.Total).sum();
+        return this.getOrders().stream().mapToDouble(o -> o.getTotal()).sum();
     }
 
     public void clear() {
@@ -98,7 +98,7 @@ public class Revenue {
     }
 
     public void removeOrder(int orderId) {
-        this.getOrders().removeIf(o -> (o.orderID == orderId));
+        this.getOrders().removeIf(o -> (o.getorderID() == orderId));
     }
 
     public ArrayList<Order> sortOrders(boolean byDate) {
@@ -109,10 +109,10 @@ public class Revenue {
          */
         ArrayList<Order> temp = new ArrayList<>(this.getOrders());
         if(byDate){
-            temp.sort((a, b) -> a.orderDateTime.compareTo(b.orderDateTime));
+            temp.sort((a, b) -> a.getTime().compareTo(b.orderDateTime));
         }
         else{
-            temp.sort((a, b) -> a.staffServer.compareTo(b.staffServer));
+            temp.sort((a, b) -> a.getStaff().compareTo(b.staffServer));
         }
         return temp;
     }
@@ -123,7 +123,7 @@ public class Revenue {
          *      new Revenue within "start" and "end"
          */
         ArrayList<Order> new_orders = this.getOrders().stream()
-        .filter(o -> (o.orderDateTime.isAfter(start) && o.orderDateTime.isBefore(end)))
+        .filter(o -> (o.getTime().isAfter(start) && o.getTime().isBefore(end)))
         .collect(Collectors.toCollection(ArrayList::new));
         HashMap<Item, Integer> new_saleItems = new HashMap<>();
         HashMap<Package, Integer> new_salePkgs = new HashMap<>();
