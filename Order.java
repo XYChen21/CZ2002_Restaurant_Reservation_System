@@ -15,7 +15,7 @@ public class Order {
 	public HashMap<Package, Integer> ordersP;
 	
 	
-	public Order(int tableID, int orderID) {
+	public Order(int tableID, int orderID, String name) {
 		/* Parameters
 		 * tableID : assign a table to the customer
 		 * orderID : generate an order number for customer 
@@ -34,7 +34,7 @@ public class Order {
 		orderDateTime = LocalDateTime.now();
 		
 		// Assign a staff to serve the customer
-		staffServer = whoToServe();
+		staffServer = name;
 	}
 	
 	// addOrder method
@@ -138,11 +138,10 @@ public class Order {
 		}
 	}
 	
-	public int printInvoice() {
+	public int printInvoice(boolean membership) {
 		/* return type int -> tableNo (free up the table)
 		 */
 		
-		boolean membership = paymentMembership();
 		
 		// Print the Restaurant name and address
 		System.out.println("SCSE Restaurant\n" +

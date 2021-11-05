@@ -3,13 +3,13 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Membership {
-	public static HashMap<Integer, String> memberArray; // key: contact no; value: name 
+	private HashMap<Member, Integer> memberArray; // Key: Member object; Value: memberHP 
 	
 	public Membership(){
-		memberArray = new HashMap<Integer, String>();
+		memberArray = new HashMap<Member, Integer>();
 	}
 	
-	public static boolean paymentMembership() {
+	public boolean paymentMembership() {
 		Scanner sc = new Scanner(System.in);
 		int contactNo;
 		String name;
@@ -23,10 +23,11 @@ public class Membership {
 				contactNo = sc.nextInt();
 				System.out.println("May we have your name please?");
 				name = sc.next();
-				membership = isMember(contactNo, name);
+				Member m = new Member(contactNo, name);
+				membership = isMember(m);
 				if (membership) {return true;}
 				else {
-					System.out.println("Invalid name or contact number entered. Please re-enter.");
+					System.out.println("Invalid name or contact number entered. Please try again.");
 					continue;
 				}
 			}
@@ -39,7 +40,8 @@ public class Membership {
 						contactNo = sc.nextInt();
 						System.out.println("May we have your name please?");
 						name = sc.next();
-						membership = addMember(contactNo, name);
+						Member toAdd = new Member(contactNo, name);
+						membership = addMember(toAdd);
 						if (membership) {return true;}
 						else {
 							System.out.println("Enter 'Y' to re-enter your particulars. Enter 'N' to quit.");
@@ -63,40 +65,53 @@ public class Membership {
 		}
 	} 
 	
-	public static boolean addMember(int contactNo, String name) {
-		if (memberArray.get(contactNo) != null) { // contactNo exists in system 
-			if (memberArray.get(contactNo) == name) {
-				System.out.println("Member " + name + " already exists in system.");
-				return true;
-			}
-			else {
-				System.out.println("There is an existing member " + memberArray.get(contactNo) + " with phone number " + contactNo);
-				System.out.println("Please try again and input correct phone number.");
-				return false;
-			}
+	public boolean addMember(Member m) {
+		if (memberArray.get(m) != null) { // Member already exists in membership, error
+			System.out.println("Member already exists in membership.");
+			m.printMember();
+			System.out.println("Please check if you have made a mistake when entering member particulars and try again.");
+			return false;
 		}
-		else { // contactNo does not exist in system -> add member 
-			memberArray.put(contactNo, name);
-			System.out.println("Successfully added " + name + " as member.");
+		else { // Member does not exist in membership, can add
+			memberArray.put(m, m.getMemberHP());
+			System.out.println("Successfully added " + m.getMemberName() + " HP: " + m.getMemberHP() + " to membership.");
 			return true;
 		}
 	}
 	
-	public static void removeMember(int contactNo, String name) {
-		if (memberArray.get(contactNo) == name) {
-			memberArray.remove(contactNo);
-			System.out.println("Successfully removed " + name + ", contact no. " + contactNo + " from membership.");
+	public void removeMember(Member m) {
+		if (memberArray.get(m) != null) { // Member exists in membership, can proceed to confirm and remove
+			System.out.println("Here are the particulars of the member you wish to remove from membership:");
+			m.printMember();
+			System.out.println("To proceed with removal of membership, enter 1");
+			System.out.println("To cancel removal of membership, enter 2");
+			Scanner scan = new Scanner(System.in);
+			boolean exit=false;
+			while (!exit) {
+				int choice = scan.nextInt();
+				if (choice == 1) { // Remove Member from Membership
+					memberArray.remove(m);
+					System.out.println("Successfully removed member from membership.");
+					exit=true;
+				}
+				else if (choice == 2) { // Cancel removal of membership
+					System.out.println("Cancelled removal of membership.");
+					exit=true;
+				}
+				else { // Invalid choice given
+					System.out.println("Please enter a valid choice of 1 (proceed with removal of membership) or 2 (cancel removal of membership).");
+				}
+			}
 		}
-		else if (memberArray.get(contactNo) == null){
-			System.out.println("No such member with contact no. " + contactNo + " exists");
-		}
-		else if(memberArray.get(contactNo) != name){
-			System.out.println("Wrong contact number entered. Please re-enter again.");
+		else { // Member does not exist in membership, error
+			System.out.println("The member you have chosen to remove from membership does not exist.");
+			m.printMember();
+			System.out.println("Please check if you have chosen the correct member to remove from membership and try again.");
 		}
 	}
 	
-	public static boolean isMember(int contactNo, String name) {
-		if (memberArray.get(contactNo) == name) {
+	public boolean isMember(Member m) {
+		if (memberArray.get(m) != null) {
 			return true;
 		}
 		return false;
