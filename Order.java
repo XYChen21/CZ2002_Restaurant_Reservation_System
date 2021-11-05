@@ -19,6 +19,7 @@ public class Order {
 		/* Parameters
 		 * tableID : assign a table to the customer
 		 * orderID : generate an order number for customer 
+		 * name : from main class, pass in the name of staff to serve the customer (StaffRoster whoToServe() method) as argument
 		*/
 		
 		ordersAC =  new HashMap<Item, Integer>(); // HashMap of orders for ala carte ie Items
@@ -30,7 +31,7 @@ public class Order {
 		// Obtain time when order was created
 		orderDateTime = LocalDateTime.now();
 		
-		// Assign a staff to serve the customer
+		// Assign a staff to serve the customer (StaffArray whoToServe() method)
 		staffServer = name;
 	}
 	
@@ -44,14 +45,14 @@ public class Order {
 		 * quantity : quantity of the food ordered eg 1, 2, ...
 		 * */
 		
-		// Our main control is isAlaCarte to decide which HashMap to access.
+		// Our main control is isAlaCarte to decide which HashMap to access. (ordersAC for Items, ordersP for Package)
 		// Check if Item/Package is already in customer's order. If it is, we add the corresponding quantity assuming the customer wants to order more.
 		// Else, we create a new key for the Item/Package
 		
 		if (isAlaCarte == true) { // Get Item
 			Item orderedItem = getItemByIndex(foodIndex); // orderedItem is an Item object
 			if (ordersAC.get(orderedItem)) { // Item exists in the order
-				ordersAC.put(orderedItem, ordersAC.get(orderedItem)+quantity);
+				ordersAC.put(orderedItem, ordersAC.get(orderedItem)+quantity); 
 			}
 			else { // Item does not exist in the order yet
 				ordersAC.put(orderedItem, quantity); // Add Item object (key) and quantity (value) to HashMap ordersAC
@@ -142,8 +143,12 @@ public class Order {
 	
 	public int printInvoice(boolean membership) {
 		/* return type int -> tableNo (free up the table)
+		  Parameter: membership -> Membership class: first call paymentMembership() method to see if there are any changes to membership 
+		  						   ie customer signs up to be a member on the spot
+		                           isMember() method will return true if customer is a member and false otherwise.
 		 */
 		
+		// Remember to call paymentMembership() method (from Membership class) in main before calling printInvoice(membership) method (from Order class)
 		
 		// Print the Restaurant name and address
 		System.out.println("SCSE Restaurant\n" +
