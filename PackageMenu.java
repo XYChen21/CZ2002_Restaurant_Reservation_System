@@ -62,6 +62,7 @@ public class PackageMenu {
 
 	private void sortByDefaultPackage(List<Package> k)
 	{sort();
+	
 	k.sort(Comparator.comparing(Package::getIndex));
 	}
 
