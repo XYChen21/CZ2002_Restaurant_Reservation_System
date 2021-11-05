@@ -138,6 +138,9 @@ public class Order {
 		}
 	}
 	
+	public double getTotal() {return Total;}
+	public int getorderID() {return orderID;}
+	
 	public int printInvoice(boolean membership) {
 		/* return type int -> tableNo (free up the table)
 		 */
