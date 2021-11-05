@@ -28,9 +28,6 @@ public class Order {
 		this.orderID = orderID; // Obtain the order number for current customer
 
 		// Obtain time when order was created
-		LocalDateTime dt = LocalDateTime.now();
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-		orderDateTime = dt.format(format);
 		orderDateTime = LocalDateTime.now();
 		
 		// Assign a staff to serve the customer
