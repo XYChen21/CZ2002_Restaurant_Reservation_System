@@ -2,6 +2,7 @@ package projectoop;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import projectoop.Item.KindofFood;
@@ -92,6 +93,9 @@ public class Package extends Food{
 		    System.out.println(food.toStringCust());
 	  System.out.println("*************************************");
 	  }
+	
+	public void sort()
+	{menuItemPackage.sort(Comparator.comparing(Item::getIndex));}
 	
 }
 

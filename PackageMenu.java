@@ -5,15 +5,17 @@ import java.util.Comparator;
 import java.util.List;
 
 public class PackageMenu {
-	public static Package p;
-	static List<Package> menuPackage=new ArrayList<Package>();
+	public List<Package> menuPackage;
 	
-	public static void sortPackageMenuByAlphabet() {
+	public PackageMenu()
+	{this.menuPackage=new ArrayList<Package>();}
+	
+	public void sortPackageMenuByAlphabet() {
 		menuPackage.sort(Comparator.comparing(Package::getName));
 		printPackageMenu(menuPackage);
 	}
 	
-	public static void addPackageMenu(Package p)
+	public void addPackageMenu(Package p)
 	{boolean duplicate = false;
 	for(Package pack:menuPackage)
 	{if (pack.getIndex() ==p.getIndex())
@@ -29,7 +31,7 @@ public class PackageMenu {
 		
 	}
 	
-	public static void removePackageMenu(int a)
+	public void removePackageMenu(int a)
 	{boolean removed = false;
 	int count = 0;
 
@@ -51,23 +53,24 @@ public class PackageMenu {
 	}
 
 
-	public static void viewPackageMenu()
+	public void viewPackageMenu()
 	{sortByDefaultPackage(menuPackage);
 	System.out.println("******** PROMOTIONAL MENU **********" + '\n');
 	for(Package pack:menuPackage)  
 		pack.toStringCustom(); 
 	}
 
-	private static void sortByDefaultPackage(List<Package> k)
-	{k.sort(Comparator.comparing(Package::getIndex));
+	private void sortByDefaultPackage(List<Package> k)
+	{sort();
+	k.sort(Comparator.comparing(Package::getIndex));
 	}
 
-	private static void printPackageMenu(List<Package>a)
+	private void printPackageMenu(List<Package>a)
 	{System.out.println("******** PROMOTIONAL MENU **********" + '\n');
 	for(Package pack:a)  
 	   pack.toStringCustom();}
 	
-	public static void filterPackageMenuByPrice(double a, double b)
+	public void filterPackageMenuByPrice(double a, double b)
 	{List<Package> menuPackage2 =new ArrayList<Package>(); 
 	boolean empty = true;
 
@@ -84,21 +87,25 @@ public class PackageMenu {
 	{System.out.println("There are no packages within that price range.");}
 	}
 	
-	public static Package filterPackageMenuByIndex(int a)
-	{
-	boolean empty = true;
+	public int filterPackageMenuInt(int a)
+	{int count = 0;
 	for(Package pack:menuPackage)
 	{if (pack.getIndex() == a)
-		{p = pack;
-		empty = false;
-		}}
+		{return count;
+		}
+	count++;
+	}
+	return -1;
 	
-	return p;
-	
-
 	}
 	
-	public static int getPackage(int index)
+	
+	public Package filterPackageMenuByIndex(int a)
+	{return menuPackage.get(a);
+	}
+	
+	
+	public int getPackage(int index)
 	{int a = 0;
 	for(Package pack:menuPackage)
 	{if (pack.getIndex() == index)
@@ -110,11 +117,17 @@ public class PackageMenu {
 	}
 	
 
-	public static Package getPackageByIndex(int a)
+	public Package getPackageByIndex(int a)
 	{menuPackage.get(a).toStringCustom();
 	return menuPackage.get(a);
 	
 		
+		
+	}
+	
+	public void sort()
+	{for (Package pack:menuPackage)
+	{pack.sort();}
 		
 	}
 	

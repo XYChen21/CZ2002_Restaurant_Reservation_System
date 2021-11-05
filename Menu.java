@@ -7,9 +7,14 @@ import java.util.List;
 import projectoop.Item.KindofFood;
 
 public class Menu {
-		private static List<Item> menu=new ArrayList<Item>();  
+		private List<Item> menu; 
+		
+		public Menu()
+		{this.menu=new ArrayList<Item>();  
+		}
 
-		public static void addMenu(Item i)
+		
+		public  void addMenu(Item i)
 		{boolean duplicate = false;
 		for(Item food:menu)
 			{if (food.getIndex() == i.getIndex())
@@ -18,15 +23,16 @@ public class Menu {
 				
 				}}
 		if (duplicate == false)
-		{menu.add(i);}
+		{
+		menu.add(i);}
 
 		else
 		{System.out.println("Duplicate index of items in this menu.");}
 		}
+		
 
 
-
-		public static void removeMenu(int a)
+		public void removeMenu(int a)
 		{boolean removed = false;
 		int count = 0;
 
@@ -47,7 +53,7 @@ public class Menu {
 		{System.out.println("Item with that index does not exist. Nothing is removed.");}
 		}
 
-		public static void filterMenuByType(KindofFood k)
+		public void filterMenuByType(KindofFood k)
 		{List<Item> newMenu=new ArrayList<Item>(); 
 		boolean empty = true;
 		for(Item food:menu)
@@ -63,7 +69,7 @@ public class Menu {
 		{System.out.println("There are no items with that category.");}
 		}
 
-		public static void filterMenuByPrice(Double a, Double b)
+		public void filterMenuByPrice(Double a, Double b)
 		{List<Item> newMenu2=new ArrayList<Item>(); 
 		boolean empty = true;
 
@@ -81,29 +87,29 @@ public class Menu {
 		}
 
 
-		public static void sortMenuByAlphabet() {
+		public void sortMenuByAlphabet() {
 			menu.sort(Comparator.comparing(Item::getName));
 			printMenu(menu);
 		}
 
 
-		public static void viewMenu()
+		public void viewMenu()
 		{System.out.println("************** MENU ****************" + '\n');
 		sortByDefault(menu);
 		for(Item food:menu)  
 		   System.out.println(food.toString());
 		}
 
-		private static void sortByDefault(List<Item> k)
+		private void sortByDefault(List<Item> k)
 		{k.sort(Comparator.comparing(Item::getIndex));
 		}
 
-		private static void printMenu(List<Item>a)
+		private void printMenu(List<Item>a)
 		{System.out.println("************** MENU ****************" + '\n');
 		for(Item food:a)  
 		   System.out.println(food.toString());}
 		
-		public static int getItem(int index)
+		public int getItem(int index)
 		{int a = 0;
 		for(Item food:menu)
 		{if (food.getIndex() == index)
@@ -115,7 +121,7 @@ public class Menu {
 		}
 		
 
-		public static Item getItemByIndex(int a)
+		public Item getItemByIndex(int a)
 		{
 		System.out.println(menu.get(a).toString());
 		return menu.get(a);
