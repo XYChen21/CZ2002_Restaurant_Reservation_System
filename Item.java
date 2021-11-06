@@ -1,8 +1,5 @@
 package projectoop;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+
 
 
 public class Item extends Food implements Comparable<Item>{
@@ -52,6 +49,9 @@ public String getDescription()
 public double getPrice()
 {return price;}
 
+//public int getQuantity()
+//{return quantity;}
+
 public void setIndex(int index)
 {this.index = index;}
 
@@ -66,6 +66,11 @@ public void setDescription(String description)
 
 public void setPrice(double price)
 {this.price = price;}
+
+//public void setQuantity(int quantity)
+//{this.quantity = quantity;}
+
+
 
 @Override
 public String toString() {
@@ -83,7 +88,8 @@ public String toStringCust() {
 	      "Item Index = " + index + '\n' +
 	      "Name = " + name + '\n' +
 	      "Description = " + description + '\n' +
-	      "Type = " + type + '\n'
+	      "Price = " + price + '\n' +
+	      "Type = " + type + '\n' 
 	      ;
 	}
 

@@ -3,6 +3,7 @@ package projectoop;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 
 import projectoop.Item.KindofFood;
 
@@ -51,6 +52,75 @@ public class Menu {
 
 		if (removed == false)
 		{System.out.println("Item with that index does not exist. Nothing is removed.");}
+		}
+		
+		public void updateMenu()
+		{Scanner sc = new Scanner(System.in);
+		System.out.println("Which item in the menu do you want to update? Enter the item index.");
+		int index = sc.nextInt();
+		int result = getItem(index);
+		if (result != -1)
+			{Item a = getItemByIndex(result);
+			System.out.println("What do you want to update? Enter 1 for Index, 2 for Name, 3 for Description, 4 for Price and 5 for Type of food.");
+			int scan = sc.nextInt();
+			
+			if (scan == 1)
+				{System.out.println("Enter the new index you want to update the item with.");
+				int b = sc.nextInt();
+				boolean duplicate = false;
+				for(Item food:menu)
+				{if (food.getIndex() == b)
+					{duplicate = true;
+					break;
+					
+					}}
+				if (duplicate == false)
+				{a.setIndex(b);
+				System.out.println("Updated successfully");
+				}
+
+				else
+				{System.out.println("Duplicate index of items in this menu.");}
+				}
+			
+			else if (scan == 2)
+				{System.out.println("Enter the new name you want to update the item with.");
+				String b = sc.nextLine();
+				a.setName(b);
+				System.out.println("Updated successfully");
+				}
+			
+			else if (scan == 3)
+				{System.out.println("Enter the new description you want to update the item with.");
+				String b = sc.nextLine();
+				a.setDescription(b);
+				System.out.println("Updated successfully");
+				
+				
+				}
+			
+			else if (scan == 4)
+				{System.out.println("Enter the new price you want to update the item with.");
+				double b = sc.nextDouble();
+				a.setPrice(b);
+				System.out.println("Updated successfully");
+				}
+			
+			else if (scan == 5)
+				{System.out.println("Enter the new type of food you want to update the item with. Enter 1 for Mains, 2 for Sides, 3 for Beverages and 4 for Dessert.");
+				int b = sc.nextInt();
+				KindofFood f= KindofFood.getTypeByOrdinal(b);
+				a.setType(f);
+				System.out.println("Updated successfully");}
+				}	
+		
+		else
+		{System.out.println("There is no item with such index.");}
+			
+			
+			
+			
+			
 		}
 
 		public void filterMenuByType(KindofFood k)
@@ -123,12 +193,13 @@ public class Menu {
 
 		public Item getItemByIndex(int a)
 		{
-		System.out.println(menu.get(a).toString());
+//		System.out.println(menu.get(a).toString());
 		return menu.get(a);
 		
 			
 			
-		}}
+		}
+		}
 		
 		
 

@@ -1,11 +1,9 @@
 package projectoop;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-
-import projectoop.Item.KindofFood;
+import java.util.Scanner;
 
 
 public class Package extends Food{
@@ -18,27 +16,22 @@ public class Package extends Food{
 	public Package(String name, int index)
 	{
 	menuItemPackage=new ArrayList<Item>();  
+	
 	this.name = name;
 	this.index = index;
 	}
 	
 	public void addPackageItem(Item i)
-	{boolean duplicate = false;
-	for(Item food:menuItemPackage)
-		{if (food.getIndex() == i.getIndex())
-			{duplicate = true;
-			break;
-			
-			}}
-	if (duplicate == false)
-	{menuItemPackage.add(i);}
+	{
+		menuItemPackage.add(i);}
 
-	else
-	{System.out.println("Duplicate index of items in this package.");}
-	}
+
+	
+	
 	
 	public void setPrice()
-	{for(Item food:menuItemPackage)
+	{oriPrice = 0;
+	for(Item food:menuItemPackage)
 		{oriPrice += food.getPrice();}
 	finalPrice = oriPrice*0.90;}
 	
@@ -84,11 +77,42 @@ public class Package extends Food{
 	public void setIndex(int index)
 	{this.index = index;}
 	
+	public void setPrice(double price)
+	{this.finalPrice = price;}
+	
+	public int getItemPackage(int index)
+	{int a = 0;
+	for(Item food:menuItemPackage)
+	{if (food.getIndex() == index)
+		{return a;}
+		a++;}
+
+	return -1;
+
+	}
+	
+	public boolean isNull()
+	{int a = 0;
+	for(Item food:menuItemPackage)
+		{a++;}
+	if (a == 0)
+		return true;
+	else
+		return false;}
+	
+
+	public Item getItemPackageByIndex(int a) {
+//	{
+//	System.out.println(menuItemPackage.get(a).toString());
+	return menuItemPackage.get(a);
+		
+	}
+	
 	public void toStringCustom() {
 	System.out.println("Package Index = " + index + '\n' +
 		      "Package Name = " + name + '\n' +
 		      "Original Package Price = " + oriPrice + '\n' +
-		      "Discounted Package Price (10% OFF) = " + finalPrice + '\n');
+		      "Discounted Package Price = " + finalPrice + '\n');
 	  for(Item food:menuItemPackage)  
 		    System.out.println(food.toStringCust());
 	  System.out.println("*************************************");

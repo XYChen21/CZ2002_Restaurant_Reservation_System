@@ -3,6 +3,9 @@ package projectoop;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
+
+import projectoop.Item.KindofFood;
 
 public class PackageMenu {
 	public List<Package> menuPackage;
@@ -18,13 +21,16 @@ public class PackageMenu {
 	public void addPackageMenu(Package p)
 	{boolean duplicate = false;
 	for(Package pack:menuPackage)
-	{if (pack.getIndex() ==p.getIndex())
+	{if (pack.getIndex() == p.getIndex())
 		{duplicate = true;
 		break;
 		
 		}}
 	if (duplicate == false)
-		{menuPackage.add(p);}
+		{if (p.isNull() == true)
+			{System.out.println("No package is created since no valid item is added.");}
+		else
+		{menuPackage.add(p);}}
 
 	else
 		{System.out.println("Duplicate index of packages.");}
@@ -132,4 +138,59 @@ public class PackageMenu {
 		
 	}
 	
+	public void setAllPackagesPrice()
+	{for (Package pack:menuPackage)
+		pack.setPrice();}
+	
+
+	public void updatePackage()
+	{Scanner sc = new Scanner(System.in);
+	System.out.println("Which package do you want to update? Enter the index of the package.");
+	int index = sc.nextInt();
+	int result = getPackage(index);
+	if (result != -1)
+		{Package a = getPackageByIndex(result);
+		System.out.println("What do you want to update? Enter 1 for Index, 2 for Name, 3 for Price.");
+		int scan = sc.nextInt();
+		
+		if (scan == 1)
+			{System.out.println("Enter the new index you want to update the item with.");
+			int b = sc.nextInt();
+			a.setIndex(b);
+			System.out.println("Updated successfully");
+			
+			}
+		
+		else if (scan == 2)
+			{System.out.println("Enter the new name you want to update the item with.");
+			String b = sc.nextLine();
+			a.setName(b);
+			System.out.println("Updated successfully");
+			}
+		
+		else if (scan == 3)
+			{System.out.println("Enter the new price you want to update the item with. Make sure it's lower than the total price of the items inside this package.");
+			double b = sc.nextDouble();
+			if (b< a.getOriPrice())
+				{a.setPrice(b);
+				System.out.println("Updated successfully");}
+			
+			else
+			{System.out.println("The package price should be lower than the total price of the items inside this package.");}
+			}}
+		
+	
+	else
+	{System.out.println("There is no package with such index.");}
+		
+		
+		
+		
+		
+	}
+	
+	
+	
+
+
 }

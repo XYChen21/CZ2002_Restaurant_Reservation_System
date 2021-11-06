@@ -24,25 +24,29 @@ public class main {
 				+ "\n" +
 				"7. Get specific menu item based on index"
 				+ "\n" +
-				"8. Create a new promotional package"
+				"8. Update a menu item"
 				+ "\n" +
-				"9. Add item into an existing promotional package"
+				"9. Create a new promotional package"
 				+ "\n" +
-				"10. Remove item from an existing promotional package"
+				"10. Add item into an existing promotional package"
+				+ "\n" +
+				"11. Remove item from an existing promotional package"
 				+ "\n" + 
-				"11. Remove an existing promotional package entirely"
+				"12. Remove an existing promotional package entirely"
 				+ "\n" + 
-				"12. Sort promotional package menu based on index of package"
+				"13. Sort promotional package menu based on index of package"
 				+ "\n" +
-				"13. View promotional package menu based on price"
+				"14. View promotional package menu based on price"
 				+ "\n" +
-				"14. Sort promotional package menu based on name of package"
+				"15. Sort promotional package menu based on name of package"
 				+ "\n" +
-				"15. Get specific package based on index"
+				"16. Get specific package based on index"
 				+ "\n" +
-				"16. View both menus"
+				"17. Update a package"
 				+ "\n" +
-				"17. Quit"
+				"18. View both menus"
+				+ "\n" +
+				"19. Quit"
 				+ "\n"
 				);
 		
@@ -51,7 +55,7 @@ public class main {
 		Menu m = new Menu();
 		PackageMenu pack = new PackageMenu();
 		
-		while (e != 17)
+		while (e != 19)
 			{
 			if (e == 1)
 				
@@ -117,6 +121,10 @@ public class main {
 			}
 			
 			else if (e == 8)
+			{m.updateMenu();
+			pack.setAllPackagesPrice();}
+			
+			else if (e == 9)
 			{
 			System.out.println("How many items are there in this new package?");
 			int number = sc.nextInt();
@@ -127,85 +135,83 @@ public class main {
 			String name = sc.nextLine();
 			Package p = new Package(name, a);
 			
-			for (int i=0; i< number; i++)
-				{System.out.println("Enter the index of the item inside this package.");
-				int ind = sc.nextInt();
-				sc.nextLine();
-				System.out.println("What is the name of the item you want to add in this package?");
-				String s = sc.nextLine();
-				System.out.println("What is the description of the item?");
-				String b = sc.nextLine();
-				System.out.println("What is the price?");
-				double c = sc.nextDouble();
-				System.out.println("What is the type of the item?  1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
-				int d = sc.nextInt(); // Assume userInput = 0
-				KindofFood f= KindofFood.getTypeByOrdinal(d);
-		
-				Item j = new Item(ind, s, b, c, f);
-				p.addPackageItem(j);
+			for (int i = 0; i<number; i++)
+			{System.out.println("Which item from the menu do you want to add into this package? Enter the index of the item.");
+			int index = sc.nextInt();
+			int result = m.getItem(index);
+			if (result != -1)
+				{Item item = m.getItemByIndex(result);
+				p.addPackageItem(item);
+				
 				}
+			else
+			{System.out.println("There is no item from the menu with this index number.");
+			}
+			
+			
+			}
 			p.setPrice();
 			
 			pack.addPackageMenu(p);
 				
 			}
 			
-			else if (e == 9)
+			else if (e == 10)
 			{Package p = null;
 			System.out.println("In which package do you want to add an item in? Enter the index of the package.");
 			int addedNo = sc.nextInt();
 			int result = pack.filterPackageMenuInt(addedNo);
 			if (result != -1)
 			{p = pack.filterPackageMenuByIndex(result);
-			System.out.println("Enter the index of the item you want to add inside this package.");
+			System.out.println("Which item from the menu do you want to add into this package? Enter the index of the item.");
 			int index = sc.nextInt();
-			sc.nextLine();
-			System.out.println("What is the name of the item you want to add in this package?");
-			String s = sc.nextLine();
-			System.out.println("What is the description of the item?");
-			String b = sc.nextLine();
-			System.out.println("What is the price?");
-			double c = sc.nextDouble();
-			System.out.println("What is the type of the item? 1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
-			int d = sc.nextInt(); // Assume userInput = 0
-			KindofFood f= KindofFood.getTypeByOrdinal(d);
-	
-			Item j = new Item(index, s, b, c, f);
-			p.addPackageItem(j);}
+			int result1 = m.getItem(index);
+			if (result1 != -1)
+				{Item item = m.getItemByIndex(result1);
+				p.addPackageItem(item);
+				p.setPrice();
 				
+				}
 			else
-			{System.out.println("There is no package with that index number.");
-			}
-			
-			}
-			
-			else if (e == 10)
-			{Package p = null;
-			System.out.println("From which package do you want to remove an item from? Enter the index of the package.");
-			int removedNo = sc.nextInt();
-			int result = pack.filterPackageMenuInt(removedNo);
-			if (result != -1)
-			{p = pack.filterPackageMenuByIndex(result);
-			System.out.println("Enter the index of the item you want to remove from this package.");
-			int index = sc.nextInt();
-			p.removePackageItem(index);}
-			
+			{System.out.println("There is no item from the menu with this index number.");
+			};}
+				
 			else
 			{System.out.println("There is no package with that index number.");
 			}
 			}
 			
 			else if (e == 11)
+			{Package p = null;
+			System.out.println("From which package do you want to remove an item from? Enter the index of the package.");
+			int removedNo = sc.nextInt();
+			int result = pack.filterPackageMenuInt(removedNo);
+			if (result != -1)
+				{p = pack.filterPackageMenuByIndex(result);
+				System.out.println("Enter the index of the item you want to remove from this package.");
+				int index = sc.nextInt();
+				p.removePackageItem(index);
+				p.setPrice();
+				if (p.isNull() == true)
+					{pack.removePackageMenu(p.getIndex());}
+				}
+			
+			else
+			{System.out.println("There is no package with that index number.");
+			}
+			}
+			
+			else if (e == 12)
 			{System.out.println("Which package do you want to completely remove? Enter the index of the package.");
 			int removed = sc.nextInt();
 			pack.removePackageMenu(removed);
 			}
 			
-			else if (e == 12)
+			else if (e == 13)
 			{pack.viewPackageMenu();
 			}
 			
-			else if (e== 13)
+			else if (e== 14)
 			{System.out.println("What is the price range of promotional packages you want to view? Enter the lower limit of price range.");
 			double a = sc.nextDouble();
 			System.out.println("Enter the upper limit of price range.");
@@ -214,11 +220,11 @@ public class main {
 			
 			}
 			
-			else if (e == 14)
+			else if (e == 15)
 			{pack.sortPackageMenuByAlphabet();
 			}
 			
-			else if (e == 15)
+			else if (e == 16)
 			{System.out.println("Which package do you want to get? Enter the package index number.");
 			int index = sc.nextInt();
 			if (pack.getPackage(index) != -1)
@@ -227,9 +233,16 @@ public class main {
 				{System.out.println("There is no such package index in our menu.");}
 				
 			}
+			else if (e == 17)
+			{
+				
+			pack.updatePackage();
+				
+			}
 			
 			
-			else if (e==16)
+			
+			else if (e==18)
 			{m.viewMenu();
 			pack.viewPackageMenu();
 			}
@@ -241,7 +254,7 @@ public class main {
 	
 	
 		
-		if (e == 17)
+		if (e == 18)
 		{System.out.println("Quitting...");}
 	}
 
