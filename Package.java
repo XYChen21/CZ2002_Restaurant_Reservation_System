@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Package extends Food{
 	private List<Item> menuItemPackage;
 	private String name;
-	private double finalPrice;
+	private double finalPrice = Double.MAX_VALUE;
 	private double oriPrice;
 	private int index;
 	
@@ -32,8 +32,13 @@ public class Package extends Food{
 	public void setPrice()
 	{oriPrice = 0;
 	for(Item food:menuItemPackage)
-		{oriPrice += food.getPrice();}
+	{oriPrice += food.getPrice();}
+		
+	if (finalPrice>=oriPrice)
+	{
 	finalPrice = oriPrice*0.90;}
+	
+	}
 	
 
 	

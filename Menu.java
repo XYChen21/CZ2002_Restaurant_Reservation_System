@@ -85,6 +85,7 @@ public class Menu {
 			
 			else if (scan == 2)
 				{System.out.println("Enter the new name you want to update the item with.");
+				sc.nextLine();
 				String b = sc.nextLine();
 				a.setName(b);
 				System.out.println("Updated successfully");
@@ -92,6 +93,7 @@ public class Menu {
 			
 			else if (scan == 3)
 				{System.out.println("Enter the new description you want to update the item with.");
+				sc.nextLine();
 				String b = sc.nextLine();
 				a.setDescription(b);
 				System.out.println("Updated successfully");

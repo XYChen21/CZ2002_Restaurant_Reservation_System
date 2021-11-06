@@ -124,8 +124,8 @@ public class PackageMenu {
 	}
 	
 
-	public Package getPackageByIndex(int a)
-	{menuPackage.get(a).toStringCustom();
+	public Package getPackageByIndex(int a) {
+//	{menuPackage.get(a).toStringCustom();
 	return menuPackage.get(a);
 	
 		
@@ -163,6 +163,7 @@ public class PackageMenu {
 		
 		else if (scan == 2)
 			{System.out.println("Enter the new name you want to update the item with.");
+			sc.nextLine();
 			String b = sc.nextLine();
 			a.setName(b);
 			System.out.println("Updated successfully");
