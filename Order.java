@@ -141,7 +141,7 @@ public class Order {
 		// Revenue = Total - Taxes
 		Total = subTotal - taxes; 
 		// Method to free up availability of table by passing in table number -- find from Restaurant table array and call vacate() on that table
-		return tableNo;
+		return tableID;
 		}
 	}
 }
