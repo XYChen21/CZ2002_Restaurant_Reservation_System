@@ -1,16 +1,15 @@
 package restaurant;
-import java.io.*;
 
-public class Member implements java.io.Serializable{
-	private int memberHP;
+public class Member {
+	private String memberHP;
 	private String memberName;
 	
-	public Member(int memberHP, String memberName) {
+	public Member(String memberHP, String memberName) {
 		this.memberHP = memberHP;
 		this.memberName = memberName;
 	}
 	
-	public int getMemberHP() {return memberHP;}
+	public String getMemberHP() {return memberHP;}
 	
 	public String getMemberName() {return memberName;}
 	

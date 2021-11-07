@@ -10,6 +10,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import restaurant.Item.KindofFood;
 
+
 public class Restaurant implements Serializable
 {	
 	private Menu m;
@@ -55,17 +56,15 @@ public class Restaurant implements Serializable
 		listofStaff.addStaff(staff4);
 		listofStaff.addStaff(staff5);
 		
-		Member mem1 = new Member(87005902, "Jac");
-		Member mem2 = new Member(84084110, "Val");
-		Member mem3 = new Member(86163328, "lsy");
-		Member mem4 = new Member(91307633, "XY");
-		listofMembers.addMember(mem1);
-		listofMembers.addMember(mem2);
-		listofMembers.addMember(mem3);
-		listofMembers.addMember(mem4);
+//		Member mem1 = new Member("+6587005902", "Jac");
+//		Member mem2 = new Member("+6584084110", "Val");
+//		Member mem3 = new Member("+6586163328", "lsy");
+//		Member mem4 = new Member("+6591307633", "XY");
+		listofMembers.addMember("+6587005902", "Jac");
+		listofMembers.addMember("+6584084110", "Val");
+		listofMembers.addMember("+6586163328", "lsy");
+		listofMembers.addMember("+6591307633", "XY");
 		
-
-		Revenue r = new Revenue(new ArrayList<Order>(), new HashMap<Item, Integer>(), new HashMap<Package, Integer>());
 		
 	}
 	public ScheduledFuture<?> scheduleCancel(LocalDateTime scheduleTime, Runnable task)
@@ -214,7 +213,7 @@ public class Restaurant implements Serializable
 			t.addReservation(res);
 			allReservations.put(name+contact, res);
 			
-			Notification.sendSMS(res.toString(), contact);
+//			Notification.sendSMS(res.toString(), contact);
 			
 			return true;
 		}
@@ -453,8 +452,6 @@ public class Restaurant implements Serializable
 				ordersbyID.add(newOrder); // index of the Order is numofOrders
 				System.out.println("New order for table " + tableID + " with orderID " + r.numofOrders + " has been successfully created.");
 				r.numofOrders++;
-
-				r.addOrder(newOrder);
 				break;
 			case 16:
 				System.out.println("Enter orderID given during order creation: ");
@@ -469,11 +466,11 @@ public class Restaurant implements Serializable
 				int addOrderID = sc.nextInt();
 				Order addToOrder = ordersbyID.get(addOrderID);
 				System.out.println("Select (1) Add to order (2) Quit");
-				int c = sc.nextInt();
+				c = sc.nextInt();
 				while (c == 1) {
 					System.out.println("Enter type of meal: (1) Ala carte (2) Promotional set");
 					int type = sc.nextInt();
-					if (type != 1 || type != 2) {
+					if (type != 1 && type != 2) {
 						System.out.println("Invalid selection. Enter either (1) for ala carte or (2) for promotional set. Please re-enter your selection."); 
 						continue;
 					}
@@ -504,7 +501,7 @@ public class Restaurant implements Serializable
 				while (c == 1) {
 					System.out.println("Enter type of meal: (1) Ala carte (2) Promotional set");
 					int type = sc.nextInt();
-					if (type != 1 || type != 2) {
+					if (type != 1 && type != 2) {
 						System.out.println("Invalid selection. Enter either (1) for ala carte or (2) for promotional set. Please re-enter your selection."); 
 						continue;
 					}
@@ -526,26 +523,67 @@ public class Restaurant implements Serializable
 				System.out.println("Quitting from remove from order process...");
 				break;
 			case 19:
+				boolean isMem = false;
+				String contactNo;
 				System.out.println("Enter orderID given during order creation: ");
 				int paymentOrderID = sc.nextInt();
 				Order paymentOrder = ordersbyID.get(paymentOrderID);
 				boolean proceed = paymentOrder.haveOrder();
 				if(proceed) {
-					boolean isMember = r.listofMembers.paymentMembership(); 
-					int releaseTable = paymentOrder.printInvoice(isMember);
-					tables.get(releaseTable).vacate();
+					while (true)
+					{
+				
+						System.out.println("Are you a member? (Y/N)");
+						char mem = sc.next().charAt(0);
+						if (mem == 'Y' || mem == 'y') {
+							System.out.println("We would like to verify your membership. May we have your contact number please?");
+							contactNo = sc.next();
+							System.out.println("May we have your name please?");
+							name = sc.next();
+							isMem = r.listofMembers.isMember(name, contactNo);
+							if (isMem) break;
+							else continue;
+						}
+						else if (mem == 'N' || mem == 'n'){ // Customer is not a member -> ask if customer wants to join as a member
+							System.out.println("Would you like to join us as a member? (Y/N)");
+							while (true) {
+								char ans = sc.next().charAt(0);
+								if (ans == 'Y' || ans == 'y') {
+									System.out.println("May we have your contact number please?");
+									contactNo = sc.next();
+									System.out.println("May we have your name please?");
+									name = sc.next();
+	//								Member toAdd = new Member(contactNo, name);
+									isMem = r.listofMembers.addMember(name, contactNo);
+	//								membership = addMember(toAdd);
+									if (!isMem) {
+										System.out.println("Enter 'Y' to re-enter your particulars. Enter 'N' to quit.");
+										ans = sc.next().charAt(0);
+										if (ans == 'Y' || ans == 'y') {continue;}
+										else break;
+									}
+								}
+								else if (ans == 'N' || ans == 'n') {
+									System.out.println("We will proceed to payment now.");
+									break;
+								}
+								else {
+									System.out.println("Invalid response given. Please input (Y/N) only.");
+									continue;
+								}
+							}
+							break;
+						}
+					}
+//					boolean isMember = r.listofMembers.paymentMembership(); 
+					int releaseTable = paymentOrder.printInvoice(isMem);
 				}
 				else {
 					System.out.println("You have no orders at the moment, unable to print invoice.");
 				}
 				break;
 			case 20:
-				System.out.println("Specify a period (dd/MM/yyyy) - start:");
-				LocalDateTime start = LocalDate.parse(sc.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-				System.out.println("Specify a period (dd/MM/yyyy) - end:");
-				LocalDateTime end = LocalDate.parse(sc.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-				r.printRevenueReport(statr, end);
+				
 				break;
 			case 21: 
 				System.out.println("Program terminating ....");
