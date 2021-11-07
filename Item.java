@@ -83,16 +83,6 @@ public String toString() {
       ;
 }
 
-public String toStringCust() {
-	  return 
-	      "Item Index = " + index + '\n' +
-	      "Name = " + name + '\n' +
-	      "Description = " + description + '\n' +
-	      "Price = " + price + '\n' +
-	      "Type = " + type + '\n' 
-	      ;
-	}
-
 
 @Override
 public int compareTo(Item o) {
