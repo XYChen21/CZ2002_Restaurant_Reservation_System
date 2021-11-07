@@ -11,6 +11,8 @@ public class Revenue {
      *      ArrayList of orders
      * saleItems:
      *      HashMap<Food_object, quantities> of individual saleItems
+     * salePkgs:
+     *      HashMap<Food_object, quantities> of individual salePkgs
      */  
     private ArrayList<Order> orders;
     private HashMap<Item, Integer> saleItems;
@@ -39,7 +41,7 @@ public class Revenue {
             total += p;
         }
         for(Map.Entry<Package, Integer> i: temp.salePkgs.entrySet()){
-            p = i.getValue() * i.getValue() * i.getKey().getPackagePrice();
+            p = i.getValue() * i.getValue() * i.getKey().getPrice();
             System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
             total += p;
         }
@@ -62,7 +64,7 @@ public class Revenue {
             total += p;
         }
         for(Map.Entry<Package, Integer> i: temp.salePkgs.entrySet()){
-            p = i.getValue() * i.getValue() * i.getKey().getPackagePrice();
+            p = i.getValue() * i.getValue() * i.getKey().getPrice();
             System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
             total += p;
         }
@@ -109,10 +111,10 @@ public class Revenue {
          */
         ArrayList<Order> temp = new ArrayList<>(this.getOrders());
         if(byDate){
-            temp.sort((a, b) -> a.getTime().compareTo(b.orderDateTime));
+            temp.sort((a, b) -> a.getTime().compareTo(b.getTime()));
         }
         else{
-            temp.sort((a, b) -> a.getStaff().compareTo(b.staffServer));
+            temp.sort((a, b) -> a.getTime().compareTo(b.getTime()));
         }
         return temp;
     }
