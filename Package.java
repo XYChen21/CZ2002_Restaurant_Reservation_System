@@ -119,7 +119,7 @@ public class Package extends Food{
 		      "Original Package Price = " + oriPrice + '\n' +
 		      "Discounted Package Price = " + finalPrice + '\n');
 	  for(Item food:menuItemPackage)  
-		    System.out.println(food.toString());
+		    System.out.println(food.toStringCust());
 	  System.out.println("*************************************");
 	  }
 	
