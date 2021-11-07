@@ -36,3 +36,15 @@ entities.
 
 l) Sale revenue report will detail the period, individual sale items (either ala carte or
 promotional items) and total revenue. 
+
+## Functional Requirements:
+1. Create/Update/Remove menu item
+2. Create/Update/Remove promotion
+3. Create order
+4. View order
+5. Add/Remove order item/s to/from order
+6. Create reservation booking
+7. Check/Remove reservation booking
+8. Check table availability
+9. Print order invoice
+10. Print sale revenue report by period (eg day or month)
