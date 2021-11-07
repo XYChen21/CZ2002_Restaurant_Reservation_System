@@ -5,25 +5,30 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
-import restaurant.Item.KindofFood;
-
 import java.io.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import restaurant.Item.KindofFood;
 
 public class Restaurant implements Serializable
-{	private Menu m;
+{	
+	private Menu m;
 	private PackageMenu pack;
+	private int numofOrders;
 	private HashMap<Integer, Table> tables;
 	private HashMap<String, Reservation> allReservations;
+	private StaffRoster listofStaff;
+	private Membership listofMembers;
 	private static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 	public Restaurant()
 	{
 		// put codes to read in serialisation file
 		
+		numofOrders = 0;
 		tables = new HashMap<Integer, Table>();
 		allReservations = new HashMap<String, Reservation>();
+		listofStaff = new StaffRoster();
+		listofMembers = new Membership();
 		int id = 1, cap = 2;
 		Table t;
 		while (id <= 10)
@@ -35,8 +40,29 @@ public class Restaurant implements Serializable
 			tables.put(id, t);
 			id++; cap+=2;
 		}
+		
 		m = new Menu();
 		pack = new PackageMenu();
+		
+		Staff staff1 = new Staff("Gary", 'M', 2100, "Waitor");
+		Staff staff2 = new Staff("Guohua", 'M', 2500, "Waitor");
+		Staff staff3 = new Staff("Yingying", 'F', 2101, "Waitress");
+		Staff staff4 = new Staff("Sourav", 'M', 1060, "Manager");
+		Staff staff5 = new Staff("Fang", 'F', 2002, "General Manager");
+		listofStaff.addStaff(staff1);
+		listofStaff.addStaff(staff2);
+		listofStaff.addStaff(staff3);
+		listofStaff.addStaff(staff4);
+		listofStaff.addStaff(staff5);
+		
+		Member mem1 = new Member(87005902, "Jac");
+		Member mem2 = new Member(84084110, "Val");
+		Member mem3 = new Member(86163328, "lsy");
+		Member mem4 = new Member(91307633, "XY");
+		listofMembers.addMember(mem1);
+		listofMembers.addMember(mem2);
+		listofMembers.addMember(mem3);
+		listofMembers.addMember(mem4);
 		
 		
 	}
@@ -176,7 +202,7 @@ public class Restaurant implements Serializable
 			t.addReservation(res);
 			allReservations.put(name+contact, res);
 			
-//			Notification.sendSMS(res.toString(), contact);
+			Notification.sendSMS(res.toString(), contact);
 			
 			return true;
 		}
@@ -231,6 +257,7 @@ public class Restaurant implements Serializable
 	{
 		Restaurant r = new Restaurant();
 		Reservation res;
+		ArrayList<Order> ordersbyID = new ArrayList<Order>();
 		int choice;
 		Scanner sc = new Scanner(System.in); 
 		do {
@@ -239,7 +266,7 @@ public class Restaurant implements Serializable
 			System.out.println("(3)Make a reservation"); 
 			System.out.println("(4)Remove a reservation"); 
 			System.out.println("(5)Find a reservation"); 
-			System.out.println("(6)Show all reservations"); 
+			System.out.println("(6)Show all reservations");
 			System.out.println("(7)Check table availability");
 			System.out.println("(8)Create menu item");
 			System.out.println("(9)Update menu item");
@@ -249,12 +276,12 @@ public class Restaurant implements Serializable
 			System.out.println("(13)Remove promotion");
 			System.out.println("(14)View menu & promotion");
 			System.out.println("(15)Create order");
-			System.out.println("(16)View order");
-			System.out.println("(17)Add order item/s to order");
-			System.out.println("(18)Remove order item/s from order");
+			System.out.println("(16)View Order");
+			System.out.println("(17)Add item/s or package/s to order");
+			System.out.println("(18)Remove item/s or package/s from order");
 			System.out.println("(19)Print order invoice");
-			System.out.println("(20)Print sale revenue report by period (day/month)");
-			System.out.println("(21)Close");
+			System.out.println("(20)Print sale revenue report by period(eg day or month)");
+			System.out.println("(21)Close"); 
 			System.out.print("Enter the number of your choice: "); 
 			choice = sc.nextInt();
 			sc.nextLine(); // consume newline char
@@ -296,6 +323,9 @@ public class Restaurant implements Serializable
 				break;
 			case 6: 
 				r.showAllRes();
+				break;
+			case 7: 
+				
 				break;
 			case 8:
 				System.out.println("Create an index for the item you want to add.");
@@ -388,11 +418,102 @@ public class Restaurant implements Serializable
 				r.m.viewMenu();
 				r.pack.viewPackageMenu();
 				break;
+			case 15: 
+				System.out.println("Creating order now...");
+				System.out.println("Please enter table number allocated: ");
+				int tableID = sc.nextInt();
+				String randStaff = r.listofStaff.whoToServe();
+				Order newOrder = new Order(tableID, r.numofOrders, randStaff);
+				ordersbyID.add(newOrder); // index of the Order is numofOrders
+				System.out.println("New order for table " + tableID + " with orderID " + r.numofOrders + " has been successfully created.");
+				r.numofOrders++;
+				break;
+			case 16:
+				System.out.println("Enter orderID given during order creation: ");
+				int viewOrderID = sc.nextInt();
+				Order viewOrderSummary = ordersbyID.get(viewOrderID);
+				System.out.println("======== Current order summary ========");
+				viewOrderSummary.viewOrder();
+				break;
+			case 17:
+				System.out.println("Add to order now in service!");
+				System.out.println("Enter orderID given during order creation: ");
+				int addOrderID = sc.nextInt();
+				Order addToOrder = ordersbyID.get(addOrderID);
+				System.out.println("Select (1) Add to order (2) Quit");
+				int c = sc.nextInt();
+				while (c == 1) {
+					System.out.println("Enter type of meal: (1) Ala carte (2) Promotional set");
+					int type = sc.nextInt();
+					if (type != 1 || type != 2) {
+						System.out.println("Invalid selection. Enter either (1) for ala carte or (2) for promotional set. Please re-enter your selection."); 
+						continue;
+					}
+					System.out.println("Enter the corresponding food index: ");
+					int foodID = sc.nextInt();
+					System.out.println("Enter the quantity you wish to add: ");
+					int quantity = sc.nextInt();
+					if (type == 1) {
+						Item addItem = r.m.getItem(foodID);
+						addToOrder.addOrder(addItem, quantity);
+					}
+					else {
+						Package addP = r.pack.getPackage(foodID);
+						addToOrder.addOrder(addP, quantity);
+					}
+					System.out.println("Select (1) Add to order (2) Quit");
+					c = sc.nextInt();
+				}
+				System.out.println("Quitting from add to order process...");
+				break;
+			case 18:
+				System.out.println("Remove from order now in service!");
+				System.out.println("Enter orderID given during order creation: ");
+				int removeOrderID = sc.nextInt();
+				Order removeFrOrder = ordersbyID.get(removeOrderID);
+				System.out.println("Select (1) Remove from order (2) Quit");
+				c = sc.nextInt();
+				while (c == 1) {
+					System.out.println("Enter type of meal: (1) Ala carte (2) Promotional set");
+					int type = sc.nextInt();
+					if (type != 1 || type != 2) {
+						System.out.println("Invalid selection. Enter either (1) for ala carte or (2) for promotional set. Please re-enter your selection."); 
+						continue;
+					}
+					System.out.println("Enter the corresponding food index: ");
+					int foodID = sc.nextInt();
+					System.out.println("Enter the quantity you wish to remove: ");
+					int quantity = sc.nextInt();
+					if (type == 1) {
+						Item removeItem = r.m.getItem(foodID);
+						removeFrOrder.removeOrder(removeItem, quantity);
+					}
+					else {
+						Package removeP = r.pack.getPackage(foodID);
+						removeFrOrder.removeOrder(removeP, quantity);
+					}
+					System.out.println("Select (1) Remove from order (2) Quit");
+					c = sc.nextInt();
+				}
+				System.out.println("Quitting from remove from order process...");
+				break;
+			case 19:
+				System.out.println("Enter orderID given during order creation: ");
+				int paymentOrderID = sc.nextInt();
+				Order paymentOrder = ordersbyID.get(paymentOrderID);
+				boolean proceed = paymentOrder.haveOrder();
+				if(proceed) {
+					boolean isMember = r.listofMembers.paymentMembership(); 
+					int releaseTable = paymentOrder.printInvoice(isMember);
+				}
+				else {
+					System.out.println("You have no orders at the moment, unable to print invoice.");
+				}
+				break;
 			case 21: 
 				System.out.println("Program terminating ....");
 				r.close();
 				break;
-				
 			}
 			System.out.println(""); 
 		} while (choice < 21);

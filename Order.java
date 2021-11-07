@@ -32,6 +32,11 @@ public class Order {
 		staffServer = name;
 	}
 	
+	public boolean haveOrder() {
+		if (ordersFood.isEmpty()) {return false;}
+		else {return true;}
+	}
+	
 	// addOrder method
 	public void addOrder(Food food, int quantity) {
 		// Check if order exists -> exists, increment. If not, create new
@@ -117,20 +122,6 @@ public class Order {
 			subTotal += key.getPrice();
 		});
 		
-		
-		/*
-		if (!ordersAC.isEmpty()) {
-			ordersAC.forEach((key, value) -> {
-				System.out.println(value + " " + key.getName() + "\t" + String.format("%.2f", key.getPrice()));
-				subTotal += key.getPrice();
-			});
-		}
-		if(!ordersP.isEmpty()) {
-			ordersP.forEach((key, value) -> {
-				System.out.println(value + " " + key.getName() + "\t" + String.format("%.2f", key.getPrice()));
-				subTotal += key.getPrice();
-			});
-		}*/
 		
 		// Print SubTotal
 		System.out.println("SubTotal: " + String.format("%.2f", subTotal));
