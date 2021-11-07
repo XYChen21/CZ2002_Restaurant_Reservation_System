@@ -8,7 +8,7 @@ import java.util.Scanner;
 import restaurant.Item.KindofFood;
 
 public class PackageMenu {
-	public List<Package> menuPackage;
+	private List<Package> menuPackage;
 	
 	public PackageMenu()
 	{this.menuPackage=new ArrayList<Package>();}
