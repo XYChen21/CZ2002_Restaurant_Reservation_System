@@ -4,6 +4,7 @@ import java.util.Scanner;
 import java.time.format.DateTimeFormatter; 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Order {
 	private String staffServer; // Restaurant serialize a Staff object then here we get it back through deserialize
@@ -11,6 +12,7 @@ public class Order {
 	private int tableID; 
 	private int orderID; // int orderID for sale revenue
 	private double Total;// Total var -> sale revenue then minus off taxes
+	private double subTotal1;
 	public HashMap<Food, Integer> ordersFood; // Food object-> Item or Package. Integer-> quantity
 	
 	public Order(int tableID, int orderID, String name) {
@@ -30,6 +32,7 @@ public class Order {
 		
 		// Assign a staff to serve the customer (StaffArray whoToServe() method)
 		staffServer = name;
+		subTotal1=0;
 	}
 	
 	public boolean haveOrder() {
@@ -116,32 +119,31 @@ public class Order {
 		System.out.println("Date and time: " + invoiceDateTime);
 		System.out.println("----------------------------------------------------");
 		// Print Quantity, Name of food, Individual Cost
-		double subTotal=0;
+		
 		ordersFood.forEach((key, value) -> {
 			System.out.println(value + " " + key.getName() + "\t" + String.format("%.2f", key.getPrice()));
-			subTotal += key.getPrice();
+			subTotal1 += key.getPrice();
 		});
 		
 		
 		// Print SubTotal
-		System.out.println("SubTotal: " + String.format("%.2f", subTotal));
+		System.out.println("SubTotal: " + String.format("%.2f", subTotal1));
 		// Print Taxes -> 7% GST
-		double taxes = subTotal*0.17;
+		double taxes = subTotal1*0.17;
 		System.out.println("GST and Service Charge: " + String.format("%.2f", taxes));
-		subTotal *= 1.17;
+		subTotal1 *= 1.17;
 		// Print Discount -> get from Package
 		System.out.println("Discount (package): " + 10 + "%%");
 		// Print Membership Discount -> if membership == true, apply and print
 		if (membership) {
 			System.out.println("Membership discount: " + 10 + "%%");
-			subTotal *= 0.9;
+			subTotal1 *= 0.9;
 		}
 		// Print Total
-		System.out.println("Total: $" + String.format("%.2f", subTotal));
+		System.out.println("Total: $" + String.format("%.2f", subTotal1));
 		// Revenue = Total - Taxes
-		Total = subTotal - taxes; 
+		Total = subTotal1 - taxes; 
 		// Method to free up availability of table by passing in table number -- find from Restaurant table array and call vacate() on that table
 		return tableID;
 		}
 	}
-}
