@@ -1,11 +1,11 @@
-package projectoop;
+package restaurant;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-import projectoop.Item.KindofFood;
+import restaurant.Item.KindofFood;
 
 public class Menu {
 		private List<Item> menu; 
@@ -179,29 +179,41 @@ public class Menu {
 		private void printMenu(List<Item>a)
 		{System.out.println("************** MENU ****************" + '\n');
 		for(Item food:a)  
-		   System.out.println(food.toString());}
-		
-		public int getItem(int index)
-		{int a = 0;
-		for(Item food:menu)
-		{if (food.getIndex() == index)
-			{return a;}
-			a++;}
-
-		return -1;
-
+		   System.out.println(food.toString());
 		}
 		
-
-		public Item getItemByIndex(int a)
+		public Item getItem(int index)
 		{
-//		System.out.println(menu.get(a).toString());
-		return menu.get(a);
+			for(Item food:menu)
+			{
+				if (food.getIndex() == index)
+					return food;
+			}
+			return null;
+		}
+	}
+
+// 		public int getItem(int index)
+// 		{int a = 0;
+// 		for(Item food:menu)
+// 		{if (food.getIndex() == index)
+// 			{return a;}
+// 			a++;}
+
+// 		return -1;
+
+// 		}
+		
+
+// 		public Item getItemByIndex(int a)
+// 		{
+// //		System.out.println(menu.get(a).toString());
+// 		return menu.get(a);
 		
 			
 			
-		}
-		}
+// 		}
+// 		}
 		
 		
 
