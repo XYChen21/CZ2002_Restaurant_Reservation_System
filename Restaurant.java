@@ -156,7 +156,17 @@ public class Restaurant implements Serializable
 			return true;
 		}
 	}
-	
+	public void listAvail()
+	{
+		for (Integer id : tables.keySet())
+		{
+			Table t = tables.get(id);
+			if (t.getAvail())
+				System.out.println("Table ID " + t.getID() + " is available");
+			else
+				System.out.println("Table ID " + t.getID() + " is occupied");
+		}
+	}
 	public TreeSet<Table> checkAvail(LocalDateTime time, int pax)
 	{
 		System.out.println("Checking availability...");
@@ -327,7 +337,7 @@ public class Restaurant implements Serializable
 				r.showAllRes();
 				break;
 			case 7: 
-				
+				r.listAvail();
 				break;
 			case 8:
 				System.out.println("Create an index for the item you want to add.");
