@@ -57,7 +57,12 @@ public class Package extends Food{
 	{return finalPrice;}
 	
 	public double getOriPrice()
-	{return oriPrice;}
+	{oriPrice = 0;
+	for (Item i : menuItemPackage)
+	{oriPrice += i.getPrice();}
+	return oriPrice;
+
+	}
 	
 	public int getIndex()
 	{return index;}
@@ -69,18 +74,15 @@ public class Package extends Food{
 	{this.index = index;}
 	
 	public void setPrice(double price)
-	{oriPrice = 0;
+	{
 	Scanner sc = new Scanner(System.in);
 	double newPrice = price;
 	
-	for (Item i : menuItemPackage)
-		{oriPrice += i.getPrice();}
-	
-	if (price < oriPrice)
+	if (price < getOriPrice())
 	{this.finalPrice = price;}
 	
 	else {
-	while (newPrice > oriPrice)
+	while (newPrice > getOriPrice())
 	{System.out.println("Updated price should be lower than the total price of individual items. Please enter a new price.");
 	newPrice = sc.nextDouble();}
 	

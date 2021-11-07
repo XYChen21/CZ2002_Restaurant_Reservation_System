@@ -72,27 +72,27 @@ public class PackageMenu {
 	k.sort(Comparator.comparing(Package::getIndex));
 	}
 
-	private void printPackageMenu(List<Package>a)
-	{System.out.println("******** PROMOTIONAL MENU **********" + '\n');
-	for(Package pack:a)  
-	   pack.toStringCustom();}
+//	private void printPackageMenu(List<Package>a)
+//	{System.out.println("******** PROMOTIONAL MENU **********" + '\n');
+//	for(Package pack:a)  
+//	   pack.toStringCustom();}
 	
-	public void filterPackageMenuByPrice(double a, double b)
-	{List<Package> menuPackage2 =new ArrayList<Package>(); 
-	boolean empty = true;
-
-	for(Package pack:menuPackage)
-	{if (pack.getPrice() >= a && pack.getPrice()<=b)
-		{menuPackage2.add(pack);
-		empty = false;
-		}}
-
-	sortByDefaultPackage(menuPackage2);
-	printPackageMenu(menuPackage2);
-
-	if (empty == true)
-	{System.out.println("There are no packages within that price range.");}
-	}
+//	public void filterPackageMenuByPrice(double a, double b)
+//	{List<Package> menuPackage2 =new ArrayList<Package>(); 
+//	boolean empty = true;
+//
+//	for(Package pack:menuPackage)
+//	{if (pack.getPrice() >= a && pack.getPrice()<=b)
+//		{menuPackage2.add(pack);
+//		empty = false;
+//		}}
+//
+//	sortByDefaultPackage(menuPackage2);
+//	printPackageMenu(menuPackage2);
+//
+//	if (empty == true)
+//	{System.out.println("There are no packages within that price range.");}
+//	}
 	
 	public Package filterPackageMenu(int a)
 	{for(Package pack:menuPackage)
@@ -133,15 +133,25 @@ public class PackageMenu {
 		for (Package p : menuPackage)
 		{
 			if (p.checkItem(i))
-			{
-				System.out.println("This item is inside package " + p.getName() + ", do you want to update price of this package as well? (1: Yes/2: No)");
-				choice = sc.nextInt();
-				if (choice == 1)
-				{
+			{	if (p.getPrice() < p.getOriPrice())
+					{System.out.println("This item is inside package " + p.getName() + ", do you want to update price of this package as well? (1: Yes/2: No)");
+					choice = sc.nextInt();
+					if (choice == 1)
+						{
+							System.out.println("what is the new price for this package?");
+							double price = sc.nextDouble();
+							p.setPrice(price);
+						}
+					}
+			
+				else
+					{System.out.println("This item is inside package " + p.getName() + ", please update the price of the package since the total price of each item in the package is higher.");
 					System.out.println("what is the new price for this package?");
 					double price = sc.nextDouble();
 					p.setPrice(price);
-				}
+					
+					}
+				
 			}
 		}
 	}

@@ -120,44 +120,44 @@ public class Menu {
 			return false;
 				}	
 
-		public void filterMenuByType(KindofFood k)
-		{List<Item> newMenu=new ArrayList<Item>(); 
-		boolean empty = true;
-		for(Item food:menu)
-			{if (food.getType() == k)
-				{newMenu.add(food);
-				empty = false;
-				}}
+//		public void filterMenuByType(KindofFood k)
+//		{List<Item> newMenu=new ArrayList<Item>(); 
+//		boolean empty = true;
+//		for(Item food:menu)
+//			{if (food.getType() == k)
+//				{newMenu.add(food);
+//				empty = false;
+//				}}
+//
+//		sortByDefault(newMenu);
+//		printMenu(newMenu);
+//
+//		if (empty == true)
+//		{System.out.println("There are no items with that category.");}
+//		}
 
-		sortByDefault(newMenu);
-		printMenu(newMenu);
-
-		if (empty == true)
-		{System.out.println("There are no items with that category.");}
-		}
-
-		public void filterMenuByPrice(Double a, Double b)
-		{List<Item> newMenu2=new ArrayList<Item>(); 
-		boolean empty = true;
-
-		for(Item food:menu)
-		{if (food.getPrice() >= a && food.getPrice()<=b)
-			{newMenu2.add(food);
-			empty = false;
-			}}
-
-		sortByDefault(newMenu2);
-		printMenu(newMenu2);
-
-		if (empty == true)
-		{System.out.println("There are no items within that price range.");}
-		}
+//		public void filterMenuByPrice(Double a, Double b)
+//		{List<Item> newMenu2=new ArrayList<Item>(); 
+//		boolean empty = true;
+//
+//		for(Item food:menu)
+//		{if (food.getPrice() >= a && food.getPrice()<=b)
+//			{newMenu2.add(food);
+//			empty = false;
+//			}}
+//
+//		sortByDefault(newMenu2);
+//		printMenu(newMenu2);
+//
+//		if (empty == true)
+//		{System.out.println("There are no items within that price range.");}
+//		}
 
 
-		public void sortMenuByAlphabet() {
-			menu.sort(Comparator.comparing(Item::getName));
-			printMenu(menu);
-		}
+//		public void sortMenuByAlphabet() {
+//			menu.sort(Comparator.comparing(Item::getName));
+//			printMenu(menu);
+//		}
 
 
 		public void viewMenu()
@@ -171,10 +171,10 @@ public class Menu {
 		{k.sort(Comparator.comparing(Item::getIndex));
 		}
 
-		private void printMenu(List<Item>a)
-		{System.out.println("************** MENU ****************" + '\n');
-		for(Item food:a)  
-		   System.out.println(food.toString());}
+//		private void printMenu(List<Item>a)
+//		{System.out.println("************** MENU ****************" + '\n');
+//		for(Item food:a)  
+//		   System.out.println(food.toString());}
 		
 		public Item getItem(int index)
 		{
