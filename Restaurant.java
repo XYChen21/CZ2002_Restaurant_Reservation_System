@@ -533,6 +533,7 @@ public class Restaurant implements Serializable
 				if(proceed) {
 					boolean isMember = r.listofMembers.paymentMembership(); 
 					int releaseTable = paymentOrder.printInvoice(isMember);
+					tables.get(releaseTable).vacate();
 				}
 				else {
 					System.out.println("You have no orders at the moment, unable to print invoice.");
