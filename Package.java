@@ -1,4 +1,4 @@
-package projectoop;
+package restaurant;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Package extends Food{
 	private List<Item> menuItemPackage;
 	private String name;
-	private double finalPrice = Double.MAX_VALUE;
+	private double finalPrice;
 	private double oriPrice;
 	private int index;
 	
@@ -25,20 +25,6 @@ public class Package extends Food{
 	{
 		menuItemPackage.add(i);}
 
-
-	
-	
-	
-	public void setPrice()
-	{oriPrice = 0;
-	for(Item food:menuItemPackage)
-	{oriPrice += food.getPrice();}
-		
-	if (finalPrice>=oriPrice)
-	{
-	finalPrice = oriPrice*0.90;}
-	
-	}
 	
 
 	
@@ -83,18 +69,26 @@ public class Package extends Food{
 	{this.index = index;}
 	
 	public void setPrice(double price)
+	{oriPrice = 0;
+	Scanner sc = new Scanner(System.in);
+	double newPrice = price;
+	
+	for (Item i : menuItemPackage)
+		{oriPrice += i.getPrice();}
+	
+	if (price < oriPrice)
 	{this.finalPrice = price;}
 	
-	public int getItemPackage(int index)
-	{int a = 0;
-	for(Item food:menuItemPackage)
-	{if (food.getIndex() == index)
-		{return a;}
-		a++;}
-
-	return -1;
-
+	else {
+	while (newPrice > oriPrice)
+	{System.out.println("Updated price should be lower than the total price of individual items. Please enter a new price.");
+	newPrice = sc.nextDouble();}
+	
+	this.finalPrice = newPrice;}
+	
 	}
+	
+
 	
 	public boolean isNull()
 	{int a = 0;
@@ -105,13 +99,6 @@ public class Package extends Food{
 	else
 		return false;}
 	
-
-	public Item getItemPackageByIndex(int a) {
-//	{
-//	System.out.println(menuItemPackage.get(a).toString());
-	return menuItemPackage.get(a);
-		
-	}
 	
 	public void toStringCustom() {
 	System.out.println("Package Index = " + index + '\n' +
@@ -119,14 +106,21 @@ public class Package extends Food{
 		      "Original Package Price = " + oriPrice + '\n' +
 		      "Discounted Package Price = " + finalPrice + '\n');
 	  for(Item food:menuItemPackage)  
-		    System.out.println(food.toStringCust());
+		    System.out.println(food.toString());
 	  System.out.println("*************************************");
 	  }
 	
 	public void sort()
 	{menuItemPackage.sort(Comparator.comparing(Item::getIndex));}
 	
+	public boolean checkItem(Item i)
+	{for(Item food:menuItemPackage) 
+		{if (i == food)
+			{return true;}}
+	
+	return false;
+		
+		
+	}
+	
 }
-
-
-

@@ -1,4 +1,4 @@
-package projectoop;
+package restaurant;
 
 public class Food {
 

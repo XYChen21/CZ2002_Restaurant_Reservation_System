@@ -1,11 +1,11 @@
-package projectoop;
+package restaurant;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-import projectoop.Item.KindofFood;
+import restaurant.Item.KindofFood;
 
 public class Menu {
 		private List<Item> menu; 
@@ -54,13 +54,8 @@ public class Menu {
 		{System.out.println("Item with that index does not exist. Nothing is removed.");}
 		}
 		
-		public void updateMenu()
+		public boolean updateMenu(Item a)
 		{Scanner sc = new Scanner(System.in);
-		System.out.println("Which item in the menu do you want to update? Enter the item index.");
-		int index = sc.nextInt();
-		int result = getItem(index);
-		if (result != -1)
-			{Item a = getItemByIndex(result);
 			System.out.println("What do you want to update? Enter 1 for Index, 2 for Name, 3 for Description, 4 for Price and 5 for Type of food.");
 			int scan = sc.nextInt();
 			
@@ -77,10 +72,12 @@ public class Menu {
 				if (duplicate == false)
 				{a.setIndex(b);
 				System.out.println("Updated successfully");
+				return false;
 				}
 
 				else
-				{System.out.println("Duplicate index of items in this menu.");}
+				{System.out.println("Duplicate index of items in this menu.");
+				return false;}
 				}
 			
 			else if (scan == 2)
@@ -89,6 +86,7 @@ public class Menu {
 				String b = sc.nextLine();
 				a.setName(b);
 				System.out.println("Updated successfully");
+				return false;
 				}
 			
 			else if (scan == 3)
@@ -97,6 +95,7 @@ public class Menu {
 				String b = sc.nextLine();
 				a.setDescription(b);
 				System.out.println("Updated successfully");
+				return false;
 				
 				
 				}
@@ -105,7 +104,9 @@ public class Menu {
 				{System.out.println("Enter the new price you want to update the item with.");
 				double b = sc.nextDouble();
 				a.setPrice(b);
+				
 				System.out.println("Updated successfully");
+				return true;
 				}
 			
 			else if (scan == 5)
@@ -113,17 +114,11 @@ public class Menu {
 				int b = sc.nextInt();
 				KindofFood f= KindofFood.getTypeByOrdinal(b);
 				a.setType(f);
-				System.out.println("Updated successfully");}
+				System.out.println("Updated successfully");
+				return false;}
+			
+			return false;
 				}	
-		
-		else
-		{System.out.println("There is no item with such index.");}
-			
-			
-			
-			
-			
-		}
 
 		public void filterMenuByType(KindofFood k)
 		{List<Item> newMenu=new ArrayList<Item>(); 
@@ -181,27 +176,13 @@ public class Menu {
 		for(Item food:a)  
 		   System.out.println(food.toString());}
 		
-		public int getItem(int index)
-		{int a = 0;
-		for(Item food:menu)
-		{if (food.getIndex() == index)
-			{return a;}
-			a++;}
-
-		return -1;
-
-		}
-		
-
-		public Item getItemByIndex(int a)
+		public Item getItem(int index)
 		{
-//		System.out.println(menu.get(a).toString());
-		return menu.get(a);
-		
-			
-			
+			for(Item food:menu)
+			{
+				if (food.getIndex() == index)
+					return food;
+			}
+			return null;
 		}
 		}
-		
-		
-

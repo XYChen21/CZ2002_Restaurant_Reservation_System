@@ -1,11 +1,11 @@
-package projectoop;
+package restaurant;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 
-import projectoop.Item.KindofFood;
+import restaurant.Item.KindofFood;
 
 public class PackageMenu {
 	public List<Package> menuPackage;
@@ -13,10 +13,10 @@ public class PackageMenu {
 	public PackageMenu()
 	{this.menuPackage=new ArrayList<Package>();}
 	
-	public void sortPackageMenuByAlphabet() {
-		menuPackage.sort(Comparator.comparing(Package::getName));
-		printPackageMenu(menuPackage);
-	}
+//	public void sortPackageMenuByAlphabet() {
+//		menuPackage.sort(Comparator.comparing(Package::getName));
+//		printPackageMenu(menuPackage);
+//	}
 	
 	public void addPackageMenu(Package p)
 	{boolean duplicate = false;
@@ -94,43 +94,26 @@ public class PackageMenu {
 	{System.out.println("There are no packages within that price range.");}
 	}
 	
-	public int filterPackageMenuInt(int a)
-	{int count = 0;
-	for(Package pack:menuPackage)
+	public Package filterPackageMenu(int a)
+	{for(Package pack:menuPackage)
 	{if (pack.getIndex() == a)
-		{return count;
+		{return pack;
 		}
-	count++;
 	}
-	return -1;
+	return null;
 	
-	}
-	
-	
-	public Package filterPackageMenuByIndex(int a)
-	{return menuPackage.get(a);
 	}
 	
 	
-	public int getPackage(int index)
-	{int a = 0;
-	for(Package pack:menuPackage)
+	public Package getPackage(int index)
+	{for(Package pack:menuPackage)
 	{if (pack.getIndex() == index)
-		{return a;}
-		a++;}
+		{return pack;}}
 
-	return -1;
+	return null;
 
 	}
 	
-
-	public Package getPackageByIndex(int a) {
-//	{menuPackage.get(a).toStringCustom();
-	return menuPackage.get(a);
-	
-		
-		
-	}
 	
 	public void sort()
 	{for (Package pack:menuPackage)
@@ -138,18 +121,39 @@ public class PackageMenu {
 		
 	}
 	
-	public void setAllPackagesPrice()
-	{for (Package pack:menuPackage)
-		pack.setPrice();}
+//	public void setAllPackagesPrice()
+//	{for (Package pack:menuPackage)
+//		pack.setPrice();}
 	
 
+	public void updateItemInPackage(Item i)
+	{
+		Scanner sc = new Scanner(System.in);
+		int choice;
+		for (Package p : menuPackage)
+		{
+			if (p.checkItem(i))
+			{
+				System.out.println("This item is inside package " + p.getName() + ", do you want to update price of this package as well? (1: Yes/2: No)");
+				choice = sc.nextInt();
+				if (choice == 1)
+				{
+					System.out.println("what is the new price for this package?");
+					double price = sc.nextDouble();
+					p.setPrice(price);
+				}
+			}
+		}
+	}
+	
 	public void updatePackage()
 	{Scanner sc = new Scanner(System.in);
 	System.out.println("Which package do you want to update? Enter the index of the package.");
 	int index = sc.nextInt();
-	int result = getPackage(index);
-	if (result != -1)
-		{Package a = getPackageByIndex(result);
+	if (getPackage(index)!= null)
+		{Package a = getPackage(index);
+	
+//		if (a != null)
 		System.out.println("What do you want to update? Enter 1 for Index, 2 for Name, 3 for Price.");
 		int scan = sc.nextInt();
 		
@@ -172,13 +176,8 @@ public class PackageMenu {
 		else if (scan == 3)
 			{System.out.println("Enter the new price you want to update the item with. Make sure it's lower than the total price of the items inside this package.");
 			double b = sc.nextDouble();
-			if (b< a.getOriPrice())
-				{a.setPrice(b);
-				System.out.println("Updated successfully");}
-			
-			else
-			{System.out.println("The package price should be lower than the total price of the items inside this package.");}
-			}}
+			a.setPrice(b);}
+	
 		
 	
 	else
@@ -188,10 +187,11 @@ public class PackageMenu {
 		
 		
 		
-	}
-	
-	
-	
+	}}
 
 
 }
+	
+	
+	
+

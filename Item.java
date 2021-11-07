@@ -1,6 +1,4 @@
-package projectoop;
-
-
+package restaurant;
 
 public class Item extends Food implements Comparable<Item>{
 	public enum KindofFood {
@@ -82,16 +80,6 @@ public String toString() {
       "Type = " + type + '\n'
       ;
 }
-
-public String toStringCust() {
-	  return 
-	      "Item Index = " + index + '\n' +
-	      "Name = " + name + '\n' +
-	      "Description = " + description + '\n' +
-	      "Price = " + price + '\n' +
-	      "Type = " + type + '\n' 
-	      ;
-	}
 
 
 @Override
