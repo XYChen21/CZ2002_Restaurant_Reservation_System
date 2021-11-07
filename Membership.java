@@ -2,70 +2,73 @@ package restaurant;
 
 import java.util.HashMap;
 import java.util.Scanner;
-
-public class Membership {
+import java.io.*;
+public class Membership implements Serializable{
 	private HashMap<String, Member> memberArray; // Key: name; Value: memberHP 
 	
 	public Membership(){
 		memberArray = new HashMap<String, Member>();
 	}
 	
-//	public boolean paymentMembership(boolean isMember) {
-//		Scanner sc = new Scanner(System.in);
-//		int contactNo;
-//		String name;
-//		boolean membership;
-//		System.out.println("Welcome to payment!");
-//		if (isMember)
-//		while (true) {
-//			System.out.println("Are you a member? (Y/N)");
-//			char c = sc.next().charAt(0);
-//			if (c == 'Y' || c == 'y') { // Verify membership to apply membership discount
-//				System.out.println("We would like to verify your membership. May we have your contact number please?");
-//				contactNo = sc.nextInt();
-//				System.out.println("May we have your name please?");
-//				name = sc.next();
-////				Member m = new Member(contactNo, name);
-//				membership = isMember(m);
-//				if (membership) {return true;}
-//				else {
-//					System.out.println("Invalid name or contact number entered. Please try again.");
-//					continue;
-//				}
-//			}
-//			else if (c == 'N' || c == 'n'){ // Customer is not a member -> ask if customer wants to join as a member
-//				System.out.println("Would you like to join us as a member? (Y/N)");
-//				while (true) {
-//					char ans = sc.next().charAt(0);
-//					if (ans == 'Y' || ans == 'y') {
-//						System.out.println("May we have your contact number please?");
-//						contactNo = sc.nextInt();
-//						System.out.println("May we have your name please?");
-//						name = sc.next();
+	public boolean paymentMembership() {
+		Scanner sc = new Scanner(System.in);
+		String contactNo;
+		String name;
+		boolean membership;
+		System.out.println("Welcome to payment!");
+		
+		while (true) {
+			System.out.println("Are you a member? (Y/N)");
+			char c = sc.next().charAt(0);
+			if (c == 'Y' || c == 'y') { // Verify membership to apply membership discount
+				System.out.println("We would like to verify your membership. May we have your contact number please?");
+				contactNo = sc.next();
+				System.out.println("May we have your name please?");
+				name = sc.next();
+//				Member m = new Member(contactNo, name);
+				membership = isMember(name, contactNo);
+				if (membership) {return true;}
+				else {
+					System.out.println("Invalid name or contact number entered. Please try again.");
+					continue;
+				}
+			}
+			else if (c == 'N' || c == 'n'){ // Customer is not a member -> ask if customer wants to join as a member
+				System.out.println("Would you like to join us as a member? (Y/N)");
+				while (true) {
+					char ans = sc.next().charAt(0);
+					if (ans == 'Y' || ans == 'y') {
+						System.out.println("May we have your contact number please?");
+						contactNo = sc.next();
+						System.out.println("May we have your name please?");
+						name = sc.next();
 //						Member toAdd = new Member(contactNo, name);
-//						membership = addMember(toAdd);
-//						if (membership) {return true;}
-//						else {
-//							System.out.println("Enter 'Y' to re-enter your particulars. Enter 'N' to quit.");
+						membership = addMember(name, contactNo);
+						if (membership) {return true;}
+						else {
+							System.out.println("Enter 'Y' to re-enter your particulars. Enter 'N' to quit.");
+							continue;
 //							ans = sc.next().charAt(0);
 //							if (ans == 'Y' || ans == 'y') {continue;}
 //							else {return false;}
-//						}
-//					}
-//					else if (ans == 'N' || ans == 'n') {
-//						System.out.println("We will proceed to payment now.");
-//						return false;
-//					}
-//					else {
-//						System.out.println("Invalid response given. Please input (Y/N) only.");
-//						continue;
-//					}
-//				}
-//				
-//			}
-//			
-//		}
-//	} 
+						}
+					}
+					else if (ans == 'N' || ans == 'n') {
+						System.out.println("We will proceed to payment now.");
+						return false;
+					}
+					else {
+						System.out.println("Invalid response given. Please input (Y/N) only.");
+						continue;
+					}
+				}
+			}
+			else {
+				System.out.println("Invalid response given. Please input (Y/N) only.");
+				continue;
+			}
+		}
+	} 
 	
 	public boolean addMember(String name, String contact) {
 		Member m = memberArray.get(name+contact);

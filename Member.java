@@ -1,6 +1,8 @@
 package restaurant;
 
-public class Member {
+import java.io.Serializable;
+
+public class Member implements Serializable{
 	private String memberHP;
 	private String memberName;
 	

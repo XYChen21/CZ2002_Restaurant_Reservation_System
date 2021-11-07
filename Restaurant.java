@@ -10,9 +10,9 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import restaurant.Item.KindofFood;
 
-
 public class Restaurant implements Serializable
 {	
+	private ArrayList<Order> ordersbyID;
 	private Menu m;
 	private PackageMenu pack;
 	private int numofOrders;
@@ -21,10 +21,10 @@ public class Restaurant implements Serializable
 	private StaffRoster listofStaff;
 	private Membership listofMembers;
 	private static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+	private Revenue revenue;
 	public Restaurant()
-	{
-		// put codes to read in serialisation file
-		
+	{	
+		ordersbyID = new ArrayList<Order>();
 		numofOrders = 0;
 		tables = new HashMap<Integer, Table>();
 		allReservations = new HashMap<String, Reservation>();
@@ -56,15 +56,13 @@ public class Restaurant implements Serializable
 		listofStaff.addStaff(staff4);
 		listofStaff.addStaff(staff5);
 		
-//		Member mem1 = new Member("+6587005902", "Jac");
-//		Member mem2 = new Member("+6584084110", "Val");
-//		Member mem3 = new Member("+6586163328", "lsy");
-//		Member mem4 = new Member("+6591307633", "XY");
-		listofMembers.addMember("+6587005902", "Jac");
-		listofMembers.addMember("+6584084110", "Val");
-		listofMembers.addMember("+6586163328", "lsy");
-		listofMembers.addMember("+6591307633", "XY");
+		listofMembers.addMember("Jac", "+6587005902");
+		listofMembers.addMember("Val", "+6584084110");
+		listofMembers.addMember("lsy", "+6586163328");
+		listofMembers.addMember("XY", "+6591307633");
 		
+
+		revenue = new Revenue(new ArrayList<Order>(), new HashMap<Food, Integer>());
 		
 	}
 	public ScheduledFuture<?> scheduleCancel(LocalDateTime scheduleTime, Runnable task)
@@ -213,7 +211,7 @@ public class Restaurant implements Serializable
 			t.addReservation(res);
 			allReservations.put(name+contact, res);
 			
-//			Notification.sendSMS(res.toString(), contact);
+			Notification.sendSMS(res.toString(), contact);
 			
 			return true;
 		}
@@ -266,17 +264,30 @@ public class Restaurant implements Serializable
 	
 	public static void main(String[] args)
 	{
-		Restaurant r = new Restaurant();
+		Restaurant r = null;
+		try {
+			FileInputStream fs = new FileInputStream("restaurant.ser");
+			ObjectInputStream is = new ObjectInputStream(fs);
+			r = (Restaurant) is.readObject(); // need cast because we'll get back type Object
+			is.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+//		if (r == null)
+//		{
+//			System.out.println("null");
+//			return;
+//		}
+//		Restaurant r = new Restaurant();
 		Reservation res;
-		ArrayList<Order> ordersbyID = new ArrayList<Order>();
 		int choice;
-		Scanner sc = new Scanner(System.in); 
+		Scanner sc = new Scanner(System.in);
 		do {
-			System.out.println("(1)Dine in (without reservation)"); 
-			System.out.println("(2)Dine in (with reservation)"); 
-			System.out.println("(3)Make a reservation"); 
-			System.out.println("(4)Remove a reservation"); 
-			System.out.println("(5)Find a reservation"); 
+			System.out.println("(1)Dine in (without reservation)");
+			System.out.println("(2)Dine in (with reservation)");
+			System.out.println("(3)Make a reservation");
+			System.out.println("(4)Remove a reservation");
+			System.out.println("(5)Find a reservation");
 			System.out.println("(6)Show all reservations");
 			System.out.println("(7)Check table availability");
 			System.out.println("(8)Create menu item");
@@ -292,8 +303,8 @@ public class Restaurant implements Serializable
 			System.out.println("(18)Remove item/s or package/s from order");
 			System.out.println("(19)Print order invoice");
 			System.out.println("(20)Print sale revenue report by period(eg day or month)");
-			System.out.println("(21)Close"); 
-			System.out.print("Enter the number of your choice: "); 
+			System.out.println("(21)Close");
+			System.out.print("Enter the number of your choice: ");
 			choice = sc.nextInt();
 			sc.nextLine(); // consume newline char
 			switch (choice) {
@@ -303,17 +314,17 @@ public class Restaurant implements Serializable
 				sc.nextLine();
 				r.DineIn(pax);
 				break;
-			case 2: 
+			case 2:
 				System.out.print("Name: ");
 				String name = sc.nextLine();
 				System.out.print("Contact number: ");
 				String contact = sc.nextLine();
 				r.reservedDineIn(name, contact);
 				break;
-			case 3: 
+			case 3:
 				r.makeReservation();
 				break;
-			case 4: 
+			case 4:
 				System.out.print("Name: ");
 				name = sc.nextLine();
 				System.out.print("Contact number: ");
@@ -321,7 +332,7 @@ public class Restaurant implements Serializable
 				res = r.findRes(name, contact);
 				r.removeReservation(res);
 				break;
-			case 5: 
+			case 5:
 				System.out.print("Name: ");
 				name = sc.nextLine();
 				System.out.print("Contact number: ");
@@ -332,10 +343,10 @@ public class Restaurant implements Serializable
 				else
 					System.out.println(res.toString());
 				break;
-			case 6: 
+			case 6:
 				r.showAllRes();
 				break;
-			case 7: 
+			case 7:
 				r.listAvail();
 				break;
 			case 8:
@@ -348,31 +359,31 @@ public class Restaurant implements Serializable
 				String b = sc.nextLine();
 				System.out.println("What is the price?");
 				double c = sc.nextDouble();
-				System.out.println("What is the type of the item?  1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
+				System.out.println(
+						"What is the type of the item?  1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
 				int d = sc.nextInt(); // Assume userInput = 0
-				KindofFood f= KindofFood.getTypeByOrdinal(d);
-		
+				KindofFood f = KindofFood.getTypeByOrdinal(d);
+
 				Item i = new Item(a, s, b, c, f);
 				r.m.addMenu(i);
 				break;
 			case 9:
 				System.out.println("Which item in the menu do you want to update? Enter the item index.");
 				int indexIt = sc.nextInt();
-				if (r.m.getItem(indexIt) != null)
-					{Item it = r.m.getItem(indexIt);
+				if (r.m.getItem(indexIt) != null) {
+					Item it = r.m.getItem(indexIt);
 					boolean resu = r.m.updateMenu(it);
-					
-					if (resu == true)
-					{
+
+					if (resu == true) {
 						r.pack.updateItemInPackage(it);
 					}
-					
-					}
-				
-				else
-				{System.out.println("There is no item with such index.");}
-				
-				
+
+				}
+
+				else {
+					System.out.println("There is no item with such index.");
+				}
+
 				break;
 			case 10:
 				System.out.println("Enter the index of the item you want to remove.");
@@ -388,90 +399,103 @@ public class Restaurant implements Serializable
 				System.out.println("What is the name of this new package?");
 				String namePackage = sc.nextLine();
 				Package p = new Package(namePackage, ind);
-				
-				for (int count = 0; count<number; count++)
-				{System.out.println("Which item from the menu do you want to add into this package? Enter the index of the item.");
-				int index = sc.nextInt();
-				if (r.m.getItem(index) != null)
-					{Item item = r.m.getItem(index);
-					p.addPackageItem(item);
-					
+
+				for (int count = 0; count < number; count++) {
+					System.out.println(
+							"Which item from the menu do you want to add into this package? Enter the index of the item.");
+					int index = sc.nextInt();
+					if (r.m.getItem(index) != null) {
+						Item item = r.m.getItem(index);
+						p.addPackageItem(item);
+
+					} else {
+						System.out.println("There is no item from the menu with this index number.");
 					}
-				else
-				{System.out.println("There is no item from the menu with this index number.");
-				}
-				
-				
+
 				}
 				System.out.println("What is the price of this package?");
 				double price = sc.nextDouble();
 				p.setPrice(price);
-				
+
 				r.pack.addPackageMenu(p);
 				break;
 			case 12:
 				r.pack.updatePackage();
 				break;
 			case 13:
-				System.out.println("Do you want to remove just an item from an existing promotional package or remove a package entirely? Enter 1 for former option, 2 for latter.");
+				System.out.println(
+						"Do you want to remove just an item from an existing promotional package or remove a package entirely? Enter 1 for former option, 2 for latter.");
 				int opt = sc.nextInt();
-				if (opt == 1)
-					{Package tempPack = null;
-					System.out.println("From which package do you want to remove an item from? Enter the index of the package.");
+				if (opt == 1) {
+					Package tempPack = null;
+					System.out.println(
+							"From which package do you want to remove an item from? Enter the index of the package.");
 					int removedNo = sc.nextInt();
-					if (r.pack.filterPackageMenu(removedNo) != null)
-						{tempPack = r.pack.filterPackageMenu(removedNo);
+					if (r.pack.filterPackageMenu(removedNo) != null) {
+						tempPack = r.pack.filterPackageMenu(removedNo);
 						System.out.println("Enter the index of the item you want to remove from this package.");
 						int index = sc.nextInt();
 						tempPack.removePackageItem(index);
 						System.out.println("What is the price of this updated package?");
 						double priceUpdated = sc.nextDouble();
 						tempPack.setPrice(priceUpdated);
-						if (tempPack.isNull() == true)
-							{r.pack.removePackageMenu(tempPack.getIndex());}
+						if (tempPack.isNull() == true) {
+							r.pack.removePackageMenu(tempPack.getIndex());
 						}
-					
-					else
-					{System.out.println("There is no package with that index number.");
-					}}
-				else if (opt == 2)
-					{System.out.println("Which package do you want to completely remove? Enter the index of the package.");
+					}
+
+					else {
+						System.out.println("There is no package with that index number.");
+					}
+				} else if (opt == 2) {
+					System.out
+							.println("Which package do you want to completely remove? Enter the index of the package.");
 					int removed = sc.nextInt();
-					r.pack.removePackageMenu(removed);}
+					r.pack.removePackageMenu(removed);
+				}
 				break;
 			case 14:
 				r.m.viewMenu();
 				r.pack.viewPackageMenu();
 				break;
-			case 15: 
+			case 15:
 				System.out.println("Creating order now...");
 				System.out.println("Please enter table number allocated: ");
 				int tableID = sc.nextInt();
 				String randStaff = r.listofStaff.whoToServe();
 				Order newOrder = new Order(tableID, r.numofOrders, randStaff);
-				ordersbyID.add(newOrder); // index of the Order is numofOrders
-				System.out.println("New order for table " + tableID + " with orderID " + r.numofOrders + " has been successfully created.");
+				r.ordersbyID.add(newOrder); // index of the Order is numofOrders
+				System.out.println("New order for table " + tableID + " with orderID " + r.numofOrders
+						+ " has been successfully created.");
 				r.numofOrders++;
+
+				r.revenue.addOrder(newOrder);
 				break;
 			case 16:
 				System.out.println("Enter orderID given during order creation: ");
 				int viewOrderID = sc.nextInt();
-				Order viewOrderSummary = ordersbyID.get(viewOrderID);
-				System.out.println("======== Current order summary ========");
-				viewOrderSummary.viewOrder();
+				Order viewOrderSummary = null;
+				try {
+					viewOrderSummary = r.ordersbyID.get(viewOrderID);
+					System.out.println("======== Current order summary ========");
+					viewOrderSummary.viewOrder();
+				} catch (IndexOutOfBoundsException e) {
+					System.out.println(e.getMessage());
+				}
 				break;
 			case 17:
 				System.out.println("Add to order now in service!");
 				System.out.println("Enter orderID given during order creation: ");
 				int addOrderID = sc.nextInt();
-				Order addToOrder = ordersbyID.get(addOrderID);
+				Order addToOrder = r.ordersbyID.get(addOrderID);
 				System.out.println("Select (1) Add to order (2) Quit");
 				c = sc.nextInt();
 				while (c == 1) {
 					System.out.println("Enter type of meal: (1) Ala carte (2) Promotional set");
 					int type = sc.nextInt();
 					if (type != 1 && type != 2) {
-						System.out.println("Invalid selection. Enter either (1) for ala carte or (2) for promotional set. Please re-enter your selection."); 
+						System.out.println(
+								"Invalid selection. Enter either (1) for ala carte or (2) for promotional set. Please re-enter your selection.");
 						continue;
 					}
 					System.out.println("Enter the corresponding food index: ");
@@ -481,8 +505,7 @@ public class Restaurant implements Serializable
 					if (type == 1) {
 						Item addItem = r.m.getItem(foodID);
 						addToOrder.addOrder(addItem, quantity);
-					}
-					else {
+					} else {
 						Package addP = r.pack.getPackage(foodID);
 						addToOrder.addOrder(addP, quantity);
 					}
@@ -495,14 +518,15 @@ public class Restaurant implements Serializable
 				System.out.println("Remove from order now in service!");
 				System.out.println("Enter orderID given during order creation: ");
 				int removeOrderID = sc.nextInt();
-				Order removeFrOrder = ordersbyID.get(removeOrderID);
+				Order removeFrOrder = r.ordersbyID.get(removeOrderID);
 				System.out.println("Select (1) Remove from order (2) Quit");
 				c = sc.nextInt();
 				while (c == 1) {
 					System.out.println("Enter type of meal: (1) Ala carte (2) Promotional set");
 					int type = sc.nextInt();
 					if (type != 1 && type != 2) {
-						System.out.println("Invalid selection. Enter either (1) for ala carte or (2) for promotional set. Please re-enter your selection."); 
+						System.out.println(
+								"Invalid selection. Enter either (1) for ala carte or (2) for promotional set. Please re-enter your selection.");
 						continue;
 					}
 					System.out.println("Enter the corresponding food index: ");
@@ -512,8 +536,7 @@ public class Restaurant implements Serializable
 					if (type == 1) {
 						Item removeItem = r.m.getItem(foodID);
 						removeFrOrder.removeOrder(removeItem, quantity);
-					}
-					else {
+					} else {
 						Package removeP = r.pack.getPackage(foodID);
 						removeFrOrder.removeOrder(removeP, quantity);
 					}
@@ -523,75 +546,46 @@ public class Restaurant implements Serializable
 				System.out.println("Quitting from remove from order process...");
 				break;
 			case 19:
-				boolean isMem = false;
-				String contactNo;
+//				boolean isMem = false;
+//				String contactNo;
 				System.out.println("Enter orderID given during order creation: ");
 				int paymentOrderID = sc.nextInt();
-				Order paymentOrder = ordersbyID.get(paymentOrderID);
-				boolean proceed = paymentOrder.haveOrder();
-				if(proceed) {
-					while (true)
-					{
-				
-						System.out.println("Are you a member? (Y/N)");
-						char mem = sc.next().charAt(0);
-						if (mem == 'Y' || mem == 'y') {
-							System.out.println("We would like to verify your membership. May we have your contact number please?");
-							contactNo = sc.next();
-							System.out.println("May we have your name please?");
-							name = sc.next();
-							isMem = r.listofMembers.isMember(name, contactNo);
-							if (isMem) break;
-							else continue;
-						}
-						else if (mem == 'N' || mem == 'n'){ // Customer is not a member -> ask if customer wants to join as a member
-							System.out.println("Would you like to join us as a member? (Y/N)");
-							while (true) {
-								char ans = sc.next().charAt(0);
-								if (ans == 'Y' || ans == 'y') {
-									System.out.println("May we have your contact number please?");
-									contactNo = sc.next();
-									System.out.println("May we have your name please?");
-									name = sc.next();
-	//								Member toAdd = new Member(contactNo, name);
-									isMem = r.listofMembers.addMember(name, contactNo);
-	//								membership = addMember(toAdd);
-									if (!isMem) {
-										System.out.println("Enter 'Y' to re-enter your particulars. Enter 'N' to quit.");
-										ans = sc.next().charAt(0);
-										if (ans == 'Y' || ans == 'y') {continue;}
-										else break;
-									}
-								}
-								else if (ans == 'N' || ans == 'n') {
-									System.out.println("We will proceed to payment now.");
-									break;
-								}
-								else {
-									System.out.println("Invalid response given. Please input (Y/N) only.");
-									continue;
-								}
-							}
-							break;
-						}
-					}
-//					boolean isMember = r.listofMembers.paymentMembership(); 
-					int releaseTable = paymentOrder.printInvoice(isMem);
+				Order paymentOrder;
+				try {
+					paymentOrder = r.ordersbyID.get(paymentOrderID);
+				} catch (IndexOutOfBoundsException e) {
+					System.out.println(e.getMessage());
+					break;
 				}
-				else {
+				if (paymentOrder.haveOrder()) {
+					if (paymentOrder.paid() == true)
+						System.out.println("The order has already been paid");
+					else {
+						boolean isMem = r.listofMembers.paymentMembership();
+						int releaseTable = paymentOrder.printInvoice(isMem);
+						Table t = r.tables.get(releaseTable);
+						t.vacate();
+					}
+				} else {
 					System.out.println("You have no orders at the moment, unable to print invoice.");
 				}
 				break;
 			case 20:
-				
+				System.out.println("Specify a period (dd/MM/yyyy) - start:");
+				LocalDateTime start = LocalDateTime.parse(sc.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+				System.out.println("Specify a period (dd/MM/yyyy) - end:");
+				LocalDateTime end = LocalDateTime.parse(sc.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+				r.revenue.printRevenueReport(start, end);
 				break;
-			case 21: 
+			case 21:
 				System.out.println("Program terminating ....");
+				
 				r.close();
 				break;
 			}
-			System.out.println(""); 
+			System.out.println("");
 		} while (choice < 21);
-		
+
 	}
 }

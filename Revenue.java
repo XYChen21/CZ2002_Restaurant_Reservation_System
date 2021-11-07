@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.io.*;
 
-
-public class Revenue {
+public class Revenue implements Serializable {
     /**
      * orders:
      *      ArrayList of orders
@@ -17,13 +17,11 @@ public class Revenue {
      *      HashMap<Food_object, quantities> of individual salePkgs
      */  
     private ArrayList<Order> orders;
-    private HashMap<Item, Integer> saleItems;
-    private HashMap<Package, Integer> salePkgs;
+    private HashMap<Food, Integer> saleItems;
 
-    public Revenue(ArrayList<Order> orders, HashMap<Item, Integer> h, HashMap<Package, Integer> p){
+    public Revenue(ArrayList<Order> orders, HashMap<Food, Integer> h){
         this.orders = orders;
         this.saleItems = h;
-        this.salePkgs = p;
     }
 
     public void printRevenueReport(LocalDateTime start, LocalDateTime end) {
@@ -37,12 +35,7 @@ public class Revenue {
         System.out.println("From \t" + start.toString() + "To \t" + end.toString());
         System.out.println();
         System.out.println("------------------------------------------------");
-        for(Map.Entry<Item, Integer> i: temp.saleItems.entrySet()){
-            p = i.getValue() * i.getValue() * i.getKey().getPrice();
-            System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
-            total += p;
-        }
-        for(Map.Entry<Package, Integer> i: temp.salePkgs.entrySet()){
+        for(Map.Entry<Food, Integer> i: temp.saleItems.entrySet()){
             p = i.getValue() * i.getValue() * i.getKey().getPrice();
             System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
             total += p;
@@ -60,12 +53,7 @@ public class Revenue {
         System.out.println("        ********************************        ");
         System.out.println();
         System.out.println("------------------------------------------------");
-        for(Map.Entry<Item, Integer> i: temp.saleItems.entrySet()){
-            p = i.getValue() * i.getValue() * i.getKey().getPrice();
-            System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
-            total += p;
-        }
-        for(Map.Entry<Package, Integer> i: temp.salePkgs.entrySet()){
+        for(Map.Entry<Food, Integer> i: temp.saleItems.entrySet()){
             p = i.getValue() * i.getValue() * i.getKey().getPrice();
             System.out.println(i.getValue().toString() + "\t" + i.getKey().getName() + "\t\t\t" + p);
             total += p;
@@ -89,15 +77,10 @@ public class Revenue {
 
     public void addOrder(Order o) {
         this.orders.add(o);
-        for (Map.Entry<Item, Integer> entry : o.ordersAC.entrySet()) {
-            Item key = entry.getKey();
+        for (Map.Entry<Food, Integer> entry : o.ordersFood.entrySet()) {
+            Food key = entry.getKey();
             int value = entry.getValue();
             this.getSaleItems().put(key, value + getSaleItems().getOrDefault(key, 0));
-        }
-        for (Map.Entry<Package, Integer> entry : o.ordersP.entrySet()) {
-            Package key = entry.getKey();
-            int value = entry.getValue();
-            this.getSalePkgs().put(key, value + getSaleItems().getOrDefault(key, 0));
         }
     }
 
@@ -129,34 +112,22 @@ public class Revenue {
         ArrayList<Order> new_orders = this.getOrders().stream()
         .filter(o -> (o.getTime().isAfter(start) && o.getTime().isBefore(end)))
         .collect(Collectors.toCollection(ArrayList::new));
-        HashMap<Item, Integer> new_saleItems = new HashMap<>();
-        HashMap<Package, Integer> new_salePkgs = new HashMap<>();
+        HashMap<Food, Integer> new_saleItems = new HashMap<>();
         for(Order o: new_orders){
-            for (Map.Entry<Item, Integer> entry : o.ordersAC.entrySet()) {
-                Item key = entry.getKey();
+            for (Map.Entry<Food, Integer> entry : o.ordersFood.entrySet()) {
+                Food key = entry.getKey();
                 int value = entry.getValue();
                 new_saleItems.put(key, value + this.getSaleItems().getOrDefault(key, 0));
             }
         }
-        for(Order o: new_orders){
-            for (Map.Entry<Package, Integer> entry : o.ordersP.entrySet()) {
-                Package key = entry.getKey();
-                int value = entry.getValue();
-                new_salePkgs.put(key, value + this.getSaleItems().getOrDefault(key, 0));
-            }
-        }
-        return new Revenue(new_orders, new_saleItems, new_salePkgs);
+        return new Revenue(new_orders, new_saleItems);
     }
 
     public ArrayList<Order> getOrders() {
         return this.orders;
     }
 
-    public HashMap<Item, Integer> getSaleItems() {
+    public HashMap<Food, Integer> getSaleItems() {
         return this.saleItems;
-    }
-
-    public HashMap<Package, Integer> getSalePkgs() {
-        return salePkgs;
     }
 }

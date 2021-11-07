@@ -5,8 +5,16 @@ import java.util.concurrent.ScheduledFuture;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * 
+ * @author x
+ *
+ */
 public class Reservation implements Comparable<Reservation>, Serializable
 {
+	/**
+	 * 
+	 */
 	private int pax;
 	private String name;
 	private String contact;
@@ -34,6 +42,10 @@ public class Reservation implements Comparable<Reservation>, Serializable
 	{
 		return contact;
 	}
+	/**
+	 * 
+	 * @return
+	 */
 	public LocalDateTime getTime()
 	{
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
