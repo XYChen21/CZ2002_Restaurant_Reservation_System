@@ -64,6 +64,8 @@ public class Restaurant implements Serializable
 		listofMembers.addMember(mem3);
 		listofMembers.addMember(mem4);
 		
+
+		Revenue r = new Revenue(new ArrayList<Order>(), new HashMap<Item, Integer>(), new HashMap<Package, Integer>());
 		
 	}
 	public ScheduledFuture<?> scheduleCancel(LocalDateTime scheduleTime, Runnable task)
@@ -441,6 +443,8 @@ public class Restaurant implements Serializable
 				ordersbyID.add(newOrder); // index of the Order is numofOrders
 				System.out.println("New order for table " + tableID + " with orderID " + r.numofOrders + " has been successfully created.");
 				r.numofOrders++;
+
+				r.addOrder(newOrder);
 				break;
 			case 16:
 				System.out.println("Enter orderID given during order creation: ");
@@ -525,7 +529,12 @@ public class Restaurant implements Serializable
 				}
 				break;
 			case 20:
-				
+				System.out.println("Specify a period (dd/MM/yyyy) - start:");
+				LocalDateTime start = LocalDate.parse(sc.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+				System.out.println("Specify a period (dd/MM/yyyy) - end:");
+				LocalDateTime end = LocalDate.parse(sc.nextLine(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+				r.printRevenueReport(statr, end);
 				break;
 			case 21: 
 				System.out.println("Program terminating ....");
