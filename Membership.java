@@ -1,8 +1,9 @@
 package restaurant;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.io.*;
 
-public class Membership {
+public class Membership implements java.io.Serializable{
 	private HashMap<Member, Integer> memberArray; // Key: Member object; Value: memberHP 
 	
 	public Membership(){

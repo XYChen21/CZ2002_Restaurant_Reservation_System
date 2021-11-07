@@ -3,8 +3,9 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.io.*;
 
-public class StaffRoster {
+public class StaffRoster implements java.io.Serializable{
 	private HashMap<Staff, String> staffArray;
 	
 	public StaffRoster() {
