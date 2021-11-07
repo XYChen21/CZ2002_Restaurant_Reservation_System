@@ -5,12 +5,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+
+import restaurant.Item.KindofFood;
+
 import java.io.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 public class Restaurant implements Serializable
-{	
+{	private Menu m;
+	private PackageMenu pack;
 	private HashMap<Integer, Table> tables;
 	private HashMap<String, Reservation> allReservations;
 	private static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -31,6 +35,10 @@ public class Restaurant implements Serializable
 			tables.put(id, t);
 			id++; cap+=2;
 		}
+		m = new Menu();
+		pack = new PackageMenu();
+		
+		
 	}
 	public ScheduledFuture<?> scheduleCancel(LocalDateTime scheduleTime, Runnable task)
 	{
@@ -168,7 +176,7 @@ public class Restaurant implements Serializable
 			t.addReservation(res);
 			allReservations.put(name+contact, res);
 			
-			Notification.sendSMS(res.toString(), contact);
+//			Notification.sendSMS(res.toString(), contact);
 			
 			return true;
 		}
@@ -232,7 +240,21 @@ public class Restaurant implements Serializable
 			System.out.println("(4)Remove a reservation"); 
 			System.out.println("(5)Find a reservation"); 
 			System.out.println("(6)Show all reservations"); 
-			System.out.println("(7)Close"); 
+			System.out.println("(7)Check table availability");
+			System.out.println("(8)Create menu item");
+			System.out.println("(9)Update menu item");
+			System.out.println("(10)Remove menu item");
+			System.out.println("(11)Create promotion");
+			System.out.println("(12)Update promotion");
+			System.out.println("(13)Remove promotion");
+			System.out.println("(14)View menu & promotion");
+			System.out.println("(15)Create order");
+			System.out.println("(16)View order");
+			System.out.println("(17)Add order item/s to order");
+			System.out.println("(18)Remove order item/s from order");
+			System.out.println("(19)Print order invoice");
+			System.out.println("(20)Print sale revenue report by period (day/month)");
+			System.out.println("(21)Close");
 			System.out.print("Enter the number of your choice: "); 
 			choice = sc.nextInt();
 			sc.nextLine(); // consume newline char
@@ -275,13 +297,105 @@ public class Restaurant implements Serializable
 			case 6: 
 				r.showAllRes();
 				break;
-			case 7: 
+			case 8:
+				System.out.println("Create an index for the item you want to add.");
+				int a = sc.nextInt();
+				sc.nextLine();
+				System.out.println("What is the name of the item you want to add in the menu?");
+				String s = sc.nextLine();
+				System.out.println("What is the description of the item?");
+				String b = sc.nextLine();
+				System.out.println("What is the price?");
+				double c = sc.nextDouble();
+				System.out.println("What is the type of the item?  1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
+				int d = sc.nextInt(); // Assume userInput = 0
+				KindofFood f= KindofFood.getTypeByOrdinal(d);
+		
+				Item i = new Item(a, s, b, c, f);
+				r.m.addMenu(i);
+				break;
+			case 9:
+				r.m.updateMenu();
+				
+				
+				break;
+			case 10:
+				System.out.println("Enter the index of the item you want to remove.");
+				int x = sc.nextInt();
+				r.m.removeMenu(x);
+				break;
+			case 11:
+				System.out.println("How many items are there in this new package?");
+				int number = sc.nextInt();
+				System.out.println("Create an index for this new package.");
+				int ind = sc.nextInt();
+				sc.nextLine();
+				System.out.println("What is the name of this new package?");
+				String namePackage = sc.nextLine();
+				Package p = new Package(namePackage, ind);
+				
+				for (int count = 0; count<number; count++)
+				{System.out.println("Which item from the menu do you want to add into this package? Enter the index of the item.");
+				int index = sc.nextInt();
+				if (r.m.getItem(index) != null)
+					{Item item = r.m.getItem(index);
+					p.addPackageItem(item);
+					
+					}
+				else
+				{System.out.println("There is no item from the menu with this index number.");
+				}
+				
+				
+				}
+				System.out.println("What is the price of this package?");
+				double price = sc.nextDouble();
+				p.setPrice(price);
+				
+				r.pack.addPackageMenu(p);
+				break;
+			case 12:
+				r.pack.updatePackage();
+				break;
+			case 13:
+				System.out.println("Do you want to remove just an item from an existing promotional package or remove a package entirely? Enter 1 for former option, 2 for latter.");
+				int opt = sc.nextInt();
+				if (opt == 1)
+					{Package tempPack = null;
+					System.out.println("From which package do you want to remove an item from? Enter the index of the package.");
+					int removedNo = sc.nextInt();
+					if (r.pack.filterPackageMenu(removedNo) != null)
+						{tempPack = r.pack.filterPackageMenu(removedNo);
+						System.out.println("Enter the index of the item you want to remove from this package.");
+						int index = sc.nextInt();
+						tempPack.removePackageItem(index);
+						System.out.println("What is the price of this updated package?");
+						double priceUpdated = sc.nextDouble();
+						tempPack.setPrice(priceUpdated);
+						if (tempPack.isNull() == true)
+							{r.pack.removePackageMenu(tempPack.getIndex());}
+						}
+					
+					else
+					{System.out.println("There is no package with that index number.");
+					}}
+				else if (opt == 2)
+					{System.out.println("Which package do you want to completely remove? Enter the index of the package.");
+					int removed = sc.nextInt();
+					r.pack.removePackageMenu(removed);}
+				break;
+			case 14:
+				r.m.viewMenu();
+				r.pack.viewPackageMenu();
+				break;
+			case 21: 
 				System.out.println("Program terminating ....");
 				r.close();
 				break;
+				
 			}
 			System.out.println(""); 
-		} while (choice < 7);
+		} while (choice < 21);
 		
 	}
 }
