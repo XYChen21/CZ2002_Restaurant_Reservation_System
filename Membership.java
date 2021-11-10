@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.io.*;
 public class Membership implements Serializable{
-	private HashMap<String, Member> memberArray; // Key: name; Value: memberHP 
+	private HashMap<String, Member> memberArray; // Key: name+contact; Value: Member object 
 	
 	public Membership(){
 		memberArray = new HashMap<String, Member>();
@@ -25,7 +25,6 @@ public class Membership implements Serializable{
 				contactNo = sc.next();
 				System.out.println("May we have your name please?");
 				name = sc.next();
-//				Member m = new Member(contactNo, name);
 				membership = isMember(name, contactNo);
 				if (membership) {return true;}
 				else {
@@ -42,15 +41,11 @@ public class Membership implements Serializable{
 						contactNo = sc.next();
 						System.out.println("May we have your name please?");
 						name = sc.next();
-//						Member toAdd = new Member(contactNo, name);
 						membership = addMember(name, contactNo);
 						if (membership) {return true;}
 						else {
 							System.out.println("Enter 'Y' to re-enter your particulars. Enter 'N' to quit.");
 							continue;
-//							ans = sc.next().charAt(0);
-//							if (ans == 'Y' || ans == 'y') {continue;}
-//							else {return false;}
 						}
 					}
 					else if (ans == 'N' || ans == 'n') {
@@ -121,11 +116,6 @@ public class Membership implements Serializable{
 		Member m = memberArray.get(name+contact);
 		if (m != null) {
 			return true;
-//			if (memberArray.get(name) == contact) {return true;}
-//			else {
-//				System.out.println("Name does not match contact number.");
-//				return false;
-//			}
 		}
 		else {
 			System.out.println("Member does not exist. Try again.");
