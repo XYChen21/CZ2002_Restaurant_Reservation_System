@@ -1,7 +1,8 @@
 package restaurant;
 import java.util.Scanner;
+import java.util.*;
 
-public class MemberUI {
+public class MemberUI implements Serializable{
 
 	private Scanner sc = new Scanner(System.in);
 	
