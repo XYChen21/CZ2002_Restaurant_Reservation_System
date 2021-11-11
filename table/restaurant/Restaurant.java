@@ -15,6 +15,10 @@ public class Restaurant implements Serializable
 	private TableManager tableManager;
 	public TableUI tableUI;
 	public ReservationUI resUI;
+	public ItemManager m;
+	public PackageManager pack;
+	public ItemUI itemUI;
+	public PackageUI packageUI;
 	// private ArrayList<Order> ordersbyID;
 	// private Menu m;
 	// private PackageMenu pack;
@@ -26,7 +30,10 @@ public class Restaurant implements Serializable
 	// private static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 	// private Revenue revenue;
 	public Restaurant()
-	{	
+	{	m = new ItemManager();
+		pack = new PackageManager();
+		itemUI = new ItemUI();
+		packageUI = new PackageUI();
 		resManager = new ReservationManager();
 		tableManager = new TableManager();
 		tableUI = new TableUI();
@@ -117,7 +124,7 @@ public class Restaurant implements Serializable
 		if (res == null)
 			System.out.println("Reservation not found!");
 		else
-			System.out.println(res.toString());
+			res.toString();
 	}
 	public void showAllRes()
 	{
@@ -128,7 +135,6 @@ public class Restaurant implements Serializable
 		ArrayList<Integer> availTables = resManager.checkAvail(LocalDateTime.now());
 		Integer tID = tableManager.allocateTable(availTables, LocalDateTime.now(), pax);
 		String key = name + contact + dateTime.toLocalDate();
-		System.out.println("makee res key: " + key);
 		if (resManager.haveRes(key))
 			System.out.println("You've already made a reservation on that day, cannot make another reservation.");
 		else
