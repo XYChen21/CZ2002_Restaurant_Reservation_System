@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import javax.lang.model.element.Element;
 
 public class OrderManager {
-	private ArrayList<Order> ordersbyID;
+	private ArrayList<Order> ordersbyID; 
 	private int orderID;
 	private LocalDate _start;
 	private LocalDate _end;
@@ -25,9 +25,18 @@ public class OrderManager {
 		System.out.println("New order for table " + tableID + " with orderID " + orderID + " has been successfully created.");
 		orderID++;
 	}
+	
+	public int getorderID() {
+		return orderID;
+	}
+	
+	public Order getOrder(int orderid) {
+		return ordersbyID.get(orderid);
+	}
+	
 	public void viewOrder(int orderID) {
-		HashMap<Food, Integer> orders = ordersbyID.get(orderID).getOrders();
-		if (!orders.isEmpty()) {
+		if (ordersbyID.get(orderID).haveOrder()) {
+			HashMap<Food, Integer> orders = ordersbyID.get(orderID).getOrders();
 			System.out.println("======== Current order summary ========");
 			orders.forEach((key, value) -> {
 				System.out.println(value + " " + key.getName());
