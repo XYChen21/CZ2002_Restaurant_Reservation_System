@@ -1,7 +1,9 @@
 package restaurant;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 public class ReservationUI 
 {
     private Scanner sc = new Scanner(System.in);
@@ -24,7 +26,6 @@ public class ReservationUI
     public LocalDateTime scanTime()
     {
         LocalDateTime dateTime;
-		
         while (true)
         {
         	System.out.print("Enter data and time of reservation(dd/MM/yyyy HH:mm): ");
@@ -35,7 +36,11 @@ public class ReservationUI
                 if (dateTime.isBefore(LocalDateTime.now()))
                     throw new Exception("Reservation time cannot be earlier than current time.");
                 break;
-            } catch (Exception e) {
+            } 
+            catch(DateTimeParseException e) {
+            	System.out.println("Please enter the correct format for date time (dd/MM/yyyy HH:mm)");
+            }
+            catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -49,14 +54,19 @@ public class ReservationUI
         	System.out.print("Enter the number of people: ");
             try {
                 pax = sc.nextInt();
-                sc.nextLine();
                 if (pax <= 0)
                     throw new Exception("pax should be a positive integer.");
                 break;
+            } catch(InputMismatchException e) {
+            	System.out.println("please enter a integer");
+                sc.nextLine();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                sc.nextLine();
             }
         }
+//        while (sc.hasNextLine())
+        sc.nextLine();
         return pax;
     }
     public String scanContact()
@@ -84,12 +94,15 @@ public class ReservationUI
         {
             try {
                 choice = sc.nextInt();
-                sc.nextLine();
                 if (choice != 1 && choice != 2)
                     throw new Exception("Invalid choice: please input 1 or 2 only.");
                 break;
+            } catch(InputMismatchException e) {
+            	System.out.println("please enter a integer");
+                sc.nextLine();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+                sc.nextLine();
             }
         }
         return choice;

@@ -1,10 +1,10 @@
 package restaurant;
 import java.util.Scanner;
-//import java.io.*;
+// import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-public class App {
- public static void main(String[] args)
+public class RestaurantApp {
+    public static void main(String[] args)
 	{
 		Restaurant r = null;
 		Scanner sc = new Scanner(System.in);
@@ -59,7 +59,7 @@ public class App {
 		// 			int cap = r.tableUI.scanCapacity();
 		// 			Table t = new Table(id, cap);
 		// 			r.addTable(id, t);
-     //             break;
+        //             break;
 		// 		case 2:
 		// 			id = r.tableUI.scanID();
 		// 			r.removeTable(id);
@@ -118,62 +118,60 @@ public class App {
 				case 2: 
 					String name = r.resUI.scanName();
 					String contact = r.resUI.scanContact();
-                 int re = r.reservedDineIn(name, contact);
-                 switch(re){
-                 case 0: // res not found
-                     pax = r.tableUI.scanPax();
-                     r.DineIn(pax);
-                     break;
-                 case 1: // edge case: early arrival
-                     int c = r.resUI.scanEarlyArrivalChoice();
-                     if (c == 1)
-                         if (r.earlyReservedDineIn(name, contact)) break;
-                     pax = r.tableUI.scanPax();
-                     r.DineIn(pax);
-                     break;
-                 case 2: // successfully dine in
-                     break;
-                 }
+                    int re = r.reservedDineIn(name, contact);
+                    switch(re){
+                    case 0: // res not found
+                        pax = r.tableUI.scanPax();
+                        r.DineIn(pax);
+                        break;
+                    case 1: // edge case: early arrival
+                        int c = r.resUI.scanEarlyArrivalChoice();
+                        if (c == 1)
+                            if (r.earlyReservedDineIn(name, contact)) break;
+                        pax = r.tableUI.scanPax();
+                        r.DineIn(pax);
+                        break;
+                    case 2: // successfully dine in
+                        break;
+                    }
 					break;
 				case 3: 
-					name = r.resUI.scanName();
-	                contact = r.resUI.scanContact();
-	                LocalDateTime dateTime = r.resUI.scanTime();
-	                pax = r.resUI.scanPax();
+                    name = r.resUI.scanName();
+                    contact = r.resUI.scanContact();
+                    LocalDateTime dateTime = r.resUI.scanTime();
+                    pax = r.resUI.scanPax();
 					r.makeReservation(dateTime, name, contact, pax);
 					break;
 				case 4: 
-					name = r.resUI.scanName();
-					contact = r.resUI.scanContact();
-					LocalDate date = r.resUI.scanTime().toLocalDate();
-					String key = name + contact + date;
+                    name = r.resUI.scanName();
+                    contact = r.resUI.scanContact();
+                    String key = name + contact + LocalDate.now();
 					r.removeReservation(key);
 					break;
 				case 5: 
-	                name = r.resUI.scanName();
-	                contact = r.resUI.scanContact();
-	                date = r.resUI.scanTime().toLocalDate();
-	                key = name + contact + date;
-	                System.out.println(key);
-	                r.showRes(key);
+                    name = r.resUI.scanName();
+                    contact = r.resUI.scanContact();
+                    LocalDate date = r.resUI.scanTime().toLocalDate();
+                    key = name + contact + date;
+                    r.showRes(key);
 					break;
 				case 6: 
 					r.showAllRes();
 					break;
-	            case 7:
-	                 r.listAvail();
-	                 break;
+                case 7:
+                    r.listAvail();
+                    break;
 				case 8: 
 					System.out.println("Program terminating ....");
-//					r.close();
+					r.close();
 					break;
-//				default:
-//					System.out.println("Invalid choice!");
-//					break;
+				default:
+					System.out.println("Invalid choice!");
+					break;
 			}
 			System.out.println(""); 
 		} while (choice < 8);
-     sc.close();
+        sc.close();
 	}
 }
 
