@@ -128,12 +128,12 @@ public class OrderManager implements Serializable{
 	// Revenue report method
 	private void parseTme(String...t){
 		try {
-			this._start = LocalDate.parse(t[0], DateTimeFormatter.ofPattern("d/M/y"));
 			this._end = LocalDate.parse(t[1], DateTimeFormatter.ofPattern("d/M/y"));
+			this._start = LocalDate.parse(t[0], DateTimeFormatter.ofPattern("d/M/y"));
 		} catch (DateTimeParseException _e){
 			this._start = LocalDate.MIN;
 			this._end = LocalDate.MAX;
-			if(t[0] != "\n" && t[1] != "\n") System.out.println("Invalid Input! Printing All Paid Orders");
+			if(t[0] != "" && t[1] != "") System.out.println("Invalid Input! Printing All Paid Orders");
 		} catch (IndexOutOfBoundsException _e){
 			this._start = LocalDate.MIN;
 			this._end = LocalDate.MAX;

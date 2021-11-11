@@ -106,4 +106,12 @@ public class OrderUI implements Serializable {
 		return staffServer;
 	}
 	
+	public String[] scanTime(){
+		System.out.println("Specify a period (d/M/y; input null for all orders) - start:");
+		String s = sc.nextLine();
+		if(s == "") return new String[]{s};
+		System.out.println("Specify a period (d/M/y; input null for all orders) - end:");
+		String e = sc.nextLine();
+		return new String[]{s, e};
+	}
 }
