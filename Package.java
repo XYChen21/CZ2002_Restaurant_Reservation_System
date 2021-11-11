@@ -3,49 +3,48 @@ package restaurant;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class Package extends Food implements Serializable {
-	private List<Item> menuItemPackage;
+//	private List<Item> menuItemPackage;
+	private HashMap<Item, Integer> menuItemPackage;
 	private String name;
 	private double finalPrice;
 	private double oriPrice;
 	private int index;
 
 	public Package(String name, int index) {
-		menuItemPackage = new ArrayList<Item>();
-
+//		menuItemPackage = new ArrayList<Item>();
+		menuItemPackage = new HashMap<Item, Integer>();
 		this.name = name;
 		this.index = index;
 	}
 
-	public void addPackageItem(Item i) {
-		menuItemPackage.add(i);
+	public void addPackageItem(Item i, int quantity) {
+		Integer quan = menuItemPackage.get(i);
+		if (quan != null)
+		{
+			System.out.println("Item already inside. Quantity is incremented.");
+			menuItemPackage.replace(i, quan+quantity);
+		}
+		menuItemPackage.put(i, quantity);
 	}
 
-	public void removePackageItem(int a) {
-		boolean removed = false;
-		int count = 0;
-
-		for (Item food : menuItemPackage) {
-			if (food.getIndex() == a) {
-				removed = true;
-				break;
-			}
-			count++;
+	public void removePackageItem(Item i, int quantity) { // ensure item i is not null before pass in
+		Integer quan = menuItemPackage.get(i);
+		if (quan == null){
+			System.out.println("Item does not exist in this package. Nothing is removed.");
 		}
-
-		if (removed == true) {
-			menuItemPackage.remove(count);
-			System.out.println("Item in package is removed.");
-		}
-
-		if (removed == false) {
-			System.out.println("Item with that index does not exist in this package. Nothing is removed.");
+		else {
+			if (quan < quantity)
+				System.out.println("Not enough items insides. Nothing is removed.");
+                // remove all or don't remove?
+			else
+				menuItemPackage.replace(i, quantity - quan);
 		}
 	}
-
 	public String getName() {
 		return name;
 	}
@@ -56,8 +55,10 @@ public class Package extends Food implements Serializable {
 
 	public double getOriPrice() {
 		oriPrice = 0;
-		for (Item i : menuItemPackage) {
-			oriPrice += i.getPrice();
+		for (Item i : menuItemPackage.keySet())
+		{
+			int quantity = menuItemPackage.get(i);
+			oriPrice += i.getPrice() * quantity;
 		}
 		return oriPrice;
 
@@ -76,31 +77,11 @@ public class Package extends Food implements Serializable {
 	}
 
 	public void setPrice(double price) {
-		Scanner sc = new Scanner(System.in);
-		double newPrice = price;
-
-		if (price < getOriPrice()) {
-			this.finalPrice = price;
-		}
-
-		else {
-			while (newPrice > getOriPrice()) {
-				System.out.println(
-						"Updated price should be lower than the total price of individual items. Please enter a new price.");
-				newPrice = sc.nextDouble();
-			}
-
-			this.finalPrice = newPrice;
-		}
-
+		this.finalPrice =price;
 	}
 
 	public boolean isNull() {
-		int a = 0;
-		for (Item food : menuItemPackage) {
-			a++;
-		}
-		if (a == 0)
+		if (menuItemPackage.isEmpty())
 			return true;
 		else
 			return false;
@@ -109,24 +90,21 @@ public class Package extends Food implements Serializable {
 	public void toStringCustom() {
 		System.out.println("Package Index = " + index + '\n' + "Package Name = " + name + '\n'
 				+ "Original Package Price = " + oriPrice + '\n' + "Discounted Package Price = " + finalPrice + '\n');
-		for (Item food : menuItemPackage)
-			System.out.println(food.toString());
+		for (Item food : menuItemPackage.keySet())
+			System.out.println("quantity: " + menuItemPackage.get(food) + "\n" + food.toString());
 		System.out.println("*************************************");
 	}
 
-	public void sort() {
-		menuItemPackage.sort(Comparator.comparing(Item::getIndex));
-	}
+//	public void sort() {
+//		menuItemPackage.sort(Comparator.comparing(Item::getIndex));
+//	}
 
 	public boolean checkItem(Item i) {
-		for (Item food : menuItemPackage) {
-			if (i == food) {
-				return true;
-			}
-		}
-
-		return false;
-
+		Integer quan = menuItemPackage.get(i);
+		if (quan == null)
+			return false;
+		else
+			return true;
 	}
 
 }

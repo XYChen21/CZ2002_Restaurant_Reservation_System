@@ -2,34 +2,21 @@ package restaurant;
 
 import java.io.Serializable;
 
-public class Food implements Serializable {
+public abstract class Food implements Serializable {
+	public abstract String getName();
 
-	private String name;
-	private int index;
-	private double price;
+	public abstract double getPrice();
 
-	public String getName() {
-		return name;
-	}
-
-	public double getPrice() {
-		return price;
-	}
-
-	public int getIndex() {
-		return index;
-	}
+	public abstract int getIndex();
 
 	public void setIndex(int index) {
-		this.index = index;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
 	}
 
 }

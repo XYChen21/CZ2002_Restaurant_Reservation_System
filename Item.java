@@ -33,6 +33,7 @@ public class Item extends Food implements Comparable<Item>, Serializable {
 	}
 
 	public int getIndex() {
+		// return super.getIndex();
 		return index;
 	}
 

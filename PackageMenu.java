@@ -2,16 +2,18 @@ package restaurant;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 import restaurant.Item.KindofFood;
 
 public class PackageMenu implements Serializable {
-	private List<Package> menuPackage;
+//	private List<Package> menuPackage;
+	private HashMap<Integer, Package> menuPackage;
 
 	public PackageMenu() {
-		this.menuPackage = new ArrayList<Package>();
+		this.menuPackage = new HashMap<Integer, Package>();
 	}
 
 //	public void sortPackageMenuByAlphabet() {
@@ -19,63 +21,49 @@ public class PackageMenu implements Serializable {
 //		printPackageMenu(menuPackage);
 //	}
 
-	public void addPackageMenu(Package p) {
-		boolean duplicate = false;
-		for (Package pack : menuPackage) {
-			if (pack.getIndex() == p.getIndex()) {
-				duplicate = true;
-				break;
-
-			}
+	public void addPackageMenu(int index, Package p) {
+		
+//		boolean duplicate = menuPackage.containsKey(index);
+//		
+//		if (duplicate == false) {
+//			if (p.isNull() == true) {
+//				System.out.println("No package is created since no valid item is added.");
+//			} else {
+//				menuPackage.put(index, p);
+//			}
+//		}
+//		else {
+//			System.out.println("Duplicate index of packages.");
+//		}
+		
+		
+		if (menuPackage.containsKey(index)){
+			System.out.println("Duplicate index of packages. Please try again");
 		}
-		if (duplicate == false) {
-			if (p.isNull() == true) {
-				System.out.println("No package is created since no valid item is added.");
-			} else {
-				menuPackage.add(p);
-			}
-		}
-
-		else {
-			System.out.println("Duplicate index of packages.");
+		else{
+			menuPackage.put(index, p);
 		}
 
 	}
 
-	public void removePackageMenu(int a) {
-		boolean removed = false;
-		int count = 0;
-
-		for (Package pack : menuPackage) {
-			if (pack.getIndex() == a) {
-				removed = true;
-				break;
-			}
-			count++;
-		}
-
-		if (removed == true) {
-			menuPackage.remove(count);
+	public void removePackageMenu(int ind) {
+		if (menuPackage.containsKey(ind)) {
+			menuPackage.remove(ind);
 			System.out.println("Package is removed.");
 		}
-
-		if (removed == false) {
+		else {
 			System.out.println("Package with that index does not exist. Nothing is removed.");
 		}
 	}
 
 	public void viewPackageMenu() {
-		sortByDefaultPackage(menuPackage);
+//		sortByDefaultPackage(menuPackage);
 		System.out.println("******** PROMOTIONAL MENU **********" + '\n');
-		for (Package pack : menuPackage)
-			pack.toStringCustom();
+		for (int index : menuPackage.keySet())
+			menuPackage.get(index).toStringCustom();
 	}
 
-	private void sortByDefaultPackage(List<Package> k) {
-		sort();
 
-		k.sort(Comparator.comparing(Package::getIndex));
-	}
 
 //	private void printPackageMenu(List<Package>a)
 //	{System.out.println("******** PROMOTIONAL MENU **********" + '\n');
@@ -99,31 +87,11 @@ public class PackageMenu implements Serializable {
 //	{System.out.println("There are no packages within that price range.");}
 //	}
 
-	public Package filterPackageMenu(int a) {
-		for (Package pack : menuPackage) {
-			if (pack.getIndex() == a) {
-				return pack;
-			}
-		}
-		return null;
-
-	}
 
 	public Package getPackage(int index) {
-		for (Package pack : menuPackage) {
-			if (pack.getIndex() == index) {
-				return pack;
-			}
-		}
-		return null;
+		return menuPackage.get(index);
 	}
 
-	public void sort() {
-		for (Package pack : menuPackage) {
-			pack.sort();
-		}
-
-	}
 
 //	public void setAllPackagesPrice()
 //	{for (Package pack:menuPackage)
@@ -132,7 +100,8 @@ public class PackageMenu implements Serializable {
 	public void updateItemInPackage(Item i) {
 		Scanner sc = new Scanner(System.in);
 		int choice;
-		for (Package p : menuPackage) {
+		for (int index : menuPackage.keySet()) {
+			Package p = menuPackage.get(index);
 			if (p.checkItem(i)) {
 				if (p.getPrice() < p.getOriPrice()) {
 					System.out.println("This item is inside package " + p.getName()
@@ -154,22 +123,23 @@ public class PackageMenu implements Serializable {
 			}
 		}
 	}
+	
 
 	public void updatePackage() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Which package do you want to update? Enter the index of the package.");
 		int index = sc.nextInt();
 		if (getPackage(index) != null) {
-			Package a = getPackage(index);
+			Package p = getPackage(index);
 
 //		if (a != null)
-			System.out.println("What do you want to update? Enter 1 for Index, 2 for Name, 3 for Price.");
+			System.out.println("What do you want to update? Enter 1 for Index, 2 for Name, 3 for Price, 4 for Item inside");
 			int scan = sc.nextInt();
 
 			if (scan == 1) {
 				System.out.println("Enter the new index you want to update the item with.");
 				int b = sc.nextInt();
-				a.setIndex(b);
+				p.setIndex(b);
 				System.out.println("Updated successfully");
 
 			}
@@ -178,7 +148,7 @@ public class PackageMenu implements Serializable {
 				System.out.println("Enter the new name you want to update the item with.");
 				sc.nextLine();
 				String b = sc.nextLine();
-				a.setName(b);
+				p.setName(b);
 				System.out.println("Updated successfully");
 			}
 
@@ -186,7 +156,12 @@ public class PackageMenu implements Serializable {
 				System.out.println(
 						"Enter the new price you want to update the item with. Make sure it's lower than the total price of the items inside this package.");
 				double b = sc.nextDouble();
-				a.setPrice(b);
+				p.setPrice(b);
+			}
+			else if (scan == 4) {
+				// call package.add/removePackageItem
+				// reset price
+				
 			}
 
 			else {
