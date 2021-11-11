@@ -1,11 +1,18 @@
 package restaurant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+
+import javax.lang.model.element.Element;
 
 public class OrderManager {
 	private ArrayList<Order> ordersbyID;
 	private int orderID;
+	private LocalDate _start;
+	private LocalDate _end;
 	
 	public OrderManager() {
 		ordersbyID = new ArrayList<Order>();
@@ -109,4 +116,78 @@ public class OrderManager {
 	}
 	
 	// Revenue report method
+	private void parseTme(String...t){
+		try {
+			this._start = LocalDate.parse(t[0], DateTimeFormatter.ofPattern("d/M/y"));
+			this._end = LocalDate.parse(t[1], DateTimeFormatter.ofPattern("d/M/y"));
+		} catch (DateTimeParseException _e){
+			this._start = LocalDate.MIN;
+			this._end = LocalDate.MAX;
+			if(t[0] != "\n" && t[1] != "\n") System.out.println("Invalid Input! Printing All Paid Orders");
+		} catch (IndexOutOfBoundsException _e){
+			this._start = LocalDate.MIN;
+			this._end = LocalDate.MAX;
+		}
+	}
+
+	public void printRevenueReport(int choice) {
+		/**
+		 * choice:
+		 * 		0: by item amount
+		 * 		1: by orderId
+		 * 		2: by order amount
+		 */
+
+        ArrayList<Order> orders4print = this.ordersbyID.stream()
+        .filter(o -> (o.getTime().isAfter(this._start) && o.getTime().isBefore(this._end)))
+		.filter(o -> o.paid())
+        .collect(Collectors.toCollection(ArrayList::new));
+        double total = 0.0;
+        double p = 0;
+
+		HashMap<Food, Integer> saledItems = new HashMap<>();
+		orders4print.forEach(o -> 
+		{
+			o.ordersFood.forEach((k, v) -> 
+			saledItems.put(k, v + saledItems.getOrDefault(k, 0)));
+		});
+
+		HashMap<Food, Integer> temp = saledItems;
+
+        System.out.println("                Restaurant Name                 ");
+        System.out.println("        ********************************        ");
+        System.out.println();
+        System.out.println("From \t" + start.toString() + "To \t" + end.toString());
+        System.out.println();
+        System.out.println("------------------------------------------------");
+		switch(choice){
+			case 0:
+				temp.entrySet().stream()
+				.sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
+				.forEach(k -> 
+				System.out.println(k.getKey() + "\t\t\t\t\t" + k.getValue())
+				);
+				break;
+			case 1:
+				orders4print.sort((a, b) -> a.getorderID() - b.getorderID());
+				orders4print.forEach(
+					o -> {
+						System.out.println(o.getorderID() + "\t\t\t\t\t" + o.getTotal());
+						total += o.getTotal();
+					}
+				);
+				break;
+			case 2:
+				orders4print.sort((a, b) -> a.getTotal() - b.getTotal());
+				orders4print.forEach(
+					o -> {
+						System.out.println(o.getorderID() + "\t\t\t\t\t" + o.getTotal());
+						total += o.getTotal();
+					}
+				);
+				break;
+		}
+		System.out.println("------------------------------------------------");
+        if(total != 0.0) System.out.println("                                 Total: " + String.format("%-8.2f", total));
+    }
 }
