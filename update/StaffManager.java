@@ -59,4 +59,9 @@ public class StaffManager implements Serializable{
 			System.out.println("Please check if you have entered the correct staff ID to remove and try again.");
 		}
 	}
+	
+	public boolean isStaff(int staffID, String name) {
+		if (sMap.get(staffID).getStaffName() == name) {return true;}
+		else {System.out.println("Staff with staffID " + staffID + " and name " + name + " does not exist."); return false;}
+	}
 }
