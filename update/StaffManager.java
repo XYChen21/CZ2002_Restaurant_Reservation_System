@@ -59,23 +59,4 @@ public class StaffManager implements Serializable{
 			System.out.println("Please check if you have entered the correct staff ID to remove and try again.");
 		}
 	}
-	
-	// Randomly select a staff to serve the table, returning the staff's name
-	public String whoToServe() {
-		ArrayList<Integer> staffID = new ArrayList<Integer>();
-		for (int i: sMap.keySet()) {
-			staffID.add(i);
-		}
-		int randIDIndex = new Random().nextInt(staffID.size());
-		int id = staffID.get(randIDIndex);
-		return sMap.get(id).getStaffName();
-	}
-	public static void main(String[] args)
-	{
-		StaffManager r = new StaffManager();
-		Staff s1 = new Staff("Gary", 'M', 2100, "Waitor");
-		Staff s2 = new Staff("Gary", 'M', 2100, "Waitor");
-		r.addStaff(2100, s1);
-		r.addStaff(2100, s2);
-	}
 }
