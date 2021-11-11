@@ -23,13 +23,13 @@ public class Package extends Food implements Serializable {
 	}
 
 	public void addPackageItem(Item i, int quantity) {
-		if (menuItemPackage.get(i) != null)
+		Integer quan = menuItemPackage.get(i);
+		if (quan != null)
 		{
-			System.out.println("Item already inside");
-			return;
+			System.out.println("Item already inside. Quantity is incremented.");
+			menuItemPackage.replace(i, quan+quantity);
 		}
 		menuItemPackage.put(i, quantity);
-//		menuItemPackage.add(i);
 	}
 
 	public void removePackageItem(Item i, int quantity) { // ensure item i is not null before pass in
@@ -43,19 +43,6 @@ public class Package extends Food implements Serializable {
                 // remove all or don't remove?
 			else
 				menuItemPackage.replace(i, quantity - quan);
-		}
-	}
-	public void updatePackageItem()
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Current package:");
-		this.toStringCustom();
-		System.out.println("Option: 1. add new item; 2. change quantity of existing item; 3. Reduce quantity of existing item");
-		int choice = sc.nextInt();
-		sc.nextLine();
-		if (choice == 1)
-		{
-			addPackageItem()
 		}
 	}
 	public String getName() {
@@ -90,19 +77,7 @@ public class Package extends Food implements Serializable {
 	}
 
 	public void setPrice(double price) {
-		Scanner sc = new Scanner(System.in);
-		double newPrice = price;
-		if (price < getOriPrice()) {
-			this.finalPrice = price;
-		}
-		else {
-			while (newPrice > getOriPrice()) {
-				System.out.println(
-						"Updated price should be lower than the total price of individual items. Please enter a new price.");
-				newPrice = sc.nextDouble();
-			}
-			this.finalPrice = newPrice;
-		}
+		this.finalPrice =price;
 	}
 
 	public boolean isNull() {
