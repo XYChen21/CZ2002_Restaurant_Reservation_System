@@ -109,6 +109,7 @@ public KindofFood getTypeItemUI()
 	{
 		try {
 			d = sc.nextInt();
+			sc.nextLine();
 			if (d<1 || d>4)
 				{throw new Exception ("Invalid input. Please enter either 1,2,3 or 4.");}
 			break;}
@@ -130,6 +131,7 @@ public int updateMenuChoice()
 	{
 		try {
 			choice = sc.nextInt();
+			sc.nextLine();
 			if (choice<1 || choice>5)
 				throw new Exception ("Invalid input. Please enter either 1,2,3, 4 or 5.");
 			break;}

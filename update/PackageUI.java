@@ -28,7 +28,7 @@ public int getIndexPackageUI()
 	while (true)
 		{try {
 	index = sc.nextInt();
-	sc.next();
+	sc.nextLine();
 	break;
 }
 
@@ -45,7 +45,7 @@ int index;
 while (true)
 	{try {
 index = sc.nextInt();
-sc.next();
+sc.nextLine();
 break;
 }
 
@@ -63,6 +63,7 @@ int no;
 while (true)
 	{try {
 no = sc.nextInt();
+sc.nextLine();
 if (no <= 0)
 	throw new Exception("Invalid input, quantity cannot be smaller than or equals to 0. Please enter again.");
 break;
@@ -107,6 +108,7 @@ while (true)
 {
 	try {
 		choice = sc.nextInt();
+		sc.nextLine();
 		if (choice<1 || choice>4)
 			throw new Exception ("Invalid input. Please enter either 1,2,3, 4 or 5.");
 		break;}
@@ -128,6 +130,7 @@ while (true)
 {
 	try {
 		choice = sc.nextInt();
+		sc.nextLine();
 		if (choice<1 || choice>2)
 			throw new Exception ("Invalid input. Please enter either 1 or 2.");
 		break;}

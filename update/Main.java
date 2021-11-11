@@ -153,6 +153,7 @@ public class Main {
 			if (pack.getPackage(packageIndex) != null)
 				{System.out.println("What do you want to update? (1: Index, 2: Name, 3: Price, 4: Add item into package, 5: Remove item from package");
 				int opt = sc.nextInt();
+				sc.nextLine();
 				switch (opt)
 					{case 1:
 						int newIndex= packageUI.getNewIndexPackageUI();
