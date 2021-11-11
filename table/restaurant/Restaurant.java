@@ -15,6 +15,10 @@ public class Restaurant implements Serializable
 	private TableManager tableManager;
 	public TableUI tableUI;
 	public ReservationUI resUI;
+	public ItemManager m;
+	public PackageManager pack;
+	public ItemUI itemUI;
+	public PackageUI packageUI;
 	// private ArrayList<Order> ordersbyID;
 	// private Menu m;
 	// private PackageMenu pack;
@@ -26,7 +30,10 @@ public class Restaurant implements Serializable
 	// private static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 	// private Revenue revenue;
 	public Restaurant()
-	{	
+	{	m = new ItemManager();
+		pack = new PackageManager();
+		itemUI = new ItemUI();
+		packageUI = new PackageUI();
 		resManager = new ReservationManager();
 		tableManager = new TableManager();
 		tableUI = new TableUI();

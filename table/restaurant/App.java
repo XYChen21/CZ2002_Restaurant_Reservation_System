@@ -1,5 +1,8 @@
 package restaurant;
 import java.util.Scanner;
+
+import restaurant.Item.KindofFood;
+
 //import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -106,8 +109,16 @@ public class App {
 			System.out.println("(5)Find a reservation"); 
 			System.out.println("(6)Show all reservations"); 
 			System.out.println("(7)List all table availability"); 
-			System.out.println("(8)Close"); 
+			System.out.println("(8)Create menu item");
+			System.out.println("(9)Update menu item");
+			System.out.println("(10)Remove menu item");
+			System.out.println("(11)Create promotion");
+			System.out.println("(12)Update promotion");
+			System.out.println("(13)Remove promotion");
+			System.out.println("(14)View menu & promotion");
+			System.out.println("(15)Close"); 
 			System.out.print("Enter the number of your choice: "); 
+			
 			choice = sc.nextInt();
 			sc.nextLine();
 			switch (choice) {
@@ -161,7 +172,201 @@ public class App {
 	            case 7:
 	                 r.listAvail();
 	                 break;
-				case 8: 
+	            case 8:
+	            	int index = r.itemUI.getIndexItemUI();
+	    			if (r.m.checkDuplicate(index) == false)
+	    			{name = r.itemUI.getNameItemUI();
+	    			String description = r.itemUI.getDescItemUI();
+	    			double price = r.itemUI.getPriceItemUI();
+	    			KindofFood type = r.itemUI.getTypeItemUI();
+	    			
+	    			Item i = new Item(index, name, description, price, type);
+	    			
+	    			r.m.addMenu(index, i);}
+	    			else	
+	    			{System.out.println("Duplicate index in this menu.");}
+	    			
+	    			break;
+	    			
+	            case 9:
+	            	index = r.itemUI.getIndexItemUI();
+	    			if (r.m.getItem(index) != null)
+	    			
+	    				{System.out.println("What do you want to update? (1: Index, 2: Name, 3: Price, 4: Description, 5: Type.");
+	    				int opt = sc.nextInt();
+	    				switch(opt)
+	    				{case 1:
+	    					int newIndex = r.itemUI.getNewIndexItemUI();
+	    					if (r.m.checkDuplicate(newIndex) == false)
+	    					{r.m.updateIndex(index, newIndex);}
+	    					
+	    					else
+	    					{System.out.println("Duplicate index in this menu.");}
+	    					break;
+	    				
+	    				case 2:
+	    					name = r.itemUI.getNameItemUI();
+	    					r.m.updateName(index, name);
+	    					break;
+	    			
+	    				case 3:
+	    					System.out.println("The original price of this item is " + r.m.getItem(index).getPrice());
+	    					double price = r.itemUI.getPriceItemUI();
+	    					boolean result = r.m.updatePrice(index, price);
+	    				
+	    					if (result == true)
+	    						{Item a = r.m.getItem(index);
+	    						Package p = r.pack.checkItemInPackage(a);
+	    				
+	    					if (r.pack.updatePriceItemInPackage(a) == 2)
+	    						{System.out.println("This item is inside package" + p.getName() + "please update the price of the package since the total price of each item in the package is higher.");
+	    						System.out.println("The original price of this package is " + p.getPrice());
+	    						price = r.packageUI.getPricePackageUI(p.getOriPrice());
+	    						p.setPrice(price);
+	    				
+	    						}
+	    				
+	    					else if (r.pack.updatePriceItemInPackage(a) == 1)
+	    						{System.out.println("This item is inside package " + p.getName() + ", do you want to update price of this package as well? (1: Yes/2: No)");
+	    						System.out.println("The original price of this package is " + p.getPrice());
+	    						opt = r.packageUI.updateItemInPackage1();
+	    						if (opt == 1)
+	    						{price = r.packageUI.getPricePackageUI(p.getOriPrice());
+	    						p.setPrice(price);}
+	    					
+	    						}
+	    					
+	    						}
+	    				
+	    					break;
+	    				
+	    				case 4:
+	    					String description = r.itemUI.getDescItemUI();
+	    					r.m.updateDesc(index, description);
+	    				
+	    					break;
+	    				
+	    				case 5:
+	    					KindofFood type = r.itemUI.getTypeItemUI();
+	    					r.m.updateType(index, type);
+	    					
+	    					break;}}
+	    			else {
+	    			System.out.println("Item with this index does not exist.");}
+	    			
+	    			break;
+	            case 10:
+	            	index = r.itemUI.getIndexItemUI();
+	    			if (r.m.getItem(index) != null)
+	    			{
+	    			r.m.removeMenu(index);}
+	    			
+	    			else
+	    			{System.out.println("Item with this index does not exist.");}
+	    			break;
+	    			
+	            case 11:
+	            	index =r.packageUI.getIndexPackageUI();
+	    			if (r.pack.checkDuplicatePackage(index) == false)
+	    			{
+	    			name = r.packageUI.getNamePackageUI();
+	    			Package e = new Package(name, index);
+	    			System.out.println("Press -1 to stop adding items.");
+	    			int itemIndex = r.itemUI.getIndexItemUI();
+	    			while (e.isNull() == true || itemIndex != -1 )
+	    				{
+	    				if (r.m.getItem(itemIndex) != null)
+	    					{int quantity = r.packageUI.getQuantity();
+	    					Item item = r.m.getItem(itemIndex);
+	    					e.addPackageItem(item, quantity);}
+	    				
+	    				
+	    				else
+	    					{System.out.println("Nothing is added into this package because there is no item with this index.");}
+	    				System.out.println("Press -1 to stop adding items.");
+	    				itemIndex = r.itemUI.getIndexItemUI();
+	    				}
+	    			
+	    			double price = r.packageUI.getPricePackageUI(e.getOriPrice());
+	    			e.setPrice(price);
+	    			
+	    			r.pack.addPackageMenu(index,e);}
+	    			
+	    			else
+	    			{System.out.println("Duplicate index of packages in this menu");}
+	    			
+	    			break;
+	            case 12:
+	    			int packageIndex = r.packageUI.getIndexPackageUI();
+	    			if (r.pack.getPackage(packageIndex) != null)
+	    				{System.out.println("What do you want to update? (1: Index, 2: Name, 3: Price, 4: Add item into package, 5: Remove item from package");
+	    				int opt = sc.nextInt();
+	    				sc.nextLine();
+	    				switch (opt)
+	    					{case 1:
+	    						int newIndex= r.packageUI.getNewIndexPackageUI();
+	    						r.pack.updatePackageIndex(packageIndex, newIndex);
+	    						break;
+	    				
+	    					case 2:
+	    						name = r.packageUI.getNamePackageUI();
+	    						r.pack.updatePackageName(packageIndex, name);
+	    				
+	    				
+	    						break;
+	    				
+	    					case 3:
+	    						Package b = r.pack.getPackage(packageIndex);
+	    						System.out.println("The original price of this package is " + b.getPrice());
+	    						double price = r.packageUI.getPricePackageUI(b.getOriPrice());
+	    						r.pack.updatePackagePrice(packageIndex, price);
+	    						break;
+	    			
+	    					case 4:
+	    						int itemIndex = r.itemUI.getIndexItemUI();
+	    						int qty = r.packageUI.getQuantity();
+	    						Item x = r.m.getItem(itemIndex);
+	    						r.pack.addItemsInPackage(packageIndex, x, qty);
+	    						Package o = r.pack.getPackage(packageIndex);
+	    						double finalPrice = r.packageUI.getPricePackageUI(o.getOriPrice());
+	    						o.setPrice(finalPrice);
+	    					
+	    						break;
+	    				
+	    					case 5:
+	    						itemIndex = r.itemUI.getIndexItemUI();
+	    						qty = r.packageUI.getQuantity();
+	    						x = r.m.getItem(itemIndex);
+	    						r.pack.removeItemsInPackage(packageIndex, x, qty);
+	    						o = r.pack.getPackage(packageIndex);
+	    						finalPrice = r.packageUI.getPricePackageUI(o.getOriPrice());
+	    						o.setPrice(finalPrice);
+	    				
+	    				
+	    				
+	    						break;}}
+	    			else
+	    			{
+	    				System.out.println("There are no packages with that index.");}
+	    			
+	    			
+	    			
+	    			break;
+	            case 13:
+	            	int packageInd = r.packageUI.getIndexPackageUI();
+	    			if (r.pack.getPackage(packageInd) != null)
+	    			{r.pack.removePackageMenu(packageInd);}
+	    			
+	    			else
+	    			{System.out.println("There is no package with that index.");}
+	    			
+	    			
+	    			break;
+	            case 14:
+	            	r.m.viewMenu();
+	    			r.pack.viewPackageMenu();
+	            	break;
+				case 15: 
 					System.out.println("Program terminating ....");
 //					r.close();
 					break;
@@ -170,7 +375,7 @@ public class App {
 //					break;
 			}
 			System.out.println(""); 
-		} while (choice < 8);
+		} while (choice < 15);
      sc.close();
 	}
 }
