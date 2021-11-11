@@ -3,12 +3,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.io.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import javax.lang.model.element.Element;
 
-public class OrderManager {
+public class OrderManager implements Serializable{
 	private ArrayList<Order> ordersbyID; 
 	private int orderID;
 	private LocalDate _start;
