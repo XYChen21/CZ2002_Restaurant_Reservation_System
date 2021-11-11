@@ -11,14 +11,20 @@ import java.time.*;
 
 public class Restaurant implements Serializable
 {	
-	private ReservationManager resManager;
-	private TableManager tableManager;
+	public ReservationManager resManager;
+	public TableManager tableManager;
 	public TableUI tableUI;
 	public ReservationUI resUI;
 	public ItemManager m;
 	public PackageManager pack;
 	public ItemUI itemUI;
 	public PackageUI packageUI;
+	public StaffUI staffui;
+	public StaffManager staffmg;
+	public MemberUI memui;
+	public MemberManager memmg;
+	public OrderUI orderui;
+	public OrderManager ordermg;
 	// private ArrayList<Order> ordersbyID;
 	// private Menu m;
 	// private PackageMenu pack;
@@ -38,6 +44,12 @@ public class Restaurant implements Serializable
 		tableManager = new TableManager();
 		tableUI = new TableUI();
 		resUI = new ReservationUI();
+		staffui = new StaffUI();
+		staffmg = new StaffManager();
+		memui = new MemberUI();
+		memmg = new MemberManager();
+		orderui = new OrderUI();
+		ordermg = new OrderManager();
 
 		int id = 1, cap = 2;
 		Table t;
@@ -51,7 +63,9 @@ public class Restaurant implements Serializable
 			tableManager.add(id, t);
 			resManager.initTableReservation(id);
 			id++; cap+=2;
-		}	
+		}
+		
+		
 	}
 	public void addTable(int id, Table t)
 	{
