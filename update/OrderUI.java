@@ -1,7 +1,8 @@
 package restaurant;
 import java.util.Scanner;
+import java.io.*;
 
-public class OrderUI {
+public class OrderUI implements Serializable {
 	
 	private Scanner sc = new Scanner(System.in);
 	
