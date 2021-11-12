@@ -492,10 +492,10 @@ public class App {
 	    				System.out.println(e.getMessage());
 	    			}
 	    			break;
-				case 20: 
-					System.out.println("Program terminating ....");
-//					r.close();
-					break;
+			case 20: 
+				System.out.println("Program terminating ....");
+//				r.close();
+				break;
 //				default:
 //					System.out.println("Invalid choice!");
 //					break;
