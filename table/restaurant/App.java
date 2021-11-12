@@ -13,7 +13,7 @@ public class App {
 		Scanner sc = new Scanner(System.in);
 		r = new Restaurant();
 		int choice;
-		boolean checkout = false;
+		
 		boolean membership = false;
 		Staff staff1 = new Staff("Sourav", 'M', 1060, "Manager");
 		r.staffmg.addStaff(1060, staff1);
@@ -124,9 +124,8 @@ public class App {
 			System.out.println("(16)View order");
 			System.out.println("(17)Add to order");
 			System.out.println("(18)Remove from order");
-			System.out.println("(19)Payment membership");
-			System.out.println("(20)Print invoice");
-			System.out.println("(21)Close"); 
+			System.out.println("(19)Checkout and print invoice");
+			System.out.println("(20)Close");
 			System.out.print("Enter the number of your choice: "); 
 			
 			choice = sc.nextInt();
@@ -377,90 +376,123 @@ public class App {
 	    			r.pack.viewPackageMenu();
 	            	break;
 	            case 15:
-	            	int table = r.orderui.scanTableID();
-	    			String staffName = r.staffui.scanStaffName();
-	    			int staffid = r.staffui.scanStaffID();
-	    			boolean staff = r.staffmg.isStaff(staffid, staffName);
-	    			if (staff) {
-	    				r.ordermg.createOrder(table, staffName);
+	            	try {
+	            		int table = r.orderui.scanTableID();
+		            	boolean tableavail = r.tableManager.checkTableStatus(table);
+		            	if (tableavail) {
+		            		throw new Exception("This table has not been assigned yet. Please dine in first before creating order.");
+		            	}
+		    			String staffName = r.staffui.scanStaffName();
+		    			int staffid = r.staffui.scanStaffID();
+		    			boolean staff = r.staffmg.isStaff(staffid, staffName);
+		    			if (staff) {
+		    				r.ordermg.createOrder(table, staffName);
+		    			}
+		    			else {
+		    				System.out.println("Unable to create order as staff server particulars are wrong or does not exist.");
+		    			}
+	            	} catch (Exception e) {
+	    				System.out.println(e.getMessage());
 	    			}
-	    			else {
-	    				System.out.println("Unable to create order as staff server particulars are wrong or does not exist.");
-	    			}
+	            	
 	            	break;
 	            case 16:
-	            	int orderid = r.orderui.scanOrderID();
-	    			r.ordermg.viewOrder(orderid);
+	            	try {
+	            		int orderid = r.orderui.scanOrderID();
+	            		if (r.ordermg.checkValidOrderID(orderid) == false) {
+	            			throw new IndexOutOfBoundsException("Invalid orderID");
+	            		}
+	            		r.ordermg.viewOrder(orderid);
+	            	} catch (Exception e) {
+	    				System.out.println(e.getMessage());
+	    			}
 	            	break;
 	            case 17:
-	            	orderid = r.orderui.scanOrderID();
-	    			boolean alacarte = r.orderui.scanisAlaCarte();
-	    			int foodid = r.orderui.scanfoodID();
-	    			int quantity = r.orderui.scanQuantity();
-	    			if (alacarte) {
-	    				Item fooditem = r.m.getItem(foodid);
-	    				r.ordermg.addOrder(orderid, fooditem, quantity);
-	    			}
-	    			else {
-	    				Package foodpack = r.pack.getPackage(foodid);
-	    				r.ordermg.addOrder(orderid, foodpack, quantity);
+	            	try {
+	            		int orderid = r.orderui.scanOrderID();
+	            		if (r.ordermg.checkValidOrderID(orderid) == false) {
+	            			throw new IndexOutOfBoundsException("Invalid orderID");
+	            		}
+		    			boolean alacarte = r.orderui.scanisAlaCarte();
+		    			int foodid = r.orderui.scanfoodID();
+		    			int quantity = r.orderui.scanQuantity();
+		    			if (alacarte) {
+		    				Item fooditem = r.m.getItem(foodid);
+		    				if (fooditem == null) {
+		    					throw new Exception("Item does not exist in the menu");
+		    				}
+		    				r.ordermg.addOrder(orderid, fooditem, quantity);
+		    			}
+		    			else {
+		    				Package foodpack = r.pack.getPackage(foodid);
+		    				if (foodpack == null) {
+		    					throw new Exception("Package does not exist in the menu");
+		    				}
+		    				r.ordermg.addOrder(orderid, foodpack, quantity);
+		    			}
+	            	} catch (Exception e) {
+	    				System.out.println(e.getMessage());
 	    			}
 	            	break;
 	            case 18:
-	            	orderid = r.orderui.scanOrderID();
-	    			alacarte = r.orderui.scanisAlaCarte();
-	    			foodid = r.orderui.scanfoodID();
-	    			quantity = r.orderui.scanQuantity();
-	    			if (alacarte) {
-	    				Item fooditem = r.m.getItem(foodid);
-	    				r.ordermg.removeOrder(orderid, fooditem, quantity);
-	    			}
-	    			else {
-	    				Package foodpack = r.pack.getPackage(foodid);
-	    				r.ordermg.removeOrder(orderid, foodpack, quantity);
+	            	try {
+	            		int orderid = r.orderui.scanOrderID();
+	            		if (r.ordermg.checkValidOrderID(orderid) == false) {
+	            			throw new IndexOutOfBoundsException("Invalid orderID");
+	            		}
+		    			boolean alacarte = r.orderui.scanisAlaCarte();
+		    			int foodid = r.orderui.scanfoodID();
+		    			int quantity = r.orderui.scanQuantity();
+		    			if (alacarte) {
+		    				Item fooditem = r.m.getItem(foodid);
+		    				if (fooditem == null) {
+		    					throw new Exception("Item does not exist in the menu");
+		    				}
+		    				r.ordermg.removeOrder(orderid, fooditem, quantity);
+		    			}
+		    			else {
+		    				Package foodpack = r.pack.getPackage(foodid);
+		    				if (foodpack == null) {
+		    					throw new Exception("Package does not exist in the menu");
+		    				}
+		    				r.ordermg.removeOrder(orderid, foodpack, quantity);
+		    			}
+	            	} catch (Exception e) {
+	    				System.out.println(e.getMessage());
 	    			}
 	    			break;
 	            case 19:
-	            	int join = r.memui.joinMembership();
-	    			if (join == 1 || join == 2) {
-	    				name = r.memui.scanMemberName();
-	    				contact = r.memui.scanMemberHP();
-	    			}
-	    			else {
-	    				name = null;
-	    				contact = null;
-	    			}
-	    			membership = r.memmg.paymentMembership(name, contact, join);
-	    			checkout = true;
-	    			break;
-	            case 20:
 	            	try {
-	    				orderid = r.orderui.scanOrderID();
+	            		System.out.println("Checkout in progress ...");
+	            		int orderid = r.orderui.scanOrderID();
+	    				if (r.ordermg.checkValidOrderID(orderid) == false) {
+	            			throw new IndexOutOfBoundsException("Invalid orderID");
+	            		}
 	    				Order completeOrder = r.ordermg.getOrder(orderid);
 	    				if (completeOrder == null) {
 	    					throw new Exception("Error: order does not exist yet");
 	    				}
-	    				else {
-	    					if (completeOrder.paid() == false && checkout == true) {
-	    						int releaseTable = r.ordermg.printInvoice(membership);
-	    						r.tableManager.vacateTable(releaseTable);
-	    						System.out.println("Thank you and see you again!");
-	    					}
-	    					else {
-	    						if (completeOrder.paid() == true){
-	    							System.out.println("The order has already been paid");
-	    						} 
-	    						if (checkout == false) {
-	    							System.out.println("The customer has not checkout yet. Go to case 19 to proceed with checkout.");
-	    						}
-	    					}
-	    				}
-	    				
-	    			} catch (Exception e) {
+	    				if (completeOrder.paid() == true) {
+		            		throw new Exception("The order has already been paid");
+		            	}
+		            	int join = r.memui.joinMembership();
+		    			if (join == 1 || join == 2) {
+		    				name = r.memui.scanMemberName();
+		    				contact = r.memui.scanMemberHP();
+		    			}
+		    			else {
+		    				name = null;
+		    				contact = null;
+		    			}
+		    			membership = r.memmg.paymentMembership(name, contact, join);
+		    			int releaseTable = r.ordermg.printInvoice(membership, orderid);
+						r.tableManager.vacateTable(releaseTable);
+						System.out.println("Thank you and see you again!");
+	            	} catch (Exception e) {
 	    				System.out.println(e.getMessage());
 	    			}
-	            	break;
-				case 21: 
+	    			break;
+				case 20: 
 					System.out.println("Program terminating ....");
 //					r.close();
 					break;
@@ -469,7 +501,7 @@ public class App {
 //					break;
 			}
 			System.out.println(""); 
-		} while (choice < 21);
+		} while (choice < 20);
      sc.close();
 	}
 }

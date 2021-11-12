@@ -19,11 +19,17 @@ public class OrderManager implements Serializable{
 	
 	public OrderManager() {
 		ordersbyID = new ArrayList<Order>();
-		orderID = 0;
+		orderID = -1;
 		totalRevenue = 0.0;
 	}
 	
+	public boolean checkValidOrderID(int id) {
+		if (id >= 0 && id <= orderID) {return true;}
+		else {return false;}
+	}
+	
 	public void createOrder(int tableID, String staffServer) {
+		if (orderID == -1) {orderID = 0;}
 		Order newOrder = new Order(tableID, orderID, staffServer);
 		ordersbyID.add(newOrder);
 		System.out.println("New order for table " + tableID + " with orderID " + orderID + " has been successfully created.");
@@ -45,7 +51,8 @@ public class OrderManager implements Serializable{
 			orders.forEach((key, value) -> {
 				System.out.println(value + " " + key.getName());
 			});
-		} else {
+		} 
+		else {
 			System.out.println("You have not ordered any food yet.");
 		}
 	}
@@ -53,7 +60,7 @@ public class OrderManager implements Serializable{
 	public void addOrder(int orderID, Food food, int quantity) {
 	
 		// Check if order exists -> exists, increment. If not, create new
-		if (ordersbyID.get(orderID).haveOrder()) { // Food exists in the order
+		if (ordersbyID.get(orderID).getOrders().get(food) != null) { // Food exists in the order
 			int currentQuantity = ordersbyID.get(orderID).getOrders().get(food);
 			ordersbyID.get(orderID).getOrders().put(food, currentQuantity + quantity);
 		} 
@@ -65,32 +72,37 @@ public class OrderManager implements Serializable{
 	
 	public void removeOrder(int orderID, Food food, int quantity) {
 		
-		if (ordersbyID.get(orderID).haveOrder()) { // Food exists in the order
-			int currentQuantity = ordersbyID.get(orderID).getOrders().get(food);
-			if (currentQuantity - quantity == 0) { // Customer wants to completely remove food from the order
-				ordersbyID.get(orderID).getOrders().remove(food);
-				System.out.println(food.getName() + " is removed from your order.");
-			} 
-			else if (currentQuantity - quantity > 0) { // Customer wants a reduced quantity of current food ordered
-				ordersbyID.get(orderID).getOrders().put(food, currentQuantity - quantity);
-				System.out.println("You have ordered " + ordersbyID.get(orderID).getOrders().get(food) + " " + food.getName());
-			} 
-			else { // Invalid quantity entered -- error
-				System.out.println("Please re-enter a valid quantity to remove from current order of " + currentQuantity + " " + food.getName());
+		if (ordersbyID.get(orderID).haveOrder()) { 
+			if (ordersbyID.get(orderID).getOrders().get(food) != null) { // Food exists in the order
+				int currentQuantity = ordersbyID.get(orderID).getOrders().get(food);
+				if (currentQuantity - quantity == 0) { // Customer wants to completely remove food from the order
+					ordersbyID.get(orderID).getOrders().remove(food);
+					System.out.println(food.getName() + " is removed from your order.");
+				} 
+				else if (currentQuantity - quantity > 0) { // Customer wants a reduced quantity of current food ordered
+					ordersbyID.get(orderID).getOrders().put(food, currentQuantity - quantity);
+					System.out.println("You have ordered " + ordersbyID.get(orderID).getOrders().get(food) + " " + food.getName());
+				} 
+				else { // Invalid quantity entered -- error
+					System.out.println("Please re-enter a valid quantity to remove from current order of " + currentQuantity + " " + food.getName());
+				}
+			}
+			else { // Food does not exist in the order, error
+				System.out.println(food.getName() + " does not exist in your order yet. Please input a valid food to remove from order.");
 			}
 		} 
-		else { // Food does not exist in the order, error
-			System.out.println(food.getName() + " does not exist in your order yet. Please input a valid food to remove from order.");
+		else { 
+			System.out.println("You have not created order yet");
 		}
 	}
 	
-	public int printInvoice(boolean membership) {
+	public int printInvoice(boolean membership, int orderid) {
 		double subTotal = 0;
 		// Print the Restaurant name and address
 		System.out.println("SCSE Restaurant\n" + "Nanyang Technological University\n" + "50 Nanyang Avenue\n" + "Singapore 639798\n" + "Tel: (65) 6790 5786\n");
 		// Print Check number -> orderID
-		System.out.println("Check #: " + orderID);
-		Order completeOrder = ordersbyID.get(orderID);
+		System.out.println("Check #: " + orderid);
+		Order completeOrder = ordersbyID.get(orderid);
 		// Print Staff name (Server)
 		System.out.println("Served by: " + completeOrder.getStaffServer());
 		// Print Table Number
@@ -124,8 +136,8 @@ public class OrderManager implements Serializable{
 		System.out.println("Total: $" + String.format("%.2f", subTotal));
 		// Revenue = Total - Taxes
 		double total = subTotal - taxes;
-		ordersbyID.get(orderID).setTotal(total);
-		ordersbyID.get(orderID).checkout(true);
+		ordersbyID.get(orderid).setTotal(total);
+		ordersbyID.get(orderid).checkout(true);
 				
 		return completeOrder.gettableID();
 	}

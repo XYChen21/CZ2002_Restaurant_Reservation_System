@@ -18,7 +18,7 @@ public class StaffManager implements Serializable{
 		}
 		else { // Staff does not exist in staff roster, can add
 			sMap.put(id, newStaff);
-			System.out.println("Successfully added " + newStaff.getStaffName() + " ID: " + id + ".");
+			System.out.println("Successfully added staff " + newStaff.getStaffName() + " ID: " + id + ".");
 		}
 	}
 	
@@ -61,9 +61,7 @@ public class StaffManager implements Serializable{
 	}
 	
 	public boolean isStaff(int staffID, String name) {
-		if (sMap.get(staffID).getStaffName().equals(name)) {
-			System.out.println("Hello");
-			return true;}
+		if (sMap.get(staffID).getStaffName().equals(name)) {return true;}
 		else {System.out.println("Staff with staffID " + staffID + " and name " + name + " does not exist.");
 		return false;}
 	}
