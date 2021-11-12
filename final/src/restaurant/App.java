@@ -134,7 +134,8 @@ public class App {
 			System.out.println("(17)Add to order");
 			System.out.println("(18)Remove from order");
 			System.out.println("(19)Checkout and print invoice");
-			System.out.println("(20)Close");
+			System.out.println("(20)Sale revenue");
+			System.out.println("(21)Close");
 			System.out.print("Enter the number of your choice: ");
 
 			choice = sc.nextInt();
@@ -199,8 +200,8 @@ public class App {
 				r.checkout();
 				break;
 			case 20:
-				r.printRevenue();
-				break;
+			    r.printRevenue();
+			    break;
 			case 21:
 				System.out.println("Program terminating ....");
 				r.close();
@@ -210,7 +211,7 @@ public class App {
 //					break;
 			}
 			System.out.println("");
-		} while (choice < 20);
+		} while (choice < 21);
 		sc.close();
 	}
 }

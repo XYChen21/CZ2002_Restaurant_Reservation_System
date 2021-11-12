@@ -125,8 +125,6 @@ public class OrderManager implements Serializable{
 		double taxes = subTotal * 0.17;
 		System.out.println("GST and Service Charge: " + String.format("%.2f", taxes));
 		subTotal *= 1.17;
-		// Print Discount -> get from Package
-		System.out.println("Discount (package): " + 10 + "%");
 		// Print Membership Discount -> if membership == true, apply and print
 		if (membership) {
 			System.out.println("Membership discount: " + 10 + "%");
@@ -143,7 +141,7 @@ public class OrderManager implements Serializable{
 	}
 	
 	// Revenue report method
-	private void parseTme(String...t){
+	public void parseTme(String...t){
 		try {
 			this._end = LocalDate.parse(t[1], DateTimeFormatter.ofPattern("d/M/y"));
 			this._start = LocalDate.parse(t[0], DateTimeFormatter.ofPattern("d/M/y"));

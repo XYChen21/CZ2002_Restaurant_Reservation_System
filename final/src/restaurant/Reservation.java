@@ -73,6 +73,6 @@ public class Reservation implements Comparable<Reservation>, Serializable
 	}
 	public String toStringCust()
 	{
-		return "Dear " + name + ",\nyou made a reservation on " + dateTime + " for " + pax + " peopole. \nThanks and we look forward to seeing you soon!";
+		return "Dear " + name + ",\nYou made a reservation on " + dateTime + " for " + pax + " people. \nThank you and we look forward to seeing you soon!";
 	}
 }

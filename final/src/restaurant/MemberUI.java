@@ -1,10 +1,11 @@
 package restaurant;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
 public class MemberUI implements Serializable{
 
-	private Scanner sc = new Scanner(System.in);
+	Scanner sc = new Scanner(System.in);
 	
 	public String scanMemberName() {
 		System.out.println("Enter your name: ");
@@ -31,31 +32,44 @@ public class MemberUI implements Serializable{
 	
 	public int joinMembership() {
 		int ans = 0, count = 0, join = 0;
-		System.out.println("Are you a member? (1) Yes (2) No");
-		try {
-			while (count <= 1) {
+		while (true) {
+			try {
+				System.out.println("Are you a member? (1) Yes (2) No");
 				ans = sc.nextInt();
-				if (ans == 1) {
-					if (count == 0) {join = 1; break;}
-					else {join = 2; break;}
+				if (ans < 1 || ans > 2) {
+					throw new Exception("Invalid input. Enter integers only (1) Yes (2) No");
 				}
-				else if (ans == 2) {
-					if (count == 0) {
-						System.out.println("Would you like to become a member? (1) Yes (2) No");
-						count++;
-						continue;
-					}
-					else {join = 3; break;}
+				if (ans == 1) {
+					join = 1;
+					break;
 				}
 				else {
-					throw new Exception("Invalid input. Enter (1) Yes (2) No");
-					sc.nextLine();
+					System.out.println("Would you like to become a member? (1) Yes (2) No");
+					ans = sc.nextInt();
+					if (ans < 1 || ans > 2) {
+						throw new Exception("Invalid input. Enter integers only (1) Yes (2) No");
+					}
+					if (ans == 1) {
+						join = 2;
+						break;
+					}
+					else {
+						join = 3;
+						break;
+					}
 				}
+				
+			} catch(InputMismatchException e) {
+				System.out.println("Please input an integer");
+				sc.nextLine();
 			}
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			catch (Exception e) {
+				System.out.println(e.getMessage());
+				sc.nextLine();
+			}
 		}
+		sc.nextLine();
+		
 		return join;		
 	}
 }

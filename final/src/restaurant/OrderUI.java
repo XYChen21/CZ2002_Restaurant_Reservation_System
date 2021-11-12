@@ -1,4 +1,5 @@
 package restaurant;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
@@ -114,4 +115,26 @@ public class OrderUI implements Serializable {
 		String e = sc.nextLine();
 		return new String[]{s, e};
 	}
+	
+	public int scanRevenueChoice()
+	 {
+	  int choice;
+	  while(true)
+	  {
+	   try {
+	    choice = sc.nextInt();
+	    if (choice < 0 || choice > 2)
+	     throw new Exception("Invalid choice! Please put 0/1/2 only");
+	    break;
+	   } catch (InputMismatchException e) {
+	    System.out.println("Invalid input, please put an integer");
+	    sc.nextLine();
+	   } catch(Exception e){
+	    System.out.println(e.getMessage());
+	    sc.nextLine();
+	   }
+	  }
+	  sc.nextLine();
+	  return choice;
+	 }
 }

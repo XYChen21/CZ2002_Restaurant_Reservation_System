@@ -67,8 +67,22 @@ public class Restaurant implements Serializable
 			resManager.initTableReservation(id);
 			id++; cap+=2;
 		}
-		Staff staff1 = new Staff("Sourav", 'M', 1060, "Waitor");
+		Staff staff1 = new Staff("Sourav", 'M', 1060, "General Mamager");
 		staffmg.addStaff(1060, staff1);
+		Staff staff2 = new Staff("Gary", 'M', 2100, "Manager");
+		staffmg.addStaff(2100, staff2);
+		Staff staff3 = new Staff("Guohua", 'M', 2500, "Waitor");
+		staffmg.addStaff(2500, staff3);
+		Staff staff4 = new Staff("Ying", 'F', 2101, "Waitress");
+		staffmg.addStaff(2101, staff4);
+		Staff staff5 = new Staff("Ronald", 'M', 3100, "Bartender");
+		staffmg.addStaff(3100, staff5);
+		Staff staff6 = new Staff("Val", 'F', 1234, "Head Chef");
+		staffmg.addStaff(1234, staff6);
+		
+		memmg.addMember("Jac", "+6587005902");
+		memmg.addMember("XY", "+659130633");
+		memmg.addMember("lsy", "+6586163328");
 	}
 	public void addTable(int id, Table t)
 	{
@@ -160,7 +174,7 @@ public class Restaurant implements Serializable
 		ArrayList<Integer> availTables = resManager.checkAvail(LocalDateTime.now());
 		Integer tID = tableManager.allocateTable(availTables, LocalDateTime.now(), pax);
 		String key = name + contact + dateTime.toLocalDate();
-		System.out.println("key: "+key);
+//		System.out.println("key: "+key);
 		if (resManager.haveRes(key))
 			System.out.println("You've already made a reservation on that day, cannot make another reservation.");
 		else
@@ -183,7 +197,7 @@ public class Restaurant implements Serializable
 		String contact = resUI.scanContact();
 //		String date = resUI.scanTime().toLocalDate();
 		String key = name + contact + resUI.scanTime().toLocalDate();
-		System.out.println("key: " + key);
+//		System.out.println("key: " + key);
 		resManager.removeRes(key);
 	}
 	public void listAvail()
@@ -305,7 +319,7 @@ public class Restaurant implements Serializable
 				pack.updatePackageName(packageIndex, name);
 			case 3:
 				Package p = pack.getPackage(packageIndex);
-				System.out.println("The original price of this package is " + p.getPrice());
+				System.out.println("The initial discounted price of this package is " + p.getPrice());
 				double price = packageUI.getPricePackageUI(p.getOriPrice());
 				pack.updatePackagePrice(packageIndex, price);
 				break;
@@ -491,13 +505,6 @@ public class Restaurant implements Serializable
 			System.out.println(e.getMessage());
 		}
 	}
-	public void printRevenue()
-	{
-		String[] period = orderui.scanTime();
-		ordermg.parseTme(period);
-		int choice = orderui.scanRevenueChoice();
-		ordermg.printRevenueReport(choice);
-	}
 	public void checkout() {
 		try {
     		System.out.println("Checkout in progress ...");
@@ -530,4 +537,11 @@ public class Restaurant implements Serializable
 			System.out.println(e.getMessage());
 		}
 	}
+	public void printRevenue()
+	 {
+	  String[] period = orderui.scanTime();
+	  ordermg.parseTme(period);
+	  int choice = orderui.scanRevenueChoice();
+	  ordermg.printRevenueReport(choice);
+	 }
 }
