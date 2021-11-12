@@ -387,7 +387,7 @@ public class Restaurant implements Serializable
 			{
 				System.out.println("This item is inside package " + p.getName()
 				+ ", do you want to update price of this package as well? (1: Yes/2: No)");
-				System.out.println("The original price of this package is " + oldP);
+				System.out.println("The initial discounted price of this package is " + oldP);
 				int opt = packageUI.updateItemInPackage1();
 				if (opt == 1)
 				{
@@ -399,7 +399,7 @@ public class Restaurant implements Serializable
 			{
 				System.out.println("This item is inside package" + p.getName()
 				+ "please update the price of the package since the total price of each item in the package is higher.");
-				System.out.println("The original price of this package is " + p.getPrice());
+				System.out.println("The initial discounted price of this package is " + p.getPrice());
 				double newP = packageUI.getPricePackageUI(oriP);
 				p.setPrice(newP);
 			}
