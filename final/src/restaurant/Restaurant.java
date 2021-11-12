@@ -491,6 +491,13 @@ public class Restaurant implements Serializable
 			System.out.println(e.getMessage());
 		}
 	}
+	public void printRevenue()
+	{
+		String[] period = orderui.scanTime();
+		ordermg.parseTme(period);
+		int choice = orderui.scanRevenueChoice();
+		ordermg.printRevenueReport(choice);
+	}
 	public void checkout() {
 		try {
     		System.out.println("Checkout in progress ...");
