@@ -125,7 +125,8 @@ public class App {
 			System.out.println("(17)Add to order");
 			System.out.println("(18)Remove from order");
 			System.out.println("(19)Checkout and print invoice");
-			System.out.println("(20)Close");
+			System.out.println("(20)Print revenue report");
+			System.out.println("(21)Close");
 			System.out.print("Enter the number of your choice: "); 
 			
 			choice = sc.nextInt();
@@ -492,7 +493,11 @@ public class App {
 	    				System.out.println(e.getMessage());
 	    			}
 	    			break;
-			case 20: 
+			case 20;
+				r.ordermg.parseTme(r.orderui.scanTime());
+				r.ordermg.printRevenueReport(1);
+				break;
+			case 21: 
 				System.out.println("Program terminating ....");
 //				r.close();
 				break;
