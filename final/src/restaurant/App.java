@@ -199,6 +199,9 @@ public class App {
 				r.checkout();
 				break;
 			case 20:
+				r.printRevenue();
+				break;
+			case 21:
 				System.out.println("Program terminating ....");
 				r.close();
 				break;
