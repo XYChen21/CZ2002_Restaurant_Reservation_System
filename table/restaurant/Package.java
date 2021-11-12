@@ -24,6 +24,7 @@ public class Package extends Food implements Serializable {
 
 	public boolean addPackageItem(Item i, int quantity) {
 		Integer quan = menuItemPackage.get(i);
+		
 		if (quan != null)
 		{
 			System.out.println("Item already inside. Quantity is incremented.");
