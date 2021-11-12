@@ -119,7 +119,12 @@ public class App {
 			System.out.println("(12)Update promotion");
 			System.out.println("(13)Remove promotion");
 			System.out.println("(14)View menu & promotion");
-			System.out.println("(15)Close");
+			System.out.println("(15)Create order");
+			System.out.println("(16)View order");
+			System.out.println("(17)Add to order");
+			System.out.println("(18)Remove from order");
+			System.out.println("(19)Checkout and print invoice");
+			System.out.println("(20)Close");
 			System.out.print("Enter the number of your choice: ");
 
 			choice = sc.nextInt();
@@ -169,6 +174,21 @@ public class App {
 				r.viewMenus();
 				break;
 			case 15:
+				r.createOrder();
+				break;
+			case 16:
+				r.viewOrder();
+				break;
+			case 17:
+				r.addOrder();
+				break;
+			case 18:
+				r.removeOrder();
+				break;
+			case 19:
+				r.checkout();
+				break;
+			case 20:
 				System.out.println("Program terminating ....");
 //					r.close();
 				break;
@@ -177,7 +197,7 @@ public class App {
 //					break;
 			}
 			System.out.println("");
-		} while (choice < 15);
+		} while (choice < 20);
 		sc.close();
 	}
 }
