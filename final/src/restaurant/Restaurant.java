@@ -66,7 +66,9 @@ public class Restaurant implements Serializable
 			tableManager.add(id, t);
 			resManager.initTableReservation(id);
 			id++; cap+=2;
-		}	
+		}
+		Staff staff1 = new Staff("Sourav", 'M', 1060, "Waitor");
+		staffmg.addStaff(1060, staff1);
 	}
 	public void addTable(int id, Table t)
 	{
