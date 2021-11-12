@@ -8,7 +8,7 @@ public class MemberUI implements Serializable{
 	
 	public String scanMemberName() {
 		System.out.println("Enter your name: ");
-		String name = sc.next();
+		String name = sc.nextLine();
 		return name;
 	}
 	
@@ -49,6 +49,7 @@ public class MemberUI implements Serializable{
 				}
 				else {
 					throw new Exception("Invalid input. Enter (1) Yes (2) No");
+					sc.nextLine();
 				}
 			}
 			
