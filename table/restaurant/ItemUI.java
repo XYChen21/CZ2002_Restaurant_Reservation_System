@@ -33,15 +33,15 @@ public String getNameItemUI()
 		while (true){
 			try {
 				index = sc.nextInt();
-				sc.nextLine();
 				break;
 			}
 
 			catch (Exception e) {
 				System.out.println(e.getMessage());
+				sc.nextLine();
 			}
 		}
-
+		sc.nextLine();
 		return index;
 	}
 

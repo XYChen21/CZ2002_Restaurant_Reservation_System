@@ -22,7 +22,7 @@ public class Package extends Food implements Serializable {
 		this.index = index;
 	}
 
-	public void addPackageItem(Item i, int quantity) {
+	public boolean addPackageItem(Item i, int quantity) {
 		Integer quan = menuItemPackage.get(i);
 		if (quan != null)
 		{
@@ -30,19 +30,25 @@ public class Package extends Food implements Serializable {
 			menuItemPackage.replace(i, quan+quantity);
 		}
 		menuItemPackage.put(i, quantity);
+		return true;
 	}
 
-	public void removePackageItem(Item i, int quantity) { // ensure item i is not null before pass in
+	public boolean removePackageItem(Item i, int quantity) { // ensure item i is not null before pass in
 		Integer quan = menuItemPackage.get(i);
 		if (quan == null){
 			System.out.println("Item does not exist in this package. Nothing is removed.");
+			return false;
 		}
 		else {
-			if (quan < quantity)
+			if (quan < quantity) {
 				System.out.println("Not enough items insides. Nothing is removed.");
-                // remove all or don't remove?
-			else
-				menuItemPackage.replace(i, quantity - quan);
+				return false;
+			}
+			else {
+				menuItemPackage.replace(i, quan-quantity);
+				return true;
+			}
+			
 		}
 	}
 	public String getName() {

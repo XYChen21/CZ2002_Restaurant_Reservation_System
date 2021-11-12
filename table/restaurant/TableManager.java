@@ -4,9 +4,11 @@ import java.util.*;
 
 public class TableManager {
     private HashMap<Integer, Table> tables;
+    private TableUI tableUI;
     public TableManager()
     {
         tables = new HashMap<Integer, Table>();
+        tableUI = new TableUI();
     }
     public void add(int id, Table t)
     {
@@ -55,6 +57,11 @@ public class TableManager {
             return false;
         }
     }
+    public void vacateTable(int id)
+    {
+    	Table t = tables.get(id);
+    	t.vacate();
+    }
     public void listAllAvail()
     {
         for (Integer id : tables.keySet())
@@ -65,5 +72,10 @@ public class TableManager {
 			else
 				System.out.println("Table ID " + t.getID() + " is occupied");
 		}
+    }
+    public boolean checkTableStatus(int id)
+    {
+    	Table t = tables.get(id);
+    	return t.getAvail(); // false if table is occupied
     }
 }
