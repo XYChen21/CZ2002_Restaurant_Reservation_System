@@ -22,6 +22,12 @@ public class Restaurant implements Serializable
 	public PackageManager pack;
 	public ItemUI itemUI;
 	public PackageUI packageUI;
+	public StaffUI staffui;
+	public StaffManager staffmg;
+	public MemberUI memui;
+	public MemberManager memmg;
+	public OrderUI orderui;
+	public OrderManager ordermg;
 	// private ArrayList<Order> ordersbyID;
 	// private Menu m;
 	// private PackageMenu pack;
@@ -41,6 +47,12 @@ public class Restaurant implements Serializable
 		tableManager = new TableManager();
 		tableUI = new TableUI();
 		resUI = new ReservationUI();
+		staffui = new StaffUI();
+		staffmg = new StaffManager();
+		memui = new MemberUI();
+		memmg = new MemberManager();
+		orderui = new OrderUI();
+		ordermg = new OrderManager();
 
 		int id = 1, cap = 2;
 		Table t;
@@ -387,5 +399,122 @@ public class Restaurant implements Serializable
 			}
 		}
 		
+	}
+	public void createOrder() {
+		try {
+    		int table = orderui.scanTableID();
+        	boolean tableavail = tableManager.checkTableStatus(table);
+        	if (tableavail) {
+        		throw new Exception("This table has not been assigned yet. Please dine in first before creating order.");
+        	}
+			String staffName = staffui.scanStaffName();
+			int staffid = staffui.scanStaffID();
+			boolean staff = staffmg.isStaff(staffid, staffName);
+			if (staff) {
+				ordermg.createOrder(table, staffName);
+			}
+			else {
+				System.out.println("Unable to create order as staff server particulars are wrong or does not exist.");
+			}
+    	} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	public void viewOrder() {
+		try {
+    		int orderid =orderui.scanOrderID();
+    		if (ordermg.checkValidOrderID(orderid) == false) {
+    			throw new IndexOutOfBoundsException("Invalid orderID");
+    		}
+    		ordermg.viewOrder(orderid);
+    	} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	public void addOrder() {
+		try {
+    		int orderid = orderui.scanOrderID();
+    		if (ordermg.checkValidOrderID(orderid) == false) {
+    			throw new IndexOutOfBoundsException("Invalid orderID");
+    		}
+			boolean alacarte = orderui.scanisAlaCarte();
+			int foodid = orderui.scanfoodID();
+			int quantity = orderui.scanQuantity();
+			if (alacarte) {
+				Item fooditem = m.getItem(foodid);
+				if (fooditem == null) {
+					throw new Exception("Item does not exist in the menu");
+				}
+				ordermg.addOrder(orderid, fooditem, quantity);
+			}
+			else {
+				Package foodpack = pack.getPackage(foodid);
+				if (foodpack == null) {
+					throw new Exception("Package does not exist in the menu");
+				}
+				ordermg.addOrder(orderid, foodpack, quantity);
+			}
+    	} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	public void removeOrder() {
+		try {
+    		int orderid =orderui.scanOrderID();
+    		if (ordermg.checkValidOrderID(orderid) == false) {
+    			throw new IndexOutOfBoundsException("Invalid orderID");
+    		}
+			boolean alacarte = orderui.scanisAlaCarte();
+			int foodid = orderui.scanfoodID();
+			int quantity = orderui.scanQuantity();
+			if (alacarte) {
+				Item fooditem = m.getItem(foodid);
+				if (fooditem == null) {
+					throw new Exception("Item does not exist in the menu");
+				}
+				ordermg.removeOrder(orderid, fooditem, quantity);
+			}
+			else {
+				Package foodpack = pack.getPackage(foodid);
+				if (foodpack == null) {
+					throw new Exception("Package does not exist in the menu");
+				}
+				ordermg.removeOrder(orderid, foodpack, quantity);
+			}
+    	} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	public void checkout() {
+		try {
+    		System.out.println("Checkout in progress ...");
+    		int orderid = orderui.scanOrderID();
+			if (ordermg.checkValidOrderID(orderid) == false) {
+    			throw new IndexOutOfBoundsException("Invalid orderID");
+    		}
+			Order completeOrder = ordermg.getOrder(orderid);
+			if (completeOrder == null) {
+				throw new Exception("Error: order does not exist yet");
+			}
+			if (completeOrder.paid() == true) {
+        		throw new Exception("The order has already been paid");
+        	}
+        	int join = memui.joinMembership();
+        	String name, contact;
+			if (join == 1 || join == 2) {
+				name = memui.scanMemberName();
+				contact = memui.scanMemberHP();
+			}
+			else {
+				name = null;
+				contact = null;
+			}
+			boolean membership = memmg.paymentMembership(name, contact, join);
+			int releaseTable = ordermg.printInvoice(membership, orderid);
+			tableManager.vacateTable(releaseTable);
+			System.out.println("Thank you and see you again!");
+    	} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 }
