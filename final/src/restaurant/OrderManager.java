@@ -11,9 +11,9 @@ import javax.lang.model.element.Element;
 
 /**
  * Manages the methods pertaining to Order class.
- * @author Jacintha
- * @version 1.1
- * @since 2021-11-12
+ * @author Jacintha Wee
+ * @version 1.2
+ * @since 2021-11-13
  */
 public class OrderManager implements Serializable{
 	/**
@@ -158,7 +158,7 @@ public class OrderManager implements Serializable{
 	 * Print out the order invoice of this customer upon payment 
 	 * @param membership The membership status of this customer ie true if customer is a member and false otherwise
 	 * @param orderid The orderID of this customer
-	 * @return
+	 * @return ID of the table that has been checkout
 	 */
 	public int printInvoice(boolean membership, int orderid) {
 		double subTotal = 0;
