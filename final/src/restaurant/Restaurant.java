@@ -7,7 +7,7 @@ import java.time.*;
 
 /**
  * Restaurant contains all managers i.e. Controller classes and will initiate functions that are called by App class
- * @author Jacintha
+ * @author Jacintha, Chen Xingyu
  * @version 1.0
  * @since 2021-11-13
  *
@@ -61,10 +61,19 @@ public class Restaurant implements Serializable
 		memmg.addMember("XY", "+659130633");
 		memmg.addMember("lsy", "+6586163328");
 	}
+	/**
+	 * reset all auto removal schedules for reservations in the system
+	 */
 	public void restoreAutoRemove()
 	{
 		resManager.restoreAutoRemove();
 	}
+	
+	/**
+	 * add a new Table
+	 * @param id ID of the new Table
+	 * @param t Table object to be added
+	 */
 	public void addTable(int id, Table t)
 	{
 		if(tableManager.haveID(id))
@@ -75,6 +84,11 @@ public class Restaurant implements Serializable
 			resManager.initTableReservation(id);
 		}
 	}
+	
+	/**
+	 * remove a Table if the Table is present in the system
+	 * @param id ID of the table to be removed
+	 */
 	public void removeTable(int id)
 	{
 		if(tableManager.haveID(id))
@@ -82,6 +96,10 @@ public class Restaurant implements Serializable
 		else
 			System.out.println("ID doesn't exist. Please try again");
 	}
+	
+	/**
+	 * ask number of people dining and assign a Table for walk-in customers
+	 */
 	public void DineIn()
 	{
 		int pax = TableUI.scanPax();
@@ -92,6 +110,10 @@ public class Restaurant implements Serializable
 		else
 			System.out.println("No tables are available at the moment. Please wait.");
 	}
+	
+	/**
+	 * assign a Table for customers who made reservation before
+	 */
 	public void reservedDineIn()
 	{
 		String name = ReservationUI.scanName();
@@ -130,6 +152,10 @@ public class Restaurant implements Serializable
 			}
 		}
 	}
+	
+	/**
+	 * find a reservation by providing reservation name, contact number of reservation date and time
+	 */
 	public void showRes()
 	{
 		String name = ReservationUI.scanName();
@@ -142,10 +168,18 @@ public class Restaurant implements Serializable
 		else
 			System.out.println(res.toString());
 	}
+	
+	/**
+	 * show all reservations in the system
+	 */
 	public void showAllRes()
 	{
 		resManager.showAllRes();
 	}
+	
+	/**
+	 * make a reservation (the customers are not allowed to make another reservation on the same day)
+	 */
 	public void makeReservation()
 	{
 		String name = ReservationUI.scanName();
@@ -172,6 +206,10 @@ public class Restaurant implements Serializable
 				System.out.println("Cannot make reservation for given date and time");
 		}
 	}
+	
+	/**
+	 * remove a reservation from the system manually when the reservations are not expired the customers want to cancel their reservations
+	 */
 	public void removeReservation()
 	{
 		String name = ReservationUI.scanName();
@@ -181,10 +219,18 @@ public class Restaurant implements Serializable
 //		System.out.println("key: " + key);
 		resManager.removeRes(key);
 	}
+	
+	/**
+	 * list all tables status (occupied/available) at the moment
+	 */
 	public void listTableStatus()
 	{
 		tableManager.listAllStatus();
 	}
+	
+	/**
+	 * save all data by writing a serialisation file and close the system
+	 */
 	public void close()
 	{
 		try {
