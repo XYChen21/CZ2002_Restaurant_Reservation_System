@@ -5,10 +5,22 @@ import java.util.Scanner;
 
 import restaurant.Item.KindofFood;
 
+/**
+ * Represents an interface for user input pertaining to the Item class
+ * @author Valencia Lie
+ * @version 1.0
+ * @since 2021-11-12
+ */
 public class ItemUI {
-
+	/**
+	 * A scanner to scan user input 
+	 */
 	private static Scanner sc = new Scanner(System.in);
 
+	/**
+	 * A method to get the name of the item from user's input
+	 * @return the name of the item
+	 */
 	public static String getNameItemUI() {
 		System.out.println("What is the name of the item?");
 		String name;
@@ -26,6 +38,10 @@ public class ItemUI {
 		return name;
 	}
 
+	/**
+	 * A method to get the index of the item from user's input
+	 * @return the index of the item
+	 */
 	public static int getIndexItemUI() {
 		
 		int index;
@@ -47,6 +63,10 @@ public class ItemUI {
 		return index;
 	}
 
+	/**
+	 * A method to get the new index of the item from user's input in the case of index updation
+	 * @return the index of the item
+	 */
 	public static int getNewIndexItemUI() {
 		
 		int index;
@@ -67,6 +87,10 @@ public class ItemUI {
 		return index;
 	}
 
+	/**
+	 * A method to get the description of the item from user's input
+	 * @return the description of the item
+	 */
 	public static String getDescItemUI() {
 		String desc;
 		while (true) {
@@ -83,6 +107,10 @@ public class ItemUI {
 		return desc;
 	}
 
+	/**
+	 * A method to get the price of the item from user's input
+	 * @return the price of the item
+	 */
 	public static double getPriceItemUI() {
 		
 		double price;
@@ -109,6 +137,10 @@ public class ItemUI {
 		return price;
 	}
 
+	/**
+	 * A method to get the type of the item from user's input
+	 * @return the type of the item
+	 */
 	public static KindofFood getTypeItemUI() {
 		System.out.println(
 				"What is the type of the item?  1: Main, 2: Sides, 3: Beverage, 4: Dessert. Enter either 1,2,3 or 4.");
@@ -136,6 +168,10 @@ public class ItemUI {
 		return f;
 	}
 
+	/**
+	 * A method to get the user's choice when they want to update an attribute of an item
+	 * @return the user's choice in the form of integer 
+	 */
 	public static int updateMenuChoice() {
 		int choice;
 		while (true) {
