@@ -434,7 +434,7 @@ public class Restaurant implements Serializable
 				ordermg.createOrder(table, staffName);
 			}
 			else {
-				System.out.println("Unable to create order as staff server particulars are wrong or does not exist.");
+				throw new Exception("Unable to create order as staff server particulars are wrong or does not exist.");
 			}
     	} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -513,8 +513,11 @@ public class Restaurant implements Serializable
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
 			Order completeOrder = ordermg.getOrder(orderid);
-			if (completeOrder == null) {
-				throw new Exception("Error: order does not exist yet");
+//			if (completeOrder == null) {
+//				throw new Exception("Error: order does not exist yet");
+//			}
+			if (completeOrder.getOrders().isEmpty()) {
+				throw new Exception("You haven't ordered anything yet");
 			}
 			if (completeOrder.paid() == true) {
         		throw new Exception("The order has already been paid");
