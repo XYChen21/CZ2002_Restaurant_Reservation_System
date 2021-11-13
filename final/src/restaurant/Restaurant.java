@@ -453,6 +453,7 @@ public class Restaurant implements Serializable
 	}
 	public void addOrder() {
 		try {
+			System.out.println("Add to order in progress...");
     		int orderid = orderui.scanOrderID();
     		if (ordermg.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
@@ -480,6 +481,7 @@ public class Restaurant implements Serializable
 	}
 	public void removeOrder() {
 		try {
+			System.out.println("Remove from order in progress...");
     		int orderid =orderui.scanOrderID();
     		if (ordermg.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");

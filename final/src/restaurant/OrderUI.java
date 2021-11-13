@@ -86,7 +86,7 @@ public class OrderUI {
 		int foodID = 0;
 		while (true) {
 			try {
-				System.out.println("Enter corresponding index of food you wish to order: ");
+				System.out.println("Enter food index: ");
 				foodID = sc.nextInt();
 				if (foodID < 0) {
 					throw new Exception("Error: foodID is greater than or equal to 0");

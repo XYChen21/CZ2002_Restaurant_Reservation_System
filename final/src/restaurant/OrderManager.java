@@ -111,7 +111,7 @@ public class OrderManager implements Serializable{
 	 * @param quantity The amount of Item/Package to be added to this customer's order
 	 */
 	public void addOrder(int orderID, Food food, int quantity) {
-	
+		
 		// Check if order exists -> exists, increment. If not, create new
 		if (ordersbyID.get(orderID).getOrders().get(food) != null) { // Food exists in the order
 			int currentQuantity = ordersbyID.get(orderID).getOrders().get(food);
