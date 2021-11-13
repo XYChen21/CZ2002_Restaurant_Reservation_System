@@ -182,7 +182,7 @@ public class OrderManager implements Serializable{
         System.out.println("                Restaurant Name                 ");
         System.out.println("        ********************************        ");
         System.out.println();
-        System.out.println("From \t" + _start.toString() + "To \t" + _end.toString());
+        if(_start != LocalDate.MIN) System.out.println("From \t" + _start.toString() + "To \t" + _end.toString());
         System.out.println();
         System.out.println("------------------------------------------------");
 		switch(choice){
