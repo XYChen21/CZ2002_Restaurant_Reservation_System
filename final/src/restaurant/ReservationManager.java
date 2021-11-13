@@ -183,7 +183,8 @@ public class ReservationManager implements Serializable{
     public void setAutoRemove(Reservation res)
     {
         LocalDateTime reservationTime = res.getTime();
-		long delay = Duration.between(LocalDateTime.now(), reservationTime.plusMinutes(1)).toSeconds();
+        Duration timeToExpiry = Duration.between(LocalDateTime.now(), reservationTime.plusMinutes(1));
+		long delay = timeToExpiry.toSeconds();
         Runnable task = new AutoCancelTask(res);
 		ScheduledFuture<?> s = scheduler.schedule(task, delay, TimeUnit.SECONDS);
 		res.setSchedule(s);
@@ -226,18 +227,11 @@ public class ReservationManager implements Serializable{
 		@Override
 		public void run() 
 		{
-			try 
-			{
-                String key = res.getName() + res.getContact() + res.getTime().toLocalDate();
-				int tID = res.getTableID();
-                ArrayList<Reservation> resAtTable = resByTable.get(tID);
-                resAtTable.remove(res);
-                allReservations.remove(key);
-			} 
-			catch(Exception e)
-			{
-				System.out.println(e.getMessage());
-			}
+            String key = res.getName() + res.getContact() + res.getTime().toLocalDate();
+			int tID = res.getTableID();
+            ArrayList<Reservation> resAtTable = resByTable.get(tID);
+            resAtTable.remove(res);
+            allReservations.remove(key);
 		}
 	}
 }
