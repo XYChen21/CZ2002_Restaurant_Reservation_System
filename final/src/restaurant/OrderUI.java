@@ -1,14 +1,22 @@
 package restaurant;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
+/**
+ * Interface to input information regarding order made by this customer.
+ * @author Jacintha
+ * @version 1.0
+ * @since 2021-11-12
+ */
 public class OrderUI {
-
+	
 	private static Scanner sc = new Scanner(System.in);
-
-	// scan tableID
+	
+	/**
+	 * Input the tableID of the table assigned to this customer
+	 * @return the tableID of this customer
+	 */
 	public static int scanTableID() {
 		int tableID = 0;
 		while (true) {
@@ -30,8 +38,11 @@ public class OrderUI {
 		sc.nextLine();
 		return tableID;
 	}
-
-	// scan orderID
+	
+	/**
+	 * Input the orderID assigned to this customer during order creation
+	 * @return the orderID of this customer
+	 */
 	public static int scanOrderID() {
 		int orderID = 0;
 		while (true) {
@@ -53,8 +64,11 @@ public class OrderUI {
 		sc.nextLine();
 		return orderID;
 	}
-
-	// scan isAlaCarte
+	
+	/**
+	 * Input if food item is Item(ala carte) or Package(promotional set)
+	 * @return true if food item is Item and false if food item is Package
+	 */
 	public static boolean scanisAlaCarte() {
 		int choice = 0;
 		boolean type = true;
@@ -75,19 +89,19 @@ public class OrderUI {
 			}
 		}
 		sc.nextLine();
-		if (choice == 1) {
-			return true;
-		} else {
-			return false;
-		}
+		if (choice == 1) {return true;}
+		else {return false;}
 	}
-
-	// scan foodID
+	
+	/**
+	 * Input the corresponding foodID of food item to be ordered by this customer
+	 * @return the foodID of food item of choice
+	 */
 	public static int scanfoodID() {
 		int foodID = 0;
 		while (true) {
 			try {
-				System.out.println("Enter corresponding index of food you wish to order: ");
+				System.out.println("Enter food index: ");
 				foodID = sc.nextInt();
 				if (foodID < 0) {
 					throw new Exception("Error: foodID is greater than or equal to 0");
@@ -104,10 +118,13 @@ public class OrderUI {
 		sc.nextLine();
 		return foodID;
 	}
-
-	// scan quantity
+	
+	/**
+	 * Input the quantity of food item to be ordered by this customer
+	 * @return the quantity of food item to be added/removed to order of this customer
+	 */
 	public static int scanQuantity() {
-
+		
 		int quantity = 0;
 		while (true) {
 			try {
@@ -128,8 +145,11 @@ public class OrderUI {
 		sc.nextLine();
 		return quantity;
 	}
-
-	// scan staffName
+	
+	/**
+	 * Input the name of staff to serve this customer
+	 * @return the name of staff server
+	 */
 	public static String scanstaffName() {
 		String staffServer;
 		while (true) {
@@ -143,8 +163,8 @@ public class OrderUI {
 		}
 		return staffServer;
 	}
-
-	public static String[] scanTime() {
+	
+	public static String[] scanTime(){
 		System.out.println("Specify a period (d/M/y; input null for all orders) - start:");
 		String s = sc.nextLine();
 		if (s == "")
@@ -153,25 +173,25 @@ public class OrderUI {
 		String e = sc.nextLine();
 		return new String[] { s, e };
 	}
-
+	
 	public static int scanRevenueChoice() {
-		int choice;
-		while (true) {
-			try {
-				System.out.println("Please enter a choice to view revenue report: 0-by item amount; 1-by order ID; 2-by order amount");
-				choice = sc.nextInt();
-				if (choice < 0 || choice > 2)
-					throw new Exception("Invalid choice! Please put 0/1/2 only");
-				break;
-			} catch (InputMismatchException e) {
-				System.out.println("Invalid input, please put an integer");
-				sc.nextLine();
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
-				sc.nextLine();
-			}
+	int choice;
+	while (true) {
+		try {
+			System.out.println("Please enter a choice to view revenue report: 0-by item amount; 1-by order ID; 2-by order amount");
+			choice = sc.nextInt();
+			if (choice < 0 || choice > 2)
+				throw new Exception("Invalid choice! Please put 0/1/2 only");
+			break;
+		} catch (InputMismatchException e) {
+			System.out.println("Invalid input, please put an integer");
+			sc.nextLine();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			sc.nextLine();
 		}
-		sc.nextLine();
-		return choice;
+	}
+	sc.nextLine();
+	return choice;
 	}
 }
