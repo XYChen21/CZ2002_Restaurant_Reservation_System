@@ -16,17 +16,17 @@ public class Restaurant implements Serializable
 {	
 	public ReservationManager resManager;
 	public TableManager tableManager;
-	public TableUI tableUI;
-	public ReservationUI resUI;
+	public transient TableUI tableUI;
+	public transient ReservationUI resUI;
 	public ItemManager m;
 	public PackageManager pack;
-	public ItemUI itemUI;
-	public PackageUI packageUI;
-	public StaffUI staffui;
+	public transient ItemUI itemUI;
+	public transient PackageUI packageUI;
+	public transient StaffUI staffui;
 	public StaffManager staffmg;
-	public MemberUI memui;
+	public transient MemberUI memui;
 	public MemberManager memmg;
-	public OrderUI orderui;
+	public transient OrderUI orderui;
 	public OrderManager ordermg;
 	// private ArrayList<Order> ordersbyID;
 	// private Menu m;

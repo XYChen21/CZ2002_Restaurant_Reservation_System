@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class PackageUI {
 
-	Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 
 	public String getNamePackageUI() {
 		System.out.println("What is the name of the package?");

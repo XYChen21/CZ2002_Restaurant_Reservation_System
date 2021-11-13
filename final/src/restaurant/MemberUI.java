@@ -3,16 +3,30 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
-public class MemberUI implements Serializable{
+/**
+ * Interface to input information regarding members of this restaurant.
+ * @author Jacintha
+ * @version 1.0
+ * @since 2021-11-12
+ */
+public class MemberUI {
 
-	Scanner sc = new Scanner(System.in);
+	private Scanner sc = new Scanner(System.in);
 	
+	/**
+	 * Input the name of the member
+	 * @return The name of the member
+	 */
 	public String scanMemberName() {
 		System.out.println("Enter your name: ");
 		String name = sc.nextLine();
 		return name;
 	}
 	
+	/**
+	 * Input the contact number of the member
+	 * @return The contact number of the member
+	 */
 	public String scanMemberHP() {
 		String contact;
         while (true)
@@ -30,6 +44,10 @@ public class MemberUI implements Serializable{
         return contact;
 	}
 	
+	/**
+	 * Find out if customer is a member or if customer wants to become a member before proceeding to payment
+	 * @return 1 if customer claims to be a member, 2 if customer is not a member and wants to become a member, 3 if customer is not a member and does not want to become a member
+	 */
 	public int joinMembership() {
 		int ans = 0, count = 0, join = 0;
 		while (true) {

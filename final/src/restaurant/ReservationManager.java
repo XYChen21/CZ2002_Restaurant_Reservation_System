@@ -2,8 +2,8 @@ package restaurant;
 import java.util.*;
 import java.time.*;
 import java.util.concurrent.*;
-
-public class ReservationManager {
+import java.io.*;
+public class ReservationManager implements Serializable{
     private HashMap<Integer, ArrayList<Reservation>> resByTable;
     private HashMap<String, Reservation> allReservations;
     private static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();

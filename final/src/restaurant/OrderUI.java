@@ -3,11 +3,20 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
-public class OrderUI implements Serializable {
+/**
+ * Interface to input information regarding order made by this customer.
+ * @author Jacintha
+ * @version 1.0
+ * @since 2021-11-12
+ */
+public class OrderUI {
 	
 	private Scanner sc = new Scanner(System.in);
 	
-	// scan tableID
+	/**
+	 * Input the tableID of the table assigned to this customer
+	 * @return the tableID of this customer
+	 */
 	public int scanTableID() {
 		int tableID = 0;
 		while (true) {
@@ -25,7 +34,10 @@ public class OrderUI implements Serializable {
 		return tableID;
 	}
 	
-	// scan orderID
+	/**
+	 * Input the orderID assigned to this customer during order creation
+	 * @return the orderID of this customer
+	 */
 	public int scanOrderID() {
 		int orderID = 0;
 		while (true) {
@@ -43,7 +55,10 @@ public class OrderUI implements Serializable {
 		return orderID;
 	}
 	
-	// scan isAlaCarte
+	/**
+	 * Input if food item is Item(ala carte) or Package(promotional set)
+	 * @return true if food item is Item and false if food item is Package
+	 */
 	public boolean scanisAlaCarte() {
 		int choice = 0;
 		boolean type = true;
@@ -63,7 +78,10 @@ public class OrderUI implements Serializable {
 		else {return false;}
 	}
 	
-	// scan foodID
+	/**
+	 * Input the corresponding foodID of food item to be ordered by this customer
+	 * @return the foodID of food item of choice
+	 */
 	public int scanfoodID() {
 		int foodID = 0;
 		while (true) {
@@ -81,7 +99,10 @@ public class OrderUI implements Serializable {
 		return foodID;
 	}
 	
-	// scan quantity
+	/**
+	 * Input the quantity of food item to be ordered by this customer
+	 * @return the quantity of food item to be added/removed to order of this customer
+	 */
 	public int scanQuantity() {
 		
 		int quantity = 0;
@@ -100,7 +121,10 @@ public class OrderUI implements Serializable {
 		return quantity;
 	}
 	
-	// scan staffName
+	/**
+	 * Input the name of staff to serve this customer
+	 * @return the name of staff server
+	 */
 	public String scanstaffName() {
 		System.out.println("Enter name of staff server: ");
 		String staffServer = sc.next();

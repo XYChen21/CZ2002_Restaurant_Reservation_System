@@ -7,7 +7,7 @@ import restaurant.Item.KindofFood;
 
 public class ItemUI {
 	
-Scanner sc = new Scanner(System.in);
+private Scanner sc = new Scanner(System.in);
 
 
 

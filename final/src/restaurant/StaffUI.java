@@ -2,16 +2,30 @@ package restaurant;
 import java.util.Scanner;
 import java.io.*;
 
-public class StaffUI implements Serializable{
+/**
+ * Interface to input information regarding staff of this restaurant.
+ * @author Jacintha
+ * @version 1.0
+ * @since 2021-11-12
+ */
+public class StaffUI{
 	
 	private Scanner sc = new Scanner(System.in);
 	
+	/**
+	 * Input the name of this staff
+	 * @return the name of this staff
+	 */
 	public String scanStaffName() {
 		System.out.println("Enter staff's name: ");
 		String name = sc.next();
 		return name;
 	}
 	
+	/**
+	 * Input the gender of this staff
+	 * @return the gender of this staff
+	 */
 	public char scanStaffGender() {
 		char gender = 'F';
 		while (true) {
@@ -31,6 +45,10 @@ public class StaffUI implements Serializable{
 		return gender;
 	}
 	
+	/**
+	 * Input the ID of this staff
+	 * @return the employeeID of this staff
+	 */
 	public int scanStaffID() { // need to check ID against staffArray
 		int id = 0;
 		while (true) {
@@ -48,6 +66,10 @@ public class StaffUI implements Serializable{
 		return id;
 	}
 	
+	/**
+	 * Input the job position of this staff
+	 * @return the job position of this staff
+	 */
 	public String scanStaffPos() {
 		System.out.println("Enter staff's job position: ");
 		String pos = sc.next();

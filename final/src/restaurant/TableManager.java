@@ -1,8 +1,8 @@
 package restaurant;
 import java.time.LocalDateTime;
 import java.util.*;
-
-public class TableManager {
+import java.io.*;
+public class TableManager implements Serializable {
     private HashMap<Integer, Table> tables;
     private TableUI tableUI;
     public TableManager()
