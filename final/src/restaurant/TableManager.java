@@ -2,13 +2,11 @@ package restaurant;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.io.*;
-public class TableManager implements Serializable {
+public class TableManager implements Serializable{
     private HashMap<Integer, Table> tables;
-    private TableUI tableUI;
     public TableManager()
     {
         tables = new HashMap<Integer, Table>();
-        tableUI = new TableUI();
     }
     public void add(int id, Table t)
     {

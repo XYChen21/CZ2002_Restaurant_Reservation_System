@@ -1,10 +1,9 @@
 package restaurant;
 import java.util.InputMismatchException;
-import java.io.*;
 import java.util.Scanner;
-public class TableUI implements Serializable{
-    private transient Scanner sc = new Scanner(System.in);
-    public int scanID()
+public class TableUI {
+    private static Scanner sc = new Scanner(System.in);
+    public static int scanID()
     {
         int id;
         while (true){
@@ -19,7 +18,7 @@ public class TableUI implements Serializable{
         }
         return id;
     }
-    public int scanCapacity()
+    public static int scanCapacity()
     {
         int cap;
         while (true){
@@ -39,7 +38,7 @@ public class TableUI implements Serializable{
         }
         return cap;
     }
-    public int scanPax()
+    public static int scanPax()
     {
         int pax;
         while(true)

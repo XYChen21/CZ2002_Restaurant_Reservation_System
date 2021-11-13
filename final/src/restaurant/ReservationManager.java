@@ -60,7 +60,11 @@ public class ReservationManager implements Serializable{
     }
     public void addRes(int tableID, String key, Reservation res)
     {
-        resByTable.get(tableID).add(res);
+    	ArrayList<Reservation> resAtTable = resByTable.get(tableID);
+    	int i;
+		for (i = 0; i < resAtTable.size(); i++)
+			if (res.compareTo(resAtTable.get(i)) < 0) break;
+        resAtTable.add(i, res);
         allReservations.put(key, res);
     }
     public void showAllRes()

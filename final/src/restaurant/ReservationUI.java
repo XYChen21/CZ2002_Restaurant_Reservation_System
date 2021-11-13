@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 public class ReservationUI 
 {
-    private Scanner sc = new Scanner(System.in);
-    public String scanName()
+    private static Scanner sc = new Scanner(System.in);
+    public static String scanName()
     {
        
         String name;
@@ -23,7 +23,7 @@ public class ReservationUI
         }
         return name;
     }
-    public LocalDateTime scanTime()
+    public static LocalDateTime scanTime()
     {
         LocalDateTime dateTime;
         while (true)
@@ -46,7 +46,7 @@ public class ReservationUI
         }
         return dateTime;
     }
-    public int scanPax()
+    public static int scanPax()
     {
         int pax;
         while(true)
@@ -69,7 +69,7 @@ public class ReservationUI
         sc.nextLine();
         return pax;
     }
-    public String scanContact()
+    public static String scanContact()
     {
         String contact;
         while (true)
@@ -86,7 +86,7 @@ public class ReservationUI
         }
         return contact;
     }
-    public int scanEarlyArrivalChoice()
+    public static int scanEarlyArrivalChoice()
     {
         int choice;
         System.out.print("1.Assign reserved table? OR 2.Assign new table? (1/2) ");

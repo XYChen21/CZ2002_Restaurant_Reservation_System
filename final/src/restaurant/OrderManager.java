@@ -10,58 +10,24 @@ import java.util.stream.Collectors;
 
 import javax.lang.model.element.Element;
 
-/**
- * Manages the methods pertaining to Order class.
- * @author Jacintha
- * @version 1.0
- * @since 2021-11-12
- */
 public class OrderManager implements Serializable{
-	/**
-	 * An ArrayList of Orders which orderID's correspond to the index at which they were stored in the ArrayList
-	 */
 	private ArrayList<Order> ordersbyID; 
-	/**
-	 * The ID of the order created for this customer
-	 */
 	private int orderID;
-	/**
-	 * 
-	 */
 	private LocalDate _start;
-	/**
-	 * 
-	 */
 	private LocalDate _end;
-	/**
-	 * 
-	 */
 	private double totalRevenue;
 	
-	/**
-	 * Creates a new OrderManager with ArrayList to store orders in, initialized orderID to be incremented and initialized totalRevenue to be incremented
-	 */
 	public OrderManager() {
 		ordersbyID = new ArrayList<Order>();
 		orderID = -1;
 		totalRevenue = 0.0;
 	}
 	
-	/**
-	 * Check if orderID entered is valid which corresponds to a valid created order for this customer
-	 * @param id The ID of the order entered for this customer
-	 * @return true if orderID is valid and false otherwise
-	 */
 	public boolean checkValidOrderID(int id) {
 		if (id >= 0 && id <= orderID) {return true;}
 		else {return false;}
 	}
 	
-	/**
-	 * Creates and order for this customer according to the tableID assigned upon dine in and staff server to serve this customer
-	 * @param tableID The ID of the table assigned to this customer 
-	 * @param staffServer The name of the staff to serve this customer
-	 */
 	public void createOrder(int tableID, String staffServer) {
 		if (orderID == -1) {orderID = 0;}
 		Order newOrder = new Order(tableID, orderID, staffServer);
@@ -70,27 +36,14 @@ public class OrderManager implements Serializable{
 		orderID++;
 	}
 	
-	/**
-	 * Get the orderID of this customer
-	 * @return The orderID of this customer
-	 */
 	public int getorderID() {
 		return orderID;
 	}
 	
-	/**
-	 * Get the order made by this customer
-	 * @param orderid The orderID of this customer
-	 * @return Order of this customer
-	 */
 	public Order getOrder(int orderid) {
 		return ordersbyID.get(orderid);
 	}
 	
-	/**
-	 * View food currently ordered by this customer
-	 * @param orderID The orderID of this customer
-	 */
 	public void viewOrder(int orderID) {
 		if (ordersbyID.get(orderID).haveOrder()) {
 			HashMap<Food, Integer> orders = ordersbyID.get(orderID).getOrders();
@@ -104,14 +57,8 @@ public class OrderManager implements Serializable{
 		}
 	}
 	
-	/**
-	 * Add to this customer's order the food item of choice and its corresponding quantity
-	 * @param orderID The orderID of this customer
-	 * @param food The Item/Package indicated by this customer
-	 * @param quantity The amount of Item/Package to be added to this customer's order
-	 */
 	public void addOrder(int orderID, Food food, int quantity) {
-		
+	
 		// Check if order exists -> exists, increment. If not, create new
 		if (ordersbyID.get(orderID).getOrders().get(food) != null) { // Food exists in the order
 			int currentQuantity = ordersbyID.get(orderID).getOrders().get(food);
@@ -123,12 +70,6 @@ public class OrderManager implements Serializable{
 		System.out.println("You have ordered " + ordersbyID.get(orderID).getOrders().get(food) + " " + food.getName());
 	}
 	
-	/**
-	 * Remove from this customer's order the food item of choice and its corresponding quantity
-	 * @param orderID The orderID of this customer
-	 * @param food The Item/Package indicated by this customer
-	 * @param quantity The amount of Item/Package to be removed from this customer's order
-	 */
 	public void removeOrder(int orderID, Food food, int quantity) {
 		
 		if (ordersbyID.get(orderID).haveOrder()) { 
@@ -155,12 +96,6 @@ public class OrderManager implements Serializable{
 		}
 	}
 	
-	/**
-	 * Print out the order invoice of this customer upon payment 
-	 * @param membership The membership status of this customer ie true if customer is a member and false otherwise
-	 * @param orderid The orderID of this customer
-	 * @return
-	 */
 	public int printInvoice(boolean membership, int orderid) {
 		double subTotal = 0;
 		// Print the Restaurant name and address
@@ -200,6 +135,7 @@ public class OrderManager implements Serializable{
 		// Revenue = Total - Taxes
 		double total = subTotal - taxes;
 		ordersbyID.get(orderid).setTotal(total);
+		ordersbyID.get(orderid).checkout(true);
 				
 		return completeOrder.gettableID();
 	}

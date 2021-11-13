@@ -1,16 +1,17 @@
 package restaurant;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class PackageUI {
 
-	private Scanner sc = new Scanner(System.in);
+	private static Scanner sc = new Scanner(System.in);
 
-	public String getNamePackageUI() {
-		System.out.println("What is the name of the package?");
+	public static String getNamePackageUI() {
 		String name;
 		while (true) {
 			try {
+				System.out.println("What is the name of the package?");
 				name = sc.nextLine();
 				break;
 //		if (name < 0)
@@ -23,67 +24,71 @@ public class PackageUI {
 		return name;
 	}
 
-	public int getIndexPackageUI() {
-		System.out.println("What is the index of the package?");
+	public static int getIndexPackageUI() {
+		
 		int index;
 		while (true) {
+			System.out.println("What is the index of the package?");
 			try {
 				index = sc.nextInt();
-				sc.nextLine();
 				break;
-			}
-
-			catch (Exception e) {
+			} catch(InputMismatchException e) {
+				System.out.println("PLease input an integer");
+				sc.nextLine();
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
+				sc.nextLine();
 			}
 		}
-
+		sc.nextLine();
 		return index;
 	}
 
-	public int getNewIndexPackageUI() {
-		System.out.println("What is the new index of the package?");
+	public static int getNewIndexPackageUI() {
 		int index;
 		while (true) {
+			System.out.println("What is the new index of the package?");
 			try {
 				index = sc.nextInt();
-				sc.nextLine();
 				break;
-			}
-
-			catch (Exception e) {
+			} catch(InputMismatchException e) {
+				System.out.println("PLease input an integer");
+				sc.nextLine();
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
+				sc.nextLine();
 			}
 		}
-
+		sc.nextLine();
 		return index;
 	}
 
-	public int getQuantity() {
-		System.out.println("How much quantity of this item?");
-		int no;
+	public static int getQuantity() {
+		int num;
 		while (true) {
+			System.out.println("How much quantity of this item?");
 			try {
-				no = sc.nextInt();
-				sc.nextLine();
-				if (no <= 0)
+				num = sc.nextInt();
+				if (num <= 0)
 					throw new Exception(
 							"Invalid input, quantity cannot be smaller than or equals to 0. Please enter again.");
 				break;
-			}
-
-			catch (Exception e) {
+			} catch(InputMismatchException e) {
+				System.out.println("PLease input an integer");
+				sc.nextLine();
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
+				sc.nextLine();
 			}
 		}
-
-		return no;
+		sc.nextLine();
+		return num;
 	}
 
-	public double getPricePackageUI(double oriPrice) {
-		System.out.println("What is the price of the package?");
+	public static double getPricePackageUI(double oriPrice) {
 		double price;
 		while (true) {
+			System.out.println("What is the price of the package?");
 			try {
 				price = sc.nextDouble();
 				if (price >= oriPrice || price <= 0)
@@ -91,41 +96,43 @@ public class PackageUI {
 							"Invalid input. Price cannot be smaller than 0 or higher than the total price of individual items inside the package. Please enter again.");
 
 				break;
-			}
-
-			catch (Exception e) {
+			} catch(InputMismatchException e) {
+				System.out.println("PLease input an integer");
+				sc.nextLine();
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
+				sc.nextLine();
 			}
 
 		}
-
+		sc.nextLine();
 		return price;
 	}
 
-	public int updatePackageChoice() {
-		System.out
-				.println("What do you want to update? Enter 1 for Index, 2 for Name, 3 for Price, 4 to remove item inside, 5 to add item inside.");
+	public static int updatePackageChoice() {
 		int choice;
-
 		while (true) {
+			System.out.println(
+					"What do you want to update? Enter 1 for Index, 2 for Name, 3 for Price, 4 to remove item inside, 5 to add item inside.");
 			try {
 				choice = sc.nextInt();
-				sc.nextLine();
 				if (choice < 1 || choice > 5)
 					throw new Exception("Invalid input. Please enter either 1,2,3, 4 or 5.");
 				break;
-			}
-
-			catch (Exception e) {
+			} catch(InputMismatchException e) {
+				System.out.println("PLease input an integer");
+				sc.nextLine();
+			} catch (Exception e) {
 				System.out.println(e.getMessage());
+				sc.nextLine();
 			}
 
 		}
+		sc.nextLine();
 		return choice;
-
 	}
 
-	public int updateItemInPackage1() {
+	public static int updateItemInPackage() {
 
 		int choice;
 
@@ -146,8 +153,8 @@ public class PackageUI {
 		return choice;
 
 	}
-	public char addItemChoice()
-	{
+
+	public static char addItemChoice() {
 		char choice;
 		while (true) {
 			try {

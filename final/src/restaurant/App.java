@@ -1,5 +1,6 @@
 package restaurant;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
@@ -13,16 +14,16 @@ public class App {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		Restaurant r = null;
-//		try {
-//			FileInputStream fs = new FileInputStream("restaurant.ser");
-//			ObjectInputStream is = new ObjectInputStream(fs);
-//			r = (Restaurant) is.readObject(); // need cast because we'll get back type Object
-//			is.close();
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//		}
+		try {
+			FileInputStream fs = new FileInputStream("restaurant.ser");
+			ObjectInputStream is = new ObjectInputStream(fs);
+			r = (Restaurant) is.readObject(); // need cast because we'll get back type Object
+			is.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 //		
-		r = new Restaurant();
+//		r = new Restaurant();
 		int choice;
 		// if (have serial file)
 		// System.out.println("Do you want to 1. restore previous Resetaurant object or
@@ -135,10 +136,22 @@ public class App {
 			System.out.println("(18)Remove from order");
 			System.out.println("(19)Checkout and print invoice");
 			System.out.println("(20)Sale revenue");
-			System.out.println("(21)Close");
-			System.out.print("Enter the number of your choice: ");
-
-			choice = sc.nextInt();
+			System.out.println("(21)Save and close");
+			while(true) {
+				System.out.print("Enter the number of your choice: ");
+				try {
+					choice = sc.nextInt();
+					if (choice < 0 || choice > 21) 
+						throw new Exception("Invalid choice!");
+					break;
+				} catch(InputMismatchException e) {
+					System.out.println("Please input an integer");
+					sc.nextLine();
+				} catch (Exception e){
+					System.out.println(e.getMessage());
+					sc.nextLine();
+				}
+			}
 			sc.nextLine();
 			switch (choice) {
 			case 1:
@@ -165,7 +178,6 @@ public class App {
 			case 8:
 				r.addMenuItem();
 				break;
-
 			case 9:
 				r.updateItem();
 				break;
@@ -206,9 +218,6 @@ public class App {
 				System.out.println("Program terminating ....");
 				r.close();
 				break;
-//				default:
-//					System.out.println("Invalid choice!");
-//					break;
 			}
 			System.out.println("");
 		} while (choice < 21);

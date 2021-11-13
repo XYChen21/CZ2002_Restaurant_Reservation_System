@@ -14,20 +14,20 @@ import java.time.*;
 
 public class Restaurant implements Serializable
 {	
-	public ReservationManager resManager;
-	public TableManager tableManager;
-	public transient TableUI tableUI;
-	public transient ReservationUI resUI;
-	public ItemManager m;
-	public PackageManager pack;
-	public transient ItemUI itemUI;
-	public transient PackageUI packageUI;
-	public transient StaffUI staffui;
-	public StaffManager staffmg;
-	public transient MemberUI memui;
-	public MemberManager memmg;
-	public transient OrderUI orderui;
-	public OrderManager ordermg;
+	private ReservationManager resManager;
+	private TableManager tableManager;
+//	public TableUI tableUI;
+//	public ReservationUI resUI;
+	private ItemManager m;
+	private PackageManager pack;
+//	public ItemUI itemUI;
+//	public PackageUI packageUI;
+//	public StaffUI staffui;
+	private StaffManager staffmg;
+//	public MemberUI memui;
+	private MemberManager memmg;
+//	public OrderUI orderui;
+	private OrderManager ordermg;
 	// private ArrayList<Order> ordersbyID;
 	// private Menu m;
 	// private PackageMenu pack;
@@ -41,17 +41,17 @@ public class Restaurant implements Serializable
 	public Restaurant()
 	{	m = new ItemManager();
 		pack = new PackageManager();
-		itemUI = new ItemUI();
-		packageUI = new PackageUI();
+//		itemUI = new ItemUI();
+//		packageUI = new PackageUI();
 		resManager = new ReservationManager();
 		tableManager = new TableManager();
-		tableUI = new TableUI();
-		resUI = new ReservationUI();
-		staffui = new StaffUI();
+//		tableUI = new TableUI();
+//		resUI = new ReservationUI();
+//		staffui = new StaffUI();
 		staffmg = new StaffManager();
-		memui = new MemberUI();
+//		memui = new MemberUI();
 		memmg = new MemberManager();
-		orderui = new OrderUI();
+//		orderui = new OrderUI();
 		ordermg = new OrderManager();
 
 		int id = 1, cap = 2;
@@ -103,7 +103,7 @@ public class Restaurant implements Serializable
 	}
 	public void DineIn()
 	{
-		int pax = tableUI.scanPax();
+		int pax = TableUI.scanPax();
 		ArrayList<Integer> availTables = resManager.checkAvail(LocalDateTime.now());
 		Integer tID = tableManager.allocateTable(availTables, LocalDateTime.now(), pax);
 		if (tID != null)
@@ -113,8 +113,8 @@ public class Restaurant implements Serializable
 	}
 	public void reservedDineIn()
 	{
-		String name = resUI.scanName();
-		String contact = resUI.scanContact();
+		String name = ReservationUI.scanName();
+		String contact = ReservationUI.scanContact();
 		String key = name + contact + LocalDate.now();
 		Reservation res = resManager.getRes(key);
 		if(res == null)
@@ -129,7 +129,7 @@ public class Restaurant implements Serializable
 			if (LocalDateTime.now().isBefore(reservedTime))
 			{
 				System.out.println("A later reservation at " + reservedTime + " was found");
-				int c = resUI.scanEarlyArrivalChoice();
+				int c = ReservationUI.scanEarlyArrivalChoice();
 				if (c == 1)
 				{
 					boolean result = tableManager.assignTable(tableID);
@@ -151,9 +151,9 @@ public class Restaurant implements Serializable
 	}
 	public void showRes()
 	{
-		String name = resUI.scanName();
-		String contact = resUI.scanContact();
-		LocalDateTime dateTime = resUI.scanTime();
+		String name = ReservationUI.scanName();
+		String contact = ReservationUI.scanContact();
+		LocalDateTime dateTime = ReservationUI.scanTime();
 		String key = name + contact + dateTime.toLocalDate();
 		Reservation res = resManager.getRes(key);
 		if (res == null)
@@ -167,10 +167,10 @@ public class Restaurant implements Serializable
 	}
 	public void makeReservation()
 	{
-		String name = resUI.scanName();
-		String contact = resUI.scanContact();
-		LocalDateTime dateTime = resUI.scanTime();
-		int pax = resUI.scanPax();
+		String name = ReservationUI.scanName();
+		String contact = ReservationUI.scanContact();
+		LocalDateTime dateTime = ReservationUI.scanTime();
+		int pax = ReservationUI.scanPax();
 		ArrayList<Integer> availTables = resManager.checkAvail(LocalDateTime.now());
 		Integer tID = tableManager.allocateTable(availTables, LocalDateTime.now(), pax);
 		String key = name + contact + dateTime.toLocalDate();
@@ -193,10 +193,10 @@ public class Restaurant implements Serializable
 	}
 	public void removeReservation()
 	{
-		String name = resUI.scanName();
-		String contact = resUI.scanContact();
+		String name = ReservationUI.scanName();
+		String contact = ReservationUI.scanContact();
 //		String date = resUI.scanTime().toLocalDate();
-		String key = name + contact + resUI.scanTime().toLocalDate();
+		String key = name + contact + ReservationUI.scanTime().toLocalDate();
 //		System.out.println("key: " + key);
 		resManager.removeRes(key);
 	}
@@ -218,13 +218,13 @@ public class Restaurant implements Serializable
 	}
 	public void addMenuItem()
 	{
-		int index = itemUI.getIndexItemUI();
+		int index = ItemUI.getIndexItemUI();
 		if (m.checkDuplicate(index) == false)
 		{
-			String name = itemUI.getNameItemUI();
-			String description = itemUI.getDescItemUI();
-			double price = itemUI.getPriceItemUI();
-			KindofFood type = itemUI.getTypeItemUI();
+			String name = ItemUI.getNameItemUI();
+			String description = ItemUI.getDescItemUI();
+			double price = ItemUI.getPriceItemUI();
+			KindofFood type = ItemUI.getTypeItemUI();
 			Item i = new Item(index, name, description, price, type);
 			m.addMenu(index, i);
 		}
@@ -235,13 +235,13 @@ public class Restaurant implements Serializable
 	}
 	public void updateItem()
 	{
-		int index = itemUI.getIndexItemUI();
+		int index = ItemUI.getIndexItemUI();
 		if (m.checkDuplicate(index))
 		{
-			int opt = itemUI.updateMenuChoice();
+			int opt = ItemUI.updateMenuChoice();
 			switch(opt) {
 			case 1:
-				int newIndex = itemUI.getNewIndexItemUI();
+				int newIndex = ItemUI.getNewIndexItemUI();
 				if (m.checkDuplicate(newIndex) == false) {
 					m.updateIndex(index, newIndex);
 				}
@@ -250,22 +250,22 @@ public class Restaurant implements Serializable
 				}
 				break;
 			case 2:
-				String name = itemUI.getNameItemUI();
+				String name = ItemUI.getNameItemUI();
 				m.updateName(index, name);
 				break;
 			case 3:
-				String description = itemUI.getDescItemUI();
+				String description = ItemUI.getDescItemUI();
 				m.updateDesc(index, description);
 				break;
 			case 4:
-				double price = itemUI.getPriceItemUI();
+				double price = ItemUI.getPriceItemUI();
 				m.updatePrice(index, price);
 				Item i = m.getItem(index);
 				ArrayList<Package> packToUpdate = pack.itemInPackage(i);
 				updateItemInPackage(packToUpdate);
 				break;
 			case 5:
-				KindofFood type = itemUI.getTypeItemUI();
+				KindofFood type = ItemUI.getTypeItemUI();
 				m.updateType(index, type);
 				break;
 			}
@@ -277,7 +277,7 @@ public class Restaurant implements Serializable
 	}
 	public void removeMenuItem()
 	{
-		int index = itemUI.getIndexItemUI();
+		int index = ItemUI.getIndexItemUI();
 		if (m.checkDuplicate(index))
 			m.removeMenu(index);
 		else
@@ -290,13 +290,13 @@ public class Restaurant implements Serializable
 			System.out.println("There are no items in the menu, cannot create a package");
 			return;
 		}
-		int index = packageUI.getIndexPackageUI();
+		int index = PackageUI.getIndexPackageUI();
 		if (pack.checkDuplicatePackage(index) == false)
 		{
-			String name = packageUI.getNamePackageUI();
+			String name = PackageUI.getNamePackageUI();
 			Package e = new Package(name, index);
 			addPackageItem(e);
-			double price = packageUI.getPricePackageUI(e.getOriPrice());
+			double price = PackageUI.getPricePackageUI(e.getOriPrice());
 			e.setPrice(price);
 			pack.addPackageMenu(index, e);
 		}
@@ -305,44 +305,44 @@ public class Restaurant implements Serializable
 	}
 	public void updatePackage()
 	{
-		int packageIndex = packageUI.getIndexPackageUI();
+		int packageIndex = PackageUI.getIndexPackageUI();
 		if (pack.checkDuplicatePackage(packageIndex))
 		{
-			int opt = packageUI.updatePackageChoice();
+			int opt = PackageUI.updatePackageChoice();
 			switch(opt) {
 			case 1:
-				int newIndex = packageUI.getNewIndexPackageUI();
+				int newIndex = PackageUI.getNewIndexPackageUI();
 				pack.updatePackageIndex(packageIndex, newIndex);
 				break;
 			case 2:
-				String name = packageUI.getNamePackageUI();
+				String name = PackageUI.getNamePackageUI();
 				pack.updatePackageName(packageIndex, name);
 			case 3:
 				Package p = pack.getPackage(packageIndex);
 				System.out.println("The initial discounted price of this package is " + p.getPrice());
-				double price = packageUI.getPricePackageUI(p.getOriPrice());
+				double price = PackageUI.getPricePackageUI(p.getOriPrice());
 				pack.updatePackagePrice(packageIndex, price);
 				break;
 			case 4:
-				int itemIndex = itemUI.getIndexItemUI();
-				int qty = packageUI.getQuantity();;
+				int itemIndex = ItemUI.getIndexItemUI();
+				int qty = PackageUI.getQuantity();;
 				Item i = m.getItem(itemIndex);
 				boolean result = pack.removeItemsInPackage(packageIndex, i, qty);
 				if (result) {
 					Package pac = pack.getPackage(packageIndex);
-					double finalPrice = packageUI.getPricePackageUI(pac.getOriPrice());
+					double finalPrice = PackageUI.getPricePackageUI(pac.getOriPrice());
 					pac.setPrice(finalPrice);
 				}
 				break;
 			case 5:
-				itemIndex = itemUI.getIndexItemUI();
-				qty = packageUI.getQuantity();
+				itemIndex = ItemUI.getIndexItemUI();
+				qty = PackageUI.getQuantity();
 				i = m.getItem(itemIndex);
 				if (i != null)
 				{result = pack.addItemsInPackage(packageIndex, i, qty);
 				if (result) {
 					Package pac = pack.getPackage(packageIndex);
-					double finalPrice = packageUI.getPricePackageUI(pac.getOriPrice());
+					double finalPrice = PackageUI.getPricePackageUI(pac.getOriPrice());
 					pac.setPrice(finalPrice);
 				}}
 				else
@@ -355,7 +355,7 @@ public class Restaurant implements Serializable
 	}
 	public void removePackage()
 	{
-		int packageInd = packageUI.getIndexPackageUI();
+		int packageInd = PackageUI.getIndexPackageUI();
 		if (pack.checkDuplicatePackage(packageInd)) 
 			pack.removePackageMenu(packageInd);
 		else 
@@ -374,11 +374,11 @@ public class Restaurant implements Serializable
 		int itemIndex;
 		while (true) {
 			System.out.println("Add items to package! Press c to continue, press q to stop adding items.");
-			choice = packageUI.addItemChoice();
+			choice = PackageUI.addItemChoice();
 			if (choice == 'c') {
-				itemIndex = itemUI.getIndexItemUI();
+				itemIndex = ItemUI.getIndexItemUI();
 				if (m.checkDuplicate(itemIndex)) {
-					int quantity = packageUI.getQuantity();
+					int quantity = PackageUI.getQuantity();
 					Item item = m.getItem(itemIndex);
 					e.addPackageItem(item, quantity);
 				} else {
@@ -402,10 +402,10 @@ public class Restaurant implements Serializable
 				System.out.println("This item is inside package " + p.getName()
 				+ ", do you want to update price of this package as well? (1: Yes/2: No)");
 				System.out.println("The initial discounted price of this package is " + oldP);
-				int opt = packageUI.updateItemInPackage1();
+				int opt = PackageUI.updateItemInPackage();
 				if (opt == 1)
 				{
-					double newP = packageUI.getPricePackageUI(oriP);
+					double newP = PackageUI.getPricePackageUI(oriP);
 					p.setPrice(newP);
 				}
 			}
@@ -414,7 +414,7 @@ public class Restaurant implements Serializable
 				System.out.println("This item is inside package" + p.getName()
 				+ "please update the price of the package since the total price of each item in the package is higher.");
 				System.out.println("The initial discounted price of this package is " + p.getPrice());
-				double newP = packageUI.getPricePackageUI(oriP);
+				double newP = PackageUI.getPricePackageUI(oriP);
 				p.setPrice(newP);
 			}
 		}
@@ -422,13 +422,13 @@ public class Restaurant implements Serializable
 	}
 	public void createOrder() {
 		try {
-    		int table = orderui.scanTableID();
+    		int table = OrderUI.scanTableID();
         	boolean tableavail = tableManager.checkTableStatus(table);
         	if (tableavail) {
         		throw new Exception("This table has not been assigned yet. Please dine in first before creating order.");
         	}
-			String staffName = staffui.scanStaffName();
-			int staffid = staffui.scanStaffID();
+			String staffName = StaffUI.scanStaffName();
+			int staffid = StaffUI.scanStaffID();
 			boolean staff = staffmg.isStaff(staffid, staffName);
 			if (staff) {
 				ordermg.createOrder(table, staffName);
@@ -442,7 +442,7 @@ public class Restaurant implements Serializable
 	}
 	public void viewOrder() {
 		try {
-    		int orderid =orderui.scanOrderID();
+    		int orderid = OrderUI.scanOrderID();
     		if (ordermg.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
@@ -453,14 +453,13 @@ public class Restaurant implements Serializable
 	}
 	public void addOrder() {
 		try {
-			System.out.println("Add to order in progress...");
-    		int orderid = orderui.scanOrderID();
+    		int orderid = OrderUI.scanOrderID();
     		if (ordermg.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
-			boolean alacarte = orderui.scanisAlaCarte();
-			int foodid = orderui.scanfoodID();
-			int quantity = orderui.scanQuantity();
+			boolean alacarte = OrderUI.scanisAlaCarte();
+			int foodid = OrderUI.scanfoodID();
+			int quantity = OrderUI.scanQuantity();
 			if (alacarte) {
 				Item fooditem = m.getItem(foodid);
 				if (fooditem == null) {
@@ -476,19 +475,18 @@ public class Restaurant implements Serializable
 				ordermg.addOrder(orderid, foodpack, quantity);
 			}
     	} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage()); 
 		}
 	}
 	public void removeOrder() {
 		try {
-			System.out.println("Remove from order in progress...");
-    		int orderid =orderui.scanOrderID();
+    		int orderid = OrderUI.scanOrderID();
     		if (ordermg.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
-			boolean alacarte = orderui.scanisAlaCarte();
-			int foodid = orderui.scanfoodID();
-			int quantity = orderui.scanQuantity();
+			boolean alacarte = OrderUI.scanisAlaCarte();
+			int foodid = OrderUI.scanfoodID();
+			int quantity = OrderUI.scanQuantity();
 			if (alacarte) {
 				Item fooditem = m.getItem(foodid);
 				if (fooditem == null) {
@@ -510,7 +508,7 @@ public class Restaurant implements Serializable
 	public void checkout() {
 		try {
     		System.out.println("Checkout in progress ...");
-    		int orderid = orderui.scanOrderID();
+    		int orderid = OrderUI.scanOrderID();
 			if (ordermg.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
@@ -521,11 +519,11 @@ public class Restaurant implements Serializable
 			if (completeOrder.paid() == true) {
         		throw new Exception("The order has already been paid");
         	}
-        	int join = memui.joinMembership();
+        	int join = MemberUI.joinMembership();
         	String name, contact;
 			if (join == 1 || join == 2) {
-				name = memui.scanMemberName();
-				contact = memui.scanMemberHP();
+				name = MemberUI.scanMemberName();
+				contact = MemberUI.scanMemberHP();
 			}
 			else {
 				name = null;
@@ -541,9 +539,9 @@ public class Restaurant implements Serializable
 	}
 	public void printRevenue()
 	 {
-	  String[] period = orderui.scanTime();
+	  String[] period = OrderUI.scanTime();
 	  ordermg.parseTme(period);
-	  int choice = orderui.scanRevenueChoice();
+	  int choice = OrderUI.scanRevenueChoice();
 	  ordermg.printRevenueReport(choice);
 	 }
 }
