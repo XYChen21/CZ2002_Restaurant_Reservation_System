@@ -14,18 +14,36 @@ import java.time.*;
  */
 public class Restaurant implements Serializable
 {	
+	/**
+	 * The object of the Reservation Controller class 
+	 */
 	private ReservationManager resManager;
+	
+	/**
+	 * The object of the Table Controller class 
+	 */
 	private TableManager tableManager;
+	
+	/**
+	 * The object of the Item Controller class 
+	 */
 	private ItemManager itemManager;
+	
+	/**
+	 * The object of the Package Controller class 
+	 */
 	private PackageManager packageManager;
+	
 	/**
 	 * The object of the Staff Controller class 
 	 */
 	private StaffManager staffManager;
+	
 	/**
 	 * The object of the Member Controller class
 	 */
 	private MemberManager memberManager;
+	
 	/**
 	 * The object of the Order Controller class
 	 */
