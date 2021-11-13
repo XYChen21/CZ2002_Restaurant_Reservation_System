@@ -7,7 +7,7 @@ import java.time.*;
 
 /**
  * Restaurant contains all managers i.e. Controller classes and will initiate functions that are called by App class
- * @author Jacintha, Chen Xingyu
+ * @author Jacintha, Chen Xingyu, Valencia Lie
  * @version 1.0
  * @since 2021-11-13
  *
@@ -243,6 +243,10 @@ public class Restaurant implements Serializable
 		}
 		resManager.close();
 	}
+	
+	/**
+	 * A method to create an item with attributes based on user's input and add it into the object of the item controller class (like a menu or collection of item objects)
+	 */
 	public void addMenuItem()
 	{
 		int index = ItemUI.getIndexItemUI();
@@ -260,6 +264,9 @@ public class Restaurant implements Serializable
 			System.out.println("Duplicate index in this menu.");
 		}
 	}
+	/**
+	 * A method to update an item's attribute inside the object of the item controller class (like a menu or collection of item objects) through user's input
+	 */
 	public void updateItem()
 	{
 		int index = ItemUI.getIndexItemUI();
@@ -302,6 +309,10 @@ public class Restaurant implements Serializable
 			System.out.println("Item with this index does not exist.");
 		}
 	}
+	
+	/**
+	 * A method to remove an item from the object of the item controller class (like a menu or collection of item objects) through user's input of the index of item they want to remove
+	 */
 	public void removeMenuItem()
 	{
 		int index = ItemUI.getIndexItemUI();
@@ -310,6 +321,10 @@ public class Restaurant implements Serializable
 		else
 			System.out.println("Item with this index does not exist.");
 	}
+	
+	/**
+	 * A method to create a package based on the user's input of its attributes and add it into the object of the package controller class (like a menu or collection of package objects)
+	 */
 	public void createPackage()
 	{
 		if (m.isNull())
@@ -330,6 +345,10 @@ public class Restaurant implements Serializable
 		else
 			System.out.println("Duplicate index of packages in this menu");
 	}
+	
+	/**
+	 * A method to update a package's attributes inside the object of the package controller class (like a menu or collection of package objects) through user's input
+	 */
 	public void updatePackage()
 	{
 		int packageIndex = PackageUI.getIndexPackageUI();
@@ -380,6 +399,10 @@ public class Restaurant implements Serializable
 		else 
 			System.out.println("There are no packages with that index.");
 	}
+	
+	/**
+	 * A method to remove a package from the object of the package controller class (like a menu or collection of package objects) through user's input of the index of package they want to remove
+	 */
 	public void removePackage()
 	{
 		int packageInd = PackageUI.getIndexPackageUI();
@@ -389,12 +412,18 @@ public class Restaurant implements Serializable
 			System.out.println("There is no package with that index.");
 	}
 	
-	
+	/**
+	 * A method to print out the details of the items and packages successfully created/added
+	 */
 	public void viewMenus()
 	{
 		m.viewMenu();
 		pack.viewPackageMenu();
 	}
+	
+	/**
+	 * A method to add an item into a package based on the user's input of its attributes like index and quantity
+	 */
 	public void addPackageItem(Package e)
 	{
 		char choice;
@@ -417,6 +446,10 @@ public class Restaurant implements Serializable
 				break;
 		}
 	}
+	
+	/**
+	 * A method to update an item's attribute in a package based on the user's input of its attributes
+	 */
 	public void updateItemInPackage(ArrayList<Package> packList)
 	{
 		
