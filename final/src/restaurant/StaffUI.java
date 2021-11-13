@@ -5,12 +5,15 @@ import java.io.*;
 
 /**
  * Interface to input information regarding staff of this restaurant.
- * @author Jacintha
- * @version 1.0
- * @since 2021-11-12
+ * @author Jacintha Wee
+ * @version 1.1
+ * @since 2021-11-13
  */
 public class StaffUI{
 	
+	/**
+	 * Scanner to scan in user input
+	 */
 	private static Scanner sc = new Scanner(System.in);
 	
 	/**
