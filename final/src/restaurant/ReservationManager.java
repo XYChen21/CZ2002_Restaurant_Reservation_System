@@ -230,11 +230,14 @@ public class ReservationManager implements Serializable{
 		@Override
 		public void run() 
 		{
-            String key = res.getName() + res.getContact() + res.getTime().toLocalDate();
+      			String name = res.getName();
+			String contact = res.getContact();
+			LocalDateTime dateTime = res.getTime();
+			LocalDate date = dateTime.toLocalDate();
+            		allReservations.remove(name + contact + date);
 			int tID = res.getTableID();
-            ArrayList<Reservation> resAtTable = resByTable.get(tID);
-            resAtTable.remove(res);
-            allReservations.remove(key);
+            		ArrayList<Reservation> resAtTable = resByTable.get(tID);
+            		resAtTable.remove(res);
 		}
 	}
 }
