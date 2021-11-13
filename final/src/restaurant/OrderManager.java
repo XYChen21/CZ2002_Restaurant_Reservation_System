@@ -250,6 +250,8 @@ public class OrderManager implements Serializable{
         System.out.println("------------------------------------------------");
 		switch(choice){
 			case 0:
+				System.out.println("Item" + "\t\t\t\t\t" + "Amount");
+				System.out.println("------------------------------------------------");
 				temp.entrySet().stream()
 				.sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
 				.forEach(k -> 
@@ -257,6 +259,8 @@ public class OrderManager implements Serializable{
 				);
 				break;
 			case 1:
+				System.out.println("OrderID" + "\t\t\t\t\t" + "Amount");
+				System.out.println("------------------------------------------------");
 				orders4print.sort((a, b) -> a.getorderID() - b.getorderID());
 				orders4print.forEach(
 					o -> {
@@ -266,6 +270,8 @@ public class OrderManager implements Serializable{
 				);
 				break;
 			case 2:
+				System.out.println("OrderID" + "\t\t\t\t\t" + "Amount");
+				System.out.println("------------------------------------------------");
 				orders4print.sort((a, b) -> (int)(a.getTotal() - b.getTotal()));
 				orders4print.forEach(
 					o -> {
