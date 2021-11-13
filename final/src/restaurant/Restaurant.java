@@ -528,14 +528,19 @@ public class Restaurant implements Serializable
 			String staffName = StaffUI.scanStaffName();
 			int staffid = StaffUI.scanStaffID();
 			boolean staff = staffManager.isStaff(staffid, staffName);
-			if (staff) {
-				orderManager.createOrder(table, staffName);
+			if (!staff) {
+				throw new Exception("Unable to create order as staff server particulars are wrong or does not exist.");
 			}
-			else {
-				System.out.println("Unable to create order as staff server particulars are wrong or does not exist.");
+			orderManager.createOrder();
+			int orderid = orderManager.getorderID();
+			if (orderid < 0) {
+				throw new Exception("Something went wrong with orderid");
 			}
+			Order newOrder = new Order(table, orderid, staffName);
+			orderManager.addOrdertoArrayList(newOrder, table);
     	} catch (Exception e) {
 			System.out.println(e.getMessage());
+			
 		}
 	}
 	/**

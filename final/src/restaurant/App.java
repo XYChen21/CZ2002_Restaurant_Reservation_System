@@ -37,7 +37,7 @@ public class App {
 //		r = new Restaurant();
 		int choice;
 		// if (have serial file)
-		// System.out.println("Do you want to 1. restore previous Resetaurant object or
+		// System.out.println("Do you want to 1. restore previous Restaurant object or
 		// 2. create a new one?");
 		// int choice;
 		// while (true) {

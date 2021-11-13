@@ -11,9 +11,9 @@ import javax.lang.model.element.Element;
 
 /**
  * Manages the methods pertaining to Order class.
- * @author Jacintha
- * @version 1.1
- * @since 2021-11-12
+ * @author Jacintha Wee
+ * @version 2.0
+ * @since 2021-11-13
  */
 public class OrderManager implements Serializable{
 	/**
@@ -61,16 +61,20 @@ public class OrderManager implements Serializable{
 	}
 	
 	/**
-	 * Creates and order for this customer according to the tableID assigned upon dine in and staff server to serve this customer
-	 * @param tableID The ID of the table assigned to this customer 
-	 * @param staffServer The name of the staff to serve this customer
+	 * Upon creation of order, increment orderID to generate a new orderID for the customer
 	 */
-	public void createOrder(int tableID, String staffServer) {
-		if (orderID == -1) {orderID = 0;}
-		Order newOrder = new Order(tableID, orderID, staffServer);
+	public void createOrder() {
+		orderID++;
+	}
+	
+	/**
+	 * Add the newly created order to the ArrayList of all orders
+	 * @param newOrder The Order object for this customer
+	 * @param tableID The ID of the table assigned to this customer upon dine in 
+	 */
+	public void addOrdertoArrayList(Order newOrder, int tableID) {
 		ordersbyID.add(newOrder);
 		System.out.println("New order for table " + tableID + " with orderID " + orderID + " has been successfully created.");
-		orderID++;
 	}
 	
 	/**
