@@ -203,7 +203,10 @@ public class OrderManager implements Serializable{
 		return completeOrder.gettableID();
 	}
 	
-	// Revenue report method
+	/**
+	 * parse input date time string to LocalDate
+	 * @param t: string for parsing
+	 */
 	public void parseTme(String...t){
 		try {
 			this._end = LocalDate.parse(t[1], DateTimeFormatter.ofPattern("d/M/y"));
@@ -217,7 +220,11 @@ public class OrderManager implements Serializable{
 			this._end = LocalDate.MAX;
 		}
 	}
-
+	
+	/**
+	 * print a revenue report with user choice
+	 * @param choice 1: by item name; choice 2: by order id; choice 3: by payment amount
+	 */
 	public void printRevenueReport(int choice) {
 		/**
 		 * choice:
