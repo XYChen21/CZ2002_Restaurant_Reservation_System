@@ -143,7 +143,10 @@ public class ReservationManager implements Serializable{
      */
     public void showAllRes()
 	{
-		allReservations.forEach((k,v) -> System.out.println(v.toString()));
+    	if (allReservations.isEmpty())
+    		System.out.println("No reservations are in the system.");
+    	else
+    		allReservations.forEach((k,v) -> System.out.println(v.toString()));
 	}
     
     /**
