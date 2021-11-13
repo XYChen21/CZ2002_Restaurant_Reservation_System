@@ -1,8 +1,17 @@
 package restaurant;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+/**
+ * Boundary class to scan user input needed for TableManager to process and to create new Table
+ * @author Chen Xingyu
+ *
+ */
 public class TableUI {
     private static Scanner sc = new Scanner(System.in);
+    /**
+     * scan the table ID provided by user
+     * @return table ID
+     */
     public static int scanID()
     {
         int id;
@@ -18,6 +27,10 @@ public class TableUI {
         }
         return id;
     }
+    /**
+     * scan table capacity by user
+     * @return table capacity
+     */
     public static int scanCapacity()
     {
         int cap;
@@ -38,6 +51,10 @@ public class TableUI {
         }
         return cap;
     }
+    /**
+     * scan number of people at table (pax) provided by user 
+     * @return number of people at table
+     */
     public static int scanPax()
     {
         int pax;

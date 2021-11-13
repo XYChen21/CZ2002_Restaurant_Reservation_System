@@ -5,9 +5,6 @@ import java.time.*;
 /**
  * Represents a table in the restaurant.
  * @author Chen Xingyu
- * @version 1.0
- * @since 2021-11-5
- *
  */
 public class Table implements Comparable<Table>, Serializable
 {
@@ -45,7 +42,7 @@ public class Table implements Comparable<Table>, Serializable
 	
 	/**
 	 * get whether there are customers dining at the table
-	 * @return boolean indicating whether there are customers dining at the table
+	 * @return return true if the table is available, false if the table is occupied by customers
 	 */
 	public boolean getAvail()
 	{
@@ -60,6 +57,15 @@ public class Table implements Comparable<Table>, Serializable
 	{
 		return id;
 	}
+	
+	/**
+	 * check whether the table can be assigned to the given number of customers for dining in or making reservations based on two conditions <br>
+	 * <li> the capacity of the table is larger than the number of people dining </li>
+	 * <li> no customers are using the table now or the table is expected to be vacated before the given time < li>
+	 * @param time the given time to check availability
+	 * @param pax number of people dining
+	 * @return return true if both conditions are satisfied, false otherwise
+	 */
 	public boolean checkAvail(LocalDateTime time, int pax)
     {
         if (capacity >= pax)
@@ -69,75 +75,6 @@ public class Table implements Comparable<Table>, Serializable
         }
         return false;
     }
-	/**
-	 * check whether the table can be assigned to the given number of customers for dining in or making reservations <br>
-	 * three conditions are checked: <br>
-	 * 1. the capacity of the table is larger than the number of people dining <br>
-	 * 2. no customers are using the table now or the table is expected to be vacated before the given time <br>
-	 * 3. no reservations are 2 hours before and after the the given time
-	 * duration between the given time and the closest reservations at the table is longer than 2 hours, since we assume 
-	 * the table will be vacated 2 hours after the customers start dining <br>
-	 * e.g. if the given time is 5pm, then the third condition is satisfied if there are no reservations from 3pm to 7pm <br>
-	 * @param time the given time to check availability
-	 * @param pax number of people dining
-	 * @return availability of the table at given time and number of customers dining
-	 */
-	// public boolean checkAvail(LocalDateTime time, int pax)
-	// {
-	// 	if (capacity >= pax)
-	// 	{
-	// 	    if (isAvail || nextAvailTime.isBefore(time))
-	// 	    {
-	// 	    	if (reservations.size() == 0)
-	// 	    		return true;
-	// 	    	else
-	// 	    	{
-	// 	    		int i;
-	// 	    		for (i = 0; i < reservations.size(); i++)
-	// 	    			if (time.isBefore(reservations.get(i).getTime())) break;
-	// 	    		if (i == reservations.size())
-	// 	    		{
-	// 	    			if (time.minusHours(2).isAfter(reservations.get(i-1).getTime()))
-	// 	    				return true;
-	// 	    		}
-	// 	    		else if (i == 0)
-	// 	    		{
-	// 	    			if (time.plusHours(2).isBefore(reservations.get(i).getTime()))
-	// 	    				return true;
-	// 	    		}
-	// 	    		else 
-	// 	    		{
-	// 	    			if (time.plusHours(2).isBefore(reservations.get(i).getTime()) 
-	// 	    				&& time.minusHours(2).isAfter(reservations.get(i-1).getTime()))
-	// 	    				return true;
-	// 	    		}
-	// 	    	}
-	// 	    }
-	// 	}
-	// 	return false;
-	// }
-	
-// 	/**
-// 	 * add reservation to the table
-// 	 * @param res the reservation object to add to table
-// 	 */
-// 	public void addReservation(Reservation res)
-// 	{
-// 		int i;
-// 		for (i = 0; i < reservations.size(); i++)
-// 			if (res.compareTo(reservations.get(i)) < 0) break;
-// //			if (res.dateTime.isBefore(reservations.get(i).dateTime)) break;
-// 		reservations.add(i, res);
-// 	}
-	
-// 	/**
-// 	 * remove reservation from the table
-// 	 * @param res the reservation object to remove from table
-// 	 */
-// 	public void removeReservation(Reservation res)
-// 	{
-// 		reservations.remove(res);
-// 	}
 	
 	/**
 	 * assign a table for customers to dine in
@@ -149,7 +86,7 @@ public class Table implements Comparable<Table>, Serializable
 	}
 	
 	/**
-	 * vacate the table when the customers have checked out, turning isAvail to true and next available time to null
+	 * vacate the table when the customers have checked out
 	 */
 	public void vacate()
 	{

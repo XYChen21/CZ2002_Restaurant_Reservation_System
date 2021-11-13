@@ -4,9 +4,20 @@ import java.util.Scanner;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+/**
+ * Boundary class to scan user input needed for ReservationManager to process and to create new Reservation
+ * @author Chen Xingyu
+ *
+ */
 public class ReservationUI 
 {
     private static Scanner sc = new Scanner(System.in);
+    
+    /**
+     * scan the reservation name provided by the user
+     * @return reservation name
+     */
     public static String scanName()
     {
        
@@ -23,6 +34,11 @@ public class ReservationUI
         }
         return name;
     }
+    
+    /**
+     * scan the reservation time provided by the user
+     * @return reservation date and time as a LocalDateTime object
+     */
     public static LocalDateTime scanTime()
     {
         LocalDateTime dateTime;
@@ -46,6 +62,11 @@ public class ReservationUI
         }
         return dateTime;
     }
+    
+    /**
+     * scan the number of people dining provided by the user
+     * @return number of peeople dining
+     */
     public static int scanPax()
     {
         int pax;
@@ -65,10 +86,14 @@ public class ReservationUI
                 sc.nextLine();
             }
         }
-//        while (sc.hasNextLine())
         sc.nextLine();
         return pax;
     }
+    
+    /**
+     * scan the contact number provided by the user
+     * @return user's contact number as a string in format +65xxxxxxxx
+     */
     public static String scanContact()
     {
         String contact;
@@ -86,6 +111,11 @@ public class ReservationUI
         }
         return contact;
     }
+    
+    /**
+     * scan the choice from user about whether they want to assign reserved table of assign a new table when customers arrive before the reservation time
+     * @return user's choice of assigning reserved table or new table when customers arrive early
+     */
     public static int scanEarlyArrivalChoice()
     {
         int choice;

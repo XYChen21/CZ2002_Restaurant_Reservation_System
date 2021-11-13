@@ -1,57 +1,27 @@
 package restaurant;
 
 import java.util.*;
-
 import restaurant.Item.KindofFood;
-
 import java.io.*;
 import java.time.*;
-
-// import java.util.concurrent.ScheduledFuture;
-// import java.util.concurrent.TimeUnit;
-// import java.time.format.DateTimeFormatter;
-// import restaurant.Item.KindofFood;
 
 public class Restaurant implements Serializable
 {	
 	private ReservationManager resManager;
 	private TableManager tableManager;
-//	public TableUI tableUI;
-//	public ReservationUI resUI;
 	private ItemManager m;
 	private PackageManager pack;
-//	public ItemUI itemUI;
-//	public PackageUI packageUI;
-//	public StaffUI staffui;
 	private StaffManager staffmg;
-//	public MemberUI memui;
 	private MemberManager memmg;
-//	public OrderUI orderui;
 	private OrderManager ordermg;
-	// private ArrayList<Order> ordersbyID;
-	// private Menu m;
-	// private PackageMenu pack;
-	// private int numofOrders;
-	// private HashMap<Integer, Table> tables;
-	// private HashMap<String, Reservation> allReservations;
-	// private StaffRoster listofStaff;
-	// private Membership listofMembers;
-	// private static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-	// private Revenue revenue;
+
 	public Restaurant()
 	{	m = new ItemManager();
 		pack = new PackageManager();
-//		itemUI = new ItemUI();
-//		packageUI = new PackageUI();
 		resManager = new ReservationManager();
 		tableManager = new TableManager();
-//		tableUI = new TableUI();
-//		resUI = new ReservationUI();
-//		staffui = new StaffUI();
 		staffmg = new StaffManager();
-//		memui = new MemberUI();
 		memmg = new MemberManager();
-//		orderui = new OrderUI();
 		ordermg = new OrderManager();
 
 		int id = 1, cap = 2;
@@ -83,6 +53,10 @@ public class Restaurant implements Serializable
 		memmg.addMember("Jac", "+6587005902");
 		memmg.addMember("XY", "+659130633");
 		memmg.addMember("lsy", "+6586163328");
+	}
+	public void restoreAutoRemove()
+	{
+		resManager.restoreAutoRemove();
 	}
 	public void addTable(int id, Table t)
 	{
@@ -200,9 +174,9 @@ public class Restaurant implements Serializable
 //		System.out.println("key: " + key);
 		resManager.removeRes(key);
 	}
-	public void listAvail()
+	public void listTableStatus()
 	{
-		tableManager.listAllAvail();
+		tableManager.listAllStatus();
 	}
 	public void close()
 	{
@@ -423,6 +397,9 @@ public class Restaurant implements Serializable
 	public void createOrder() {
 		try {
     		int table = OrderUI.scanTableID();
+//    		if(tableManager.haveID(table) == false) {
+//    			throw new Exception("Invalid table ID.");
+//    		}
         	boolean tableavail = tableManager.checkTableStatus(table);
         	if (tableavail) {
         		throw new Exception("This table has not been assigned yet. Please dine in first before creating order.");
@@ -434,7 +411,7 @@ public class Restaurant implements Serializable
 				ordermg.createOrder(table, staffName);
 			}
 			else {
-				throw new Exception("Unable to create order as staff server particulars are wrong or does not exist.");
+				System.out.println("Unable to create order as staff server particulars are wrong or does not exist.");
 			}
     	} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -517,7 +494,7 @@ public class Restaurant implements Serializable
 //				throw new Exception("Error: order does not exist yet");
 //			}
 			if (completeOrder.getOrders().isEmpty()) {
-				throw new Exception("You haven't ordered anything yet");
+				throw new Exception("You haven't ordered amything yet");
 			}
 			if (completeOrder.paid() == true) {
         		throw new Exception("The order has already been paid");
