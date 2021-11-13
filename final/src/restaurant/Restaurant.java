@@ -7,8 +7,8 @@ import java.time.*;
 
 /**
  * Restaurant contains all managers i.e. Controller classes and will initiate functions that are called by App class
- * @author Jacintha, Chen Xingyu, Valencia Lie
- * @version 1.0
+ * @author Jacintha Wee, Chen Xingyu, Valencia Lie, Li Siyi
+ * @version 1.5
  * @since 2021-11-13
  *
  */
@@ -16,20 +16,32 @@ public class Restaurant implements Serializable
 {	
 	private ReservationManager resManager;
 	private TableManager tableManager;
-	private ItemManager m;
-	private PackageManager pack;
-	private StaffManager staffmg;
-	private MemberManager memmg;
-	private OrderManager ordermg;
+	private ItemManager itemManager;
+	private PackageManager packageManager;
+	/**
+	 * The object of the Staff Controller class 
+	 */
+	private StaffManager staffManager;
+	/**
+	 * The object of the Member Controller class
+	 */
+	private MemberManager memberManager;
+	/**
+	 * The object of the Order Controller class
+	 */
+	private OrderManager orderManager;
 
+	/**
+	 * The Controller class of all Controller classes of this restaurant 
+	 */
 	public Restaurant()
-	{	m = new ItemManager();
-		pack = new PackageManager();
+	{	itemManager = new ItemManager();
+		packageManager = new PackageManager();
 		resManager = new ReservationManager();
 		tableManager = new TableManager();
-		staffmg = new StaffManager();
-		memmg = new MemberManager();
-		ordermg = new OrderManager();
+		staffManager = new StaffManager();
+		memberManager = new MemberManager();
+		orderManager = new OrderManager();
 
 		int id = 1, cap = 2;
 		Table t;
@@ -45,21 +57,21 @@ public class Restaurant implements Serializable
 			id++; cap+=2;
 		}
 		Staff staff1 = new Staff("Sourav", 'M', 1060, "General Mamager");
-		staffmg.addStaff(1060, staff1);
+		staffManager.addStaff(1060, staff1);
 		Staff staff2 = new Staff("Gary", 'M', 2100, "Manager");
-		staffmg.addStaff(2100, staff2);
+		staffManager.addStaff(2100, staff2);
 		Staff staff3 = new Staff("Guohua", 'M', 2500, "Waitor");
-		staffmg.addStaff(2500, staff3);
+		staffManager.addStaff(2500, staff3);
 		Staff staff4 = new Staff("Ying", 'F', 2101, "Waitress");
-		staffmg.addStaff(2101, staff4);
+		staffManager.addStaff(2101, staff4);
 		Staff staff5 = new Staff("Ronald", 'M', 3100, "Bartender");
-		staffmg.addStaff(3100, staff5);
+		staffManager.addStaff(3100, staff5);
 		Staff staff6 = new Staff("Val", 'F', 1234, "Head Chef");
-		staffmg.addStaff(1234, staff6);
+		staffManager.addStaff(1234, staff6);
 		
-		memmg.addMember("Jac", "+6587005902");
-		memmg.addMember("XY", "+659130633");
-		memmg.addMember("lsy", "+6586163328");
+		memberManager.addMember("Jac", "+6587005902");
+		memberManager.addMember("XY", "+659130633");
+		memberManager.addMember("lsy", "+6586163328");
 	}
 	/**
 	 * reset all auto removal schedules for reservations in the system
@@ -250,14 +262,14 @@ public class Restaurant implements Serializable
 	public void addMenuItem()
 	{
 		int index = ItemUI.getIndexItemUI();
-		if (m.checkDuplicate(index) == false)
+		if (itemManager.checkDuplicate(index) == false)
 		{
 			String name = ItemUI.getNameItemUI();
 			String description = ItemUI.getDescItemUI();
 			double price = ItemUI.getPriceItemUI();
 			KindofFood type = ItemUI.getTypeItemUI();
 			Item i = new Item(index, name, description, price, type);
-			m.addMenu(index, i);
+			itemManager.addMenu(index, i);
 		}
 		else
 		{
@@ -270,14 +282,14 @@ public class Restaurant implements Serializable
 	public void updateItem()
 	{
 		int index = ItemUI.getIndexItemUI();
-		if (m.checkDuplicate(index))
+		if (itemManager.checkDuplicate(index))
 		{
 			int opt = ItemUI.updateMenuChoice();
 			switch(opt) {
 			case 1:
 				int newIndex = ItemUI.getNewIndexItemUI();
-				if (m.checkDuplicate(newIndex) == false) {
-					m.updateIndex(index, newIndex);
+				if (itemManager.checkDuplicate(newIndex) == false) {
+					itemManager.updateIndex(index, newIndex);
 				}
 				else {
 					System.out.println("Duplicate index in this menu.");
@@ -285,22 +297,22 @@ public class Restaurant implements Serializable
 				break;
 			case 2:
 				String name = ItemUI.getNameItemUI();
-				m.updateName(index, name);
+				itemManager.updateName(index, name);
 				break;
 			case 3:
 				String description = ItemUI.getDescItemUI();
-				m.updateDesc(index, description);
+				itemManager.updateDesc(index, description);
 				break;
 			case 4:
 				double price = ItemUI.getPriceItemUI();
-				m.updatePrice(index, price);
-				Item i = m.getItem(index);
-				ArrayList<Package> packToUpdate = pack.itemInPackage(i);
+				itemManager.updatePrice(index, price);
+				Item i = itemManager.getItem(index);
+				ArrayList<Package> packToUpdate = packageManager.itemInPackage(i);
 				updateItemInPackage(packToUpdate);
 				break;
 			case 5:
 				KindofFood type = ItemUI.getTypeItemUI();
-				m.updateType(index, type);
+				itemManager.updateType(index, type);
 				break;
 			}
 		}
@@ -316,8 +328,8 @@ public class Restaurant implements Serializable
 	public void removeMenuItem()
 	{
 		int index = ItemUI.getIndexItemUI();
-		if (m.checkDuplicate(index))
-			m.removeMenu(index);
+		if (itemManager.checkDuplicate(index))
+			itemManager.removeMenu(index);
 		else
 			System.out.println("Item with this index does not exist.");
 	}
@@ -327,20 +339,20 @@ public class Restaurant implements Serializable
 	 */
 	public void createPackage()
 	{
-		if (m.isNull())
+		if (itemManager.isNull())
 		{
 			System.out.println("There are no items in the menu, cannot create a package");
 			return;
 		}
 		int index = PackageUI.getIndexPackageUI();
-		if (pack.checkDuplicatePackage(index) == false)
+		if (packageManager.checkDuplicatePackage(index) == false)
 		{
 			String name = PackageUI.getNamePackageUI();
 			Package e = new Package(name, index);
 			addPackageItem(e);
 			double price = PackageUI.getPricePackageUI(e.getOriPrice());
 			e.setPrice(price);
-			pack.addPackageMenu(index, e);
+			packageManager.addPackageMenu(index, e);
 		}
 		else
 			System.out.println("Duplicate index of packages in this menu");
@@ -352,30 +364,30 @@ public class Restaurant implements Serializable
 	public void updatePackage()
 	{
 		int packageIndex = PackageUI.getIndexPackageUI();
-		if (pack.checkDuplicatePackage(packageIndex))
+		if (packageManager.checkDuplicatePackage(packageIndex))
 		{
 			int opt = PackageUI.updatePackageChoice();
 			switch(opt) {
 			case 1:
 				int newIndex = PackageUI.getNewIndexPackageUI();
-				pack.updatePackageIndex(packageIndex, newIndex);
+				packageManager.updatePackageIndex(packageIndex, newIndex);
 				break;
 			case 2:
 				String name = PackageUI.getNamePackageUI();
-				pack.updatePackageName(packageIndex, name);
+				packageManager.updatePackageName(packageIndex, name);
 			case 3:
-				Package p = pack.getPackage(packageIndex);
+				Package p = packageManager.getPackage(packageIndex);
 				System.out.println("The initial discounted price of this package is " + p.getPrice());
 				double price = PackageUI.getPricePackageUI(p.getOriPrice());
-				pack.updatePackagePrice(packageIndex, price);
+				packageManager.updatePackagePrice(packageIndex, price);
 				break;
 			case 4:
 				int itemIndex = ItemUI.getIndexItemUI();
 				int qty = PackageUI.getQuantity();;
-				Item i = m.getItem(itemIndex);
-				boolean result = pack.removeItemsInPackage(packageIndex, i, qty);
+				Item i = itemManager.getItem(itemIndex);
+				boolean result = packageManager.removeItemsInPackage(packageIndex, i, qty);
 				if (result) {
-					Package pac = pack.getPackage(packageIndex);
+					Package pac = packageManager.getPackage(packageIndex);
 					double finalPrice = PackageUI.getPricePackageUI(pac.getOriPrice());
 					pac.setPrice(finalPrice);
 				}
@@ -383,11 +395,11 @@ public class Restaurant implements Serializable
 			case 5:
 				itemIndex = ItemUI.getIndexItemUI();
 				qty = PackageUI.getQuantity();
-				i = m.getItem(itemIndex);
+				i = itemManager.getItem(itemIndex);
 				if (i != null)
-				{result = pack.addItemsInPackage(packageIndex, i, qty);
+				{result = packageManager.addItemsInPackage(packageIndex, i, qty);
 				if (result) {
-					Package pac = pack.getPackage(packageIndex);
+					Package pac = packageManager.getPackage(packageIndex);
 					double finalPrice = PackageUI.getPricePackageUI(pac.getOriPrice());
 					pac.setPrice(finalPrice);
 				}}
@@ -406,8 +418,8 @@ public class Restaurant implements Serializable
 	public void removePackage()
 	{
 		int packageInd = PackageUI.getIndexPackageUI();
-		if (pack.checkDuplicatePackage(packageInd)) 
-			pack.removePackageMenu(packageInd);
+		if (packageManager.checkDuplicatePackage(packageInd)) 
+			packageManager.removePackageMenu(packageInd);
 		else 
 			System.out.println("There is no package with that index.");
 	}
@@ -417,8 +429,8 @@ public class Restaurant implements Serializable
 	 */
 	public void viewMenus()
 	{
-		m.viewMenu();
-		pack.viewPackageMenu();
+		itemManager.viewMenu();
+		packageManager.viewPackageMenu();
 	}
 	
 	/**
@@ -433,9 +445,9 @@ public class Restaurant implements Serializable
 			choice = PackageUI.addItemChoice();
 			if (choice == 'c') {
 				itemIndex = ItemUI.getIndexItemUI();
-				if (m.checkDuplicate(itemIndex)) {
+				if (itemManager.checkDuplicate(itemIndex)) {
 					int quantity = PackageUI.getQuantity();
-					Item item = m.getItem(itemIndex);
+					Item item = itemManager.getItem(itemIndex);
 					e.addPackageItem(item, quantity);
 				} else {
 					System.out.println("Nothing is added into this package because there is no item with this index.");
@@ -495,9 +507,9 @@ public class Restaurant implements Serializable
         	}
 			String staffName = StaffUI.scanStaffName();
 			int staffid = StaffUI.scanStaffID();
-			boolean staff = staffmg.isStaff(staffid, staffName);
+			boolean staff = staffManager.isStaff(staffid, staffName);
 			if (staff) {
-				ordermg.createOrder(table, staffName);
+				orderManager.createOrder(table, staffName);
 			}
 			else {
 				System.out.println("Unable to create order as staff server particulars are wrong or does not exist.");
@@ -512,10 +524,10 @@ public class Restaurant implements Serializable
 	public void viewOrder() {
 		try {
     		int orderid = OrderUI.scanOrderID();
-    		if (ordermg.checkValidOrderID(orderid) == false) {
+    		if (orderManager.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
-    		ordermg.viewOrder(orderid);
+    		orderManager.viewOrder(orderid);
     	} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -526,25 +538,25 @@ public class Restaurant implements Serializable
 	public void addOrder() {
 		try {
     		int orderid = OrderUI.scanOrderID();
-    		if (ordermg.checkValidOrderID(orderid) == false) {
+    		if (orderManager.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
 			boolean alacarte = OrderUI.scanisAlaCarte();
 			int foodid = OrderUI.scanfoodID();
 			int quantity = OrderUI.scanQuantity();
 			if (alacarte) {
-				Item fooditem = m.getItem(foodid);
+				Item fooditem = itemManager.getItem(foodid);
 				if (fooditem == null) {
 					throw new Exception("Item does not exist in the menu");
 				}
-				ordermg.addOrder(orderid, fooditem, quantity);
+				orderManager.addOrder(orderid, fooditem, quantity);
 			}
 			else {
-				Package foodpack = pack.getPackage(foodid);
+				Package foodpack = packageManager.getPackage(foodid);
 				if (foodpack == null) {
 					throw new Exception("Package does not exist in the menu");
 				}
-				ordermg.addOrder(orderid, foodpack, quantity);
+				orderManager.addOrder(orderid, foodpack, quantity);
 			}
     	} catch (Exception e) {
 			System.out.println(e.getMessage()); 
@@ -556,25 +568,25 @@ public class Restaurant implements Serializable
 	public void removeOrder() {
 		try {
     		int orderid = OrderUI.scanOrderID();
-    		if (ordermg.checkValidOrderID(orderid) == false) {
+    		if (orderManager.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
 			boolean alacarte = OrderUI.scanisAlaCarte();
 			int foodid = OrderUI.scanfoodID();
 			int quantity = OrderUI.scanQuantity();
 			if (alacarte) {
-				Item fooditem = m.getItem(foodid);
+				Item fooditem = itemManager.getItem(foodid);
 				if (fooditem == null) {
 					throw new Exception("Item does not exist in the menu");
 				}
-				ordermg.removeOrder(orderid, fooditem, quantity);
+				orderManager.removeOrder(orderid, fooditem, quantity);
 			}
 			else {
-				Package foodpack = pack.getPackage(foodid);
+				Package foodpack = packageManager.getPackage(foodid);
 				if (foodpack == null) {
 					throw new Exception("Package does not exist in the menu");
 				}
-				ordermg.removeOrder(orderid, foodpack, quantity);
+				orderManager.removeOrder(orderid, foodpack, quantity);
 			}
     	} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -587,10 +599,10 @@ public class Restaurant implements Serializable
 		try {
     		System.out.println("Checkout in progress ...");
     		int orderid = OrderUI.scanOrderID();
-			if (ordermg.checkValidOrderID(orderid) == false) {
+			if (orderManager.checkValidOrderID(orderid) == false) {
     			throw new IndexOutOfBoundsException("Invalid orderID");
     		}
-			Order completeOrder = ordermg.getOrder(orderid);
+			Order completeOrder = orderManager.getOrder(orderid);
 //			if (completeOrder == null) {
 //				throw new Exception("Error: order does not exist yet");
 //			}
@@ -610,8 +622,8 @@ public class Restaurant implements Serializable
 				name = null;
 				contact = null;
 			}
-			boolean membership = memmg.paymentMembership(name, contact, join);
-			int releaseTable = ordermg.printInvoice(membership, orderid);
+			boolean membership = memberManager.paymentMembership(name, contact, join);
+			int releaseTable = orderManager.printInvoice(membership, orderid);
 			tableManager.vacateTable(releaseTable);
 			System.out.println("Thank you and see you again!");
     	} catch (Exception e) {
@@ -625,8 +637,8 @@ public class Restaurant implements Serializable
 	public void printRevenue()
 	 {
 	  String[] period = OrderUI.scanTime();
-	  ordermg.parseTme(period);
+	  orderManager.parseTme(period);
 	  int choice = OrderUI.scanRevenueChoice();
-	  ordermg.printRevenueReport(choice);
+	  orderManager.printRevenueReport(choice);
 	 }
 }
