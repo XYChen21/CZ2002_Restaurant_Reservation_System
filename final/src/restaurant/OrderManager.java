@@ -12,7 +12,7 @@ import javax.lang.model.element.Element;
 /**
  * Manages the methods pertaining to Order class.
  * @author Jacintha
- * @version 1.0
+ * @version 1.1
  * @since 2021-11-12
  */
 public class OrderManager implements Serializable{
@@ -52,7 +52,7 @@ public class OrderManager implements Serializable{
 	 * @return true if orderID is valid and false otherwise
 	 */
 	public boolean checkValidOrderID(int id) {
-		if (id >= 0 && id <= orderID) {return true;}
+		if (id >= 0 && id < orderID) {return true;}
 		else {return false;}
 	}
 	

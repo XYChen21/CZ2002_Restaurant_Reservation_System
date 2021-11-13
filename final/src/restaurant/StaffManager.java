@@ -5,7 +5,7 @@ import java.io.*;
 /**
  * Manages methods pertaining to Staff class.
  * @author Jacintha
- * @version 1.4
+ * @version 1.1
  * @since 2021-11-12
  */
 public class StaffManager implements Serializable{
@@ -88,8 +88,19 @@ public class StaffManager implements Serializable{
 	 * @return true if the staff exists, and false otherwise
 	 */
 	public boolean isStaff(int staffID, String name) {
-		if (sMap.get(staffID).getStaffName().equals(name)) {return true;}
-		else {System.out.println("Staff with staffID " + staffID + " and name " + name + " does not exist.");
-		return false;}
+		if (sMap.get(staffID) != null) {
+			if (sMap.get(staffID).getStaffName().equals(name)) {
+				return true;
+			}
+			else {
+				System.out.println("Staff with staffID " + staffID + " and name " + name + " does not exist.");
+				return false;
+			}
+		}
+		else {
+			System.out.println("Invalid staffID entered");
+			return false;
+		}
+		
 	}
 }
