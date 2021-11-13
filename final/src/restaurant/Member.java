@@ -4,7 +4,7 @@ import java.io.Serializable;
 /**
  * Represents a member of this restaurant. 
  * Members are entitled to 10% discount off their payment.
- * @author Jacintha
+ * @author Jacintha Wee
  * @version 1.0
  * @since 2021-11-12
  */

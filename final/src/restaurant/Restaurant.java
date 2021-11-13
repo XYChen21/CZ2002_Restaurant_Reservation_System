@@ -453,6 +453,7 @@ public class Restaurant implements Serializable
 	
 	/**
 	 * A method to add an item into a package based on the user's input of its attributes like index and quantity
+	 * @param e The package object which we want to add items in
 	 */
 	public void addPackageItem(Package e)
 	{
@@ -479,6 +480,7 @@ public class Restaurant implements Serializable
 	
 	/**
 	 * A method to update an item's attribute in a package based on the user's input of its attributes
+	 * @param packList ArrayList of packages that contains certain item and will be called when the item's price is updated in updateItem
 	 */
 	public void updateItemInPackage(ArrayList<Package> packList)
 	{

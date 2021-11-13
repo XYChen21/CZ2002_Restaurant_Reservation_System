@@ -6,13 +6,12 @@ import java.io.*;
 /**
  * Interface to input information regarding order made by this customer.
  * @author Jacintha
- * @version 1.1
- * @since 2021-11-13
+ * @version 1.0
+ * @since 2021-11-12
  */
 public class OrderUI {
-	
 	/**
-	 * Scanner to scan in user input
+	 * a scanner to scan user's input
 	 */
 	private static Scanner sc = new Scanner(System.in);
 	

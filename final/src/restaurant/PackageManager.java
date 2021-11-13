@@ -116,7 +116,7 @@ public class PackageManager implements Serializable {
 	/**
 	 * A method to update the name of the package
 	 * @param oldIndex The index of the package
-	 * @param newIndex The new name of the package
+	 * @param newName The new name of the package
 	 */
 	public void updatePackageName(int oldIndex, String newName) {
 		Package p = getPackage(oldIndex);
@@ -135,7 +135,7 @@ public class PackageManager implements Serializable {
 	/**
 	 * A method to update the price of the package
 	 * @param oldIndex The index of the package
-	 * @param newIndex The new price of the package
+	 * @param newPrice The new price of the package
 	 */
 	public void updatePackagePrice(int oldIndex, double newPrice) {
 		Package p = getPackage(oldIndex);
@@ -155,7 +155,7 @@ public class PackageManager implements Serializable {
 	 * @param oldIndex The index of the package
 	 * @param i The item object to be added
 	 * @param quantity The quantity of the item object to be added
-	 * @return
+	 * @return true if items are added, false otherwise
 	 */
 
 	public boolean addItemsInPackage(int oldIndex, Item i, int quantity) {
@@ -174,7 +174,7 @@ public class PackageManager implements Serializable {
 	 * @param oldIndex The index of the package
 	 * @param i The item object to be removed
 	 * @param quantity The quantity of the item object to be removed
-	 * @return
+	 * @return true if items are removed, false otherwise
 	 */
 
 	public boolean removeItemsInPackage(int oldIndex, Item i, int quantity) {

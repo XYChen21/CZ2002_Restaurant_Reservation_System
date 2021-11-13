@@ -64,7 +64,7 @@ public class ItemUI {
 	}
 
 	/**
-	 * A method to get the new index of the item from user's input in the case of index updation
+	 * A method to get the new index of the item from user's input in the case of index update
 	 * @return the index of the item
 	 */
 	public static int getNewIndexItemUI() {

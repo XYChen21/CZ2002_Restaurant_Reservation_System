@@ -18,19 +18,19 @@ import restaurant.Item.KindofFood;
 public class ItemManager implements Serializable {
 	
 	/**
-	 * A hashmap collection of indexes of items and the item objects themselves
+	 * A HashMap collection of indexes of items and the item objects themselves
 	 */
 	private HashMap<Integer, Item> menu;
 
  /** 
-  * Creates the hashmap collection of indexes of items and the item objects themselves
+  * Creates the HashMap collection of indexes of items and the item objects themselves
   */
 	public ItemManager() {
 		this.menu = new HashMap<Integer, Item>();
 	}
 
 /**
- * A method to add item objects into the hashmap
+ * A method to add item objects into the HashMap
  * @param index Index of the item object
  * @param i Item object to be added
  */
@@ -40,7 +40,7 @@ public class ItemManager implements Serializable {
 	}
 	
 /**
- * A method to remove item objects from the hashmap
+ * A method to remove item objects from the HashMap
  * @param index Index of the item object
  */
 
@@ -64,8 +64,8 @@ public class ItemManager implements Serializable {
 	}
 	
 	/**
-	 * A method to check if the hashmap of items is empty or not
-	 * @return true if the hashmap is empty, false otherwise
+	 * A method to check if the HashMap of items is empty or not
+	 * @return true if the HashMap is empty, false otherwise
 	 */
 	public boolean isNull()
 	{
@@ -73,11 +73,10 @@ public class ItemManager implements Serializable {
 	}
 	
 	/**
-	 * A method to update the name of an item object in the hashmap
+	 * A method to update the name of an item object in the HashMap
 	 * @param oldIndex The index of the item
 	 * @param newName The name of the item
 	 */
-
 	public void updateName(int oldIndex, String newName) {
 		Item i = menu.get(oldIndex);
 		i.setName(newName);
@@ -85,7 +84,7 @@ public class ItemManager implements Serializable {
 	}
 
 	/**
-	 * A method to update the description of an item object in the hashmap
+	 * A method to update the description of an item object in the HashMap
 	 * @param oldIndex The index of the item
 	 * @param newDesc The description of the item
 	 */
@@ -97,7 +96,7 @@ public class ItemManager implements Serializable {
 	}
 
 	/**
-	 * A method to update the price of an item object in the hashmap
+	 * A method to update the price of an item object in the HashMap
 	 * @param oldIndex The index of the item
 	 * @param newPrice The description of the item
 	 */
@@ -108,7 +107,7 @@ public class ItemManager implements Serializable {
 	}
 
 	/**
-	 * A method to update the type of an item object in the hashmap
+	 * A method to update the type of an item object in the HashMap
 	 * @param oldIndex The index of the item
 	 * @param newType The type of the item
 	 */
@@ -120,7 +119,7 @@ public class ItemManager implements Serializable {
 	}
 
 	/**
-	 * A method to check any duplicate of items inside the hashmap
+	 * A method to check any duplicate of items inside the HashMap
 	 * @param index The index of item to be checked
 	 * @return true if there is duplicates, false otherwise
 	 */
@@ -135,7 +134,7 @@ public class ItemManager implements Serializable {
 	}
 	
 	/**
-	 * A method to print the details of the hashmap containing a collection of item objects
+	 * A method to print the details of the HashMap containing a collection of item objects
 	 */
 	public void viewMenu() {
 		System.out.println("************** MENU ****************" + '\n');
@@ -144,7 +143,7 @@ public class ItemManager implements Serializable {
 	}
 
 	/**
-	 * A method to get an item object from the hashmap
+	 * A method to get an item object from the HashMap
 	 * @param index of the item object
 	 * @return the Item object
 	 */

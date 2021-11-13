@@ -5,14 +5,14 @@ import java.io.*;
 
 /**
  * Interface to input information regarding members of this restaurant.
- * @author Jacintha Wee
- * @version 1.1
- * @since 2021-11-13
+ * @author Jacintha
+ * @version 1.0
+ * @since 2021-11-12
  */
 public class MemberUI {
 
 	/**
-	 * Scanner to scan in user input
+	 * a scanner to scan user's input
 	 */
 	private static Scanner sc = new Scanner(System.in);
 	

@@ -7,7 +7,11 @@ import java.util.Scanner;
  *
  */
 public class TableUI {
+	/**
+	 * scanner to scan user's input
+	 */
     private static Scanner sc = new Scanner(System.in);
+    
     /**
      * scan the table ID provided by user
      * @return table ID

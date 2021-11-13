@@ -12,6 +12,9 @@ import java.time.format.DateTimeParseException;
  */
 public class ReservationUI 
 {
+	/**
+	 * scanner to scan user's input
+	 */
     private static Scanner sc = new Scanner(System.in);
     
     /**

@@ -11,29 +11,33 @@ import javax.lang.model.element.Element;
 
 /**
  * Manages the methods pertaining to Order class.
- * @author Jacintha Wee
- * @version 1.2
- * @since 2021-11-13
+ * @author Jacintha
+ * @version 1.1
+ * @since 2021-11-12
  */
 public class OrderManager implements Serializable{
 	/**
 	 * An ArrayList of Orders which orderID's correspond to the index at which they were stored in the ArrayList
 	 */
 	private ArrayList<Order> ordersbyID; 
+	
 	/**
 	 * The ID of the order created for this customer
 	 */
 	private int orderID;
+	
 	/**
-	 * 
+	 * the start date for printing revenue report
 	 */
 	private LocalDate _start;
+	
 	/**
-	 * 
+	 * the end date for printing revenue report
 	 */
 	private LocalDate _end;
+	
 	/**
-	 * 
+	 * variable storing total revenue
 	 */
 	private double totalRevenue;
 	
@@ -158,7 +162,7 @@ public class OrderManager implements Serializable{
 	 * Print out the order invoice of this customer upon payment 
 	 * @param membership The membership status of this customer ie true if customer is a member and false otherwise
 	 * @param orderid The orderID of this customer
-	 * @return ID of the table that has been checkout
+	 * @return ID of the table that has checked out
 	 */
 	public int printInvoice(boolean membership, int orderid) {
 		double subTotal = 0;
@@ -226,13 +230,6 @@ public class OrderManager implements Serializable{
 	 * @param choice 1: by item name; choice 2: by order id; choice 3: by payment amount
 	 */
 	public void printRevenueReport(int choice) {
-		/**
-		 * choice:
-		 * 		0: by item amount
-		 * 		1: by orderId
-		 * 		2: by order amount
-		 */
-
         ArrayList<Order> orders4print = this.ordersbyID.stream()
         .filter(o -> (o.getTime().toLocalDate().isAfter(this._start) && o.getTime().toLocalDate().isBefore(this._end)))
 		.filter(o -> o.paid())

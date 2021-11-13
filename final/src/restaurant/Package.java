@@ -16,7 +16,7 @@ import java.util.Scanner;
 public class Package extends Food implements Serializable {
 
 	/**
-	 * Represents a hashmap of item object and its quantity inside the package
+	 * Represents a HashMap of item object and its quantity inside the package
 	 */
 	private HashMap<Item, Integer> menuItemPackage;
 	/**
@@ -39,7 +39,7 @@ public class Package extends Food implements Serializable {
 	/**
 	 * Constructor of the package object
 	 * @param name Name of the package object
-	 * @param index Index of the package objext
+	 * @param index Index of the package object
 	 */
 	public Package(String name, int index) {
 //		menuItemPackage = new ArrayList<Item>();

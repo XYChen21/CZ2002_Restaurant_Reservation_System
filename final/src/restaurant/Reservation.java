@@ -5,7 +5,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.time.LocalDateTime;
 
 /**
- * 
+ * Represents a reservation made
  * @author Chen Xingyu
  *
  */

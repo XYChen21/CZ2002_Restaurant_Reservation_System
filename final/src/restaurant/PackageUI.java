@@ -110,6 +110,7 @@ public class PackageUI {
 
 	/**
 	 * A method to get the price of the package from user's input
+	 * @param oriPrice Total price of the individual items inside the package
 	 * @return the price of the package
 	 */
 	public static double getPricePackageUI(double oriPrice) {

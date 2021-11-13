@@ -16,7 +16,22 @@ public class Item extends Food implements Comparable<Item>, Serializable {
 	 */
 	
 	public enum KindofFood {
-		MAIN, SIDES, BEVERAGE, DESSERT;
+		/**
+		 * Type of item is main
+		 */
+		MAIN, 
+		/**
+		 * Type of item is sides
+		 */
+		SIDES, 
+		/**
+		 * Type of item is beverage
+		 */
+		BEVERAGE, 
+		/**
+		 * Type of item is dessert
+		 */
+		DESSERT;
 
 		/**
 		 * Method to change integer to a corresponding type of an item, 1: main, 2: sides, 3: beverage, 4: dessert

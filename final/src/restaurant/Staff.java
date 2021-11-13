@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 /**
  * Represents a staff of this restaurant.
- * @author Jacintha
+ * @author Jacintha Wee
  * @version 1.0
  * @since 2021-11-12
  */
@@ -64,7 +64,7 @@ public class Staff implements Serializable{
 	public String getStaffPos() {return jobPosition;}
 	
 	/**
-	 * Print the particualrs of this staff
+	 * Print the particulars of this staff
 	 */
 	public void printStaff() {
 		System.out.println("Particulars of staff: ");

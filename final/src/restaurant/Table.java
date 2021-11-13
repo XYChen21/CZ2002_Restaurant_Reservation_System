@@ -60,8 +60,8 @@ public class Table implements Comparable<Table>, Serializable
 	
 	/**
 	 * check whether the table can be assigned to the given number of customers for dining in or making reservations based on two conditions <br>
-	 * <li> the capacity of the table is larger than the number of people dining </li>
-	 * <li> no customers are using the table now or the table is expected to be vacated before the given time < li>
+	 * - the capacity of the table is larger than the number of people dining 
+	 * - no customers are using the table now or the table is expected to be vacated before the given time
 	 * @param time the given time to check availability
 	 * @param pax number of people dining
 	 * @return return true if both conditions are satisfied, false otherwise

@@ -10,10 +10,18 @@ import com.amazonaws.services.sns.model.MessageAttributeValue;
 import com.amazonaws.services.sns.model.PublishRequest;
 import com.amazonaws.services.sns.model.PublishResult;
 
+/**
+ * A class to send confirmation notification to customers via SMS
+ * @author Chen Xingyu
+ *
+ */
 public class Notification {
-//  account ID 259236364278
-//	AWS_ACCESS_KEY_ID = "AKIATYW5Q773CIBXA2X5";
-//	AWS_SECRET_KEY = "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";
+	
+	/**
+	 * a method to send SMS message to customers with given phone number
+	 * @param message the message to be sent
+	 * @param phoneNumber the phone number for the message to be sent to
+	 */
 	public static void sendSMS(String message, String phoneNumber) 
 	{
 		BasicAWSCredentials basicAwsCredentials = new BasicAWSCredentials("AKIATYW5Q773CIBXA2X5", "+F8r/IdVaiZ1fb+cVDu2HY6Uh2MGzVuovsGXGC7i");

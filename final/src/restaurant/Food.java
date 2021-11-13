@@ -11,19 +11,19 @@ import java.io.Serializable;
 public abstract class Food implements Serializable {
 	/**
 	 * Abstract method to get the name of the food object
-	 * @return
+	 * @return name of food
 	 */
 	public abstract String getName();
 	
 	/**
 	 * Abstract method to get the price of the food object
-	 * @return
+	 * @return price of food
 	 */
 	public abstract double getPrice();
 
 	/**
 	 * Abstract method to get the index of the food object
-	 * @return
+	 * @return index of food
 	 */
 	public abstract int getIndex();
 

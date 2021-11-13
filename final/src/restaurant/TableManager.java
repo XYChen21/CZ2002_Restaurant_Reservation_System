@@ -6,7 +6,6 @@ import java.io.*;
 /**
  * Controller class for Table objects that holds a collection of tables by table ID
  * @author Chen Xingyu
- *
  */
 public class TableManager implements Serializable{
 	/**

@@ -4,7 +4,7 @@ import java.io.*;
 
 /**
  * Manages methods pertaining to Staff class.
- * @author Jacintha
+ * @author Jacintha Wee
  * @version 1.1
  * @since 2021-11-12
  */
@@ -45,7 +45,7 @@ public class StaffManager implements Serializable{
 	 */
 	public void removeStaff(int id) {
 		Staff s = sMap.get(id);
-		if (s != null) { // Staff exists in staff roster, can confirm and proceed to remove
+		if (s != null) { // Staff exists in staff manager, can confirm and proceed to remove
 			System.out.println("Here are the particulars of the staff you wish to remove: ");
 			s.printStaff();
 			System.out.println("To proceed with removal of staff, enter 1");
@@ -61,7 +61,7 @@ public class StaffManager implements Serializable{
 					return;
 				}
 				sc.nextLine();
-				if (choice == 1) { // Remove Staff from staff roster
+				if (choice == 1) { // Remove Staff from staff manager
 					sMap.remove(id);
 					System.out.println("Successfully removed staff.");
 					exit=true;
@@ -75,7 +75,7 @@ public class StaffManager implements Serializable{
 				}
 			}
 		}
-		else { // Staff does not exist in staff roster, error
+		else { // Staff does not exist in staff manager, error
 			System.out.println("The staff you have chosen to remove does not exist.");
 			System.out.println("Please check if you have entered the correct staff ID to remove and try again.");
 		}

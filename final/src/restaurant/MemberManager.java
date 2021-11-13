@@ -4,7 +4,7 @@ import java.io.*;
 
 /**
  * Manages methods pertaining to Member class.
- * @author Jacintha
+ * @author Jacintha Wee
  * @version 1.0
  * @since 2021-11-12
  */

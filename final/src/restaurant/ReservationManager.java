@@ -70,7 +70,7 @@ public class ReservationManager implements Serializable{
      * Check each table's availability at given time by checking reservations at that table, return an ArrayList of table IDs that can be allocated after checking reservations <br>
      * The condition is there are no reservations are 2 hours before and after the the given time, since we assume 
 	 * the table will be vacated 2 hours after the customers start dining <br>
-	 * <li> e.g. if the given time is 5pm, then the condition is satisfied if there are no reservations from 3pm to 7pm 
+	 * - e.g. if the given time is 5pm, then the condition is satisfied if there are no reservations from 3pm to 7pm 
      * @param time time given to check table's availability
      * @return an ArrayList of available table IDs
      */

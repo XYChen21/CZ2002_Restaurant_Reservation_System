@@ -10,7 +10,17 @@ import restaurant.Item.KindofFood;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * Main driver for restaurant app
+ * @author Chen Xingyu, Valencia Lie, Jacintha Wee, Li Siyi
+ * @since 2021-11-13
+ */
 public class App {
+	
+	/**
+	 * main app
+	 * @param args arguments
+	 */
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		Restaurant r = null;
