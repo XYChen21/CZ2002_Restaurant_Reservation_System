@@ -18,11 +18,12 @@ public class App {
 			FileInputStream fs = new FileInputStream("restaurant.ser");
 			ObjectInputStream is = new ObjectInputStream(fs);
 			r = (Restaurant) is.readObject(); // need cast because we'll get back type Object
+			r.restoreAutoRemove();
 			is.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-//		
+		
 //		r = new Restaurant();
 		int choice;
 		// if (have serial file)
@@ -173,7 +174,7 @@ public class App {
 				r.showAllRes();
 				break;
 			case 7:
-				r.listAvail();
+				r.listTableStatus();
 				break;
 			case 8:
 				r.addMenuItem();
