@@ -5,6 +5,13 @@ import restaurant.Item.KindofFood;
 import java.io.*;
 import java.time.*;
 
+/**
+ * Restaurant contains all managers i.e. Controller classes and will initiate functions that are called by App class
+ * @author Jacintha
+ * @version 1.0
+ * @since 2021-11-13
+ *
+ */
 public class Restaurant implements Serializable
 {	
 	private ReservationManager resManager;
@@ -394,6 +401,9 @@ public class Restaurant implements Serializable
 		}
 		
 	}
+	/**
+	 * Creation of order after customer dines in
+	 */
 	public void createOrder() {
 		try {
     		int table = OrderUI.scanTableID();
@@ -417,6 +427,9 @@ public class Restaurant implements Serializable
 			System.out.println(e.getMessage());
 		}
 	}
+	/**
+	 * View all current orders that the customer has made
+	 */
 	public void viewOrder() {
 		try {
     		int orderid = OrderUI.scanOrderID();
@@ -428,6 +441,9 @@ public class Restaurant implements Serializable
 			System.out.println(e.getMessage());
 		}
 	}
+	/**
+	 * Add food item/s from the menu to the customer's order
+	 */
 	public void addOrder() {
 		try {
     		int orderid = OrderUI.scanOrderID();
@@ -455,6 +471,9 @@ public class Restaurant implements Serializable
 			System.out.println(e.getMessage()); 
 		}
 	}
+	/**
+	 * Remove food item/s from the customer's order (if they previously exist in the order)
+	 */
 	public void removeOrder() {
 		try {
     		int orderid = OrderUI.scanOrderID();
@@ -482,6 +501,9 @@ public class Restaurant implements Serializable
 			System.out.println(e.getMessage());
 		}
 	}
+	/**
+	 * Enquire membership status of the customer and optionally if they want to join membership before proceeding to payment and printing order invoice
+	 */
 	public void checkout() {
 		try {
     		System.out.println("Checkout in progress ...");
