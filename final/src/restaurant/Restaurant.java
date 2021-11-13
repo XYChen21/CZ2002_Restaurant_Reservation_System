@@ -618,6 +618,10 @@ public class Restaurant implements Serializable
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	/**
+	 * print a revenue report given a time period in selected format
+	 */
 	public void printRevenue()
 	 {
 	  String[] period = OrderUI.scanTime();
