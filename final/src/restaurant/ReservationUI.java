@@ -54,7 +54,7 @@ public class ReservationUI
                 dateTime = LocalDateTime.parse(strDateTime, formatter);
 		LocalTime time = dateTime.toLocalTime();
                 if (time.isBefore(LocalTime.of(8, 0)) || time.isAfter(LocalTime.of(20, 0)))
-                	throw new Exception("Restaurant is closed, please enter a time from 08:00 to 20:00");
+                	throw new Exception("Restaurant is open from 08:00 to 22:00, latest reservation time allowed is 20:00 since the reservation duration is 2 hours");
                 if (dateTime.isBefore(LocalDateTime.now()))
                     throw new Exception("Reservation time cannot be earlier than current time.");
                 break;
@@ -68,6 +68,7 @@ public class ReservationUI
         }
         return dateTime;
     }
+    
     
     /**
      * scan the number of people dining provided by the user
