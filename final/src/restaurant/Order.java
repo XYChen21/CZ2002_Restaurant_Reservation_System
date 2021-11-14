@@ -9,9 +9,9 @@ import java.util.Map;
 
 /**
  * Represents an order made per customer in the restaurant.
- * @author Jacintha
- * @version 1.0
- * @since 2021-11-12
+ * @author Jacintha Wee
+ * @version 1.1
+ * @since 2021-11-14
  */
 public class Order implements Serializable {
 	/**
@@ -64,6 +64,14 @@ public class Order implements Serializable {
 	 * @return true if this customer has paid for the food and false otherwise
 	 */
 	public boolean paid() {return paid;}
+	
+	/**
+	 * Once payment has been made, set paid to true
+	 */
+	public void setPaid() {
+		paid = true; 
+		System.out.println("Payment complete");
+		}
 	
 	/**
 	 * Check if this customer has created an Order yet
@@ -119,5 +127,4 @@ public class Order implements Serializable {
 	 * @return HashMap of food ordered and quantities of each food ordered by this customer
 	 */
 	public HashMap<Food, Integer> getOrders() {return ordersFood;}
-	
 }

@@ -11,29 +11,33 @@ import javax.lang.model.element.Element;
 
 /**
  * Manages the methods pertaining to Order class.
- * @author Jacintha
- * @version 1.1
- * @since 2021-11-12
+ * @author Jacintha Wee
+ * @version 2.1
+ * @since 2021-11-14
  */
 public class OrderManager implements Serializable{
 	/**
 	 * An ArrayList of Orders which orderID's correspond to the index at which they were stored in the ArrayList
 	 */
 	private ArrayList<Order> ordersbyID; 
+	
 	/**
 	 * The ID of the order created for this customer
 	 */
 	private int orderID;
+	
 	/**
-	 * 
+	 * the start date for printing revenue report
 	 */
 	private LocalDate _start;
+	
 	/**
-	 * 
+	 * the end date for printing revenue report
 	 */
 	private LocalDate _end;
+	
 	/**
-	 * 
+	 * variable storing total revenue
 	 */
 	private double totalRevenue;
 	
@@ -52,21 +56,25 @@ public class OrderManager implements Serializable{
 	 * @return true if orderID is valid and false otherwise
 	 */
 	public boolean checkValidOrderID(int id) {
-		if (id >= 0 && id < orderID) {return true;}
+		if (id >= 0 && id <= orderID) {return true;}
 		else {return false;}
 	}
 	
 	/**
-	 * Creates and order for this customer according to the tableID assigned upon dine in and staff server to serve this customer
-	 * @param tableID The ID of the table assigned to this customer 
-	 * @param staffServer The name of the staff to serve this customer
+	 * Upon creation of order, increment orderID to generate a new orderID for the customer
 	 */
-	public void createOrder(int tableID, String staffServer) {
-		if (orderID == -1) {orderID = 0;}
-		Order newOrder = new Order(tableID, orderID, staffServer);
+	public void createOrder() {
+		orderID++;
+	}
+	
+	/**
+	 * Add the newly created order to the ArrayList of all orders
+	 * @param newOrder The Order object for this customer
+	 * @param tableID The ID of the table assigned to this customer upon dine in 
+	 */
+	public void addOrdertoArrayList(Order newOrder, int tableID) {
 		ordersbyID.add(newOrder);
 		System.out.println("New order for table " + tableID + " with orderID " + orderID + " has been successfully created.");
-		orderID++;
 	}
 	
 	/**
@@ -158,7 +166,7 @@ public class OrderManager implements Serializable{
 	 * Print out the order invoice of this customer upon payment 
 	 * @param membership The membership status of this customer ie true if customer is a member and false otherwise
 	 * @param orderid The orderID of this customer
-	 * @return
+	 * @return ID of the table that has checked out
 	 */
 	public int printInvoice(boolean membership, int orderid) {
 		double subTotal = 0;
@@ -180,8 +188,8 @@ public class OrderManager implements Serializable{
 		// Print Quantity, Name of food, Individual Cost
 		for (Food f : completeOrder.getOrders().keySet()) {
 			int quantity = completeOrder.getOrders().get(f);
-			System.out.println(quantity+ " " + f.getName() + "\t" + String.format("%.2f", f.getPrice()));
-			subTotal += f.getPrice();
+			System.out.println(quantity+ " " + f.getName() + "\t" + String.format("%.2f", f.getPrice()*quantity));
+			subTotal += f.getPrice()*quantity;
 		}
 		// Print SubTotal
 		System.out.println("SubTotal: " + String.format("%.2f", subTotal));
@@ -199,11 +207,14 @@ public class OrderManager implements Serializable{
 		// Revenue = Total - Taxes
 		double total = subTotal - taxes;
 		ordersbyID.get(orderid).setTotal(total);
-				
+		ordersbyID.get(orderid).setPaid();
 		return completeOrder.gettableID();
 	}
 	
-	// Revenue report method
+	/**
+	 * parse input date time string to LocalDate
+	 * @param t: string for parsing
+	 */
 	public void parseTme(String...t){
 		try {
 			this._end = LocalDate.parse(t[1], DateTimeFormatter.ofPattern("d/M/y"));
@@ -217,15 +228,12 @@ public class OrderManager implements Serializable{
 			this._end = LocalDate.MAX;
 		}
 	}
-
+	
+	/**
+	 * print a revenue report with user choice
+	 * @param choice 1: by item name; choice 2: by order id; choice 3: by payment amount
+	 */
 	public void printRevenueReport(int choice) {
-		/**
-		 * choice:
-		 * 		0: by item amount
-		 * 		1: by orderId
-		 * 		2: by order amount
-		 */
-
         ArrayList<Order> orders4print = this.ordersbyID.stream()
         .filter(o -> (o.getTime().toLocalDate().isAfter(this._start) && o.getTime().toLocalDate().isBefore(this._end)))
 		.filter(o -> o.paid())
@@ -250,6 +258,8 @@ public class OrderManager implements Serializable{
         System.out.println("------------------------------------------------");
 		switch(choice){
 			case 0:
+				System.out.println("Item" + "\t\t\t\t\t" + "Amount");
+				System.out.println("------------------------------------------------");
 				temp.entrySet().stream()
 				.sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
 				.forEach(k -> 
@@ -257,6 +267,8 @@ public class OrderManager implements Serializable{
 				);
 				break;
 			case 1:
+				System.out.println("OrderID" + "\t\t\t\t\t" + "Amount");
+				System.out.println("------------------------------------------------");
 				orders4print.sort((a, b) -> a.getorderID() - b.getorderID());
 				orders4print.forEach(
 					o -> {
@@ -266,6 +278,8 @@ public class OrderManager implements Serializable{
 				);
 				break;
 			case 2:
+				System.out.println("OrderID" + "\t\t\t\t\t" + "Amount");
+				System.out.println("------------------------------------------------");
 				orders4print.sort((a, b) -> (int)(a.getTotal() - b.getTotal()));
 				orders4print.forEach(
 					o -> {
