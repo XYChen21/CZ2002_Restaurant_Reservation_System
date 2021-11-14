@@ -4,12 +4,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.*;
 
-import restaurant.Item.KindofFood;
-
-//import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 /**
  * Main driver for restaurant app
  * @author Chen Xingyu, Valencia Lie, Jacintha Wee, Li Siyi
@@ -24,109 +18,53 @@ public class App {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		Restaurant r = null;
-		try {
-			FileInputStream fs = new FileInputStream("restaurant.ser");
-			ObjectInputStream is = new ObjectInputStream(fs);
-			r = (Restaurant) is.readObject(); // need cast because we'll get back type Object
-			r.restoreAutoRemove();
-			is.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		
-//		r = new Restaurant();
 		int choice;
-		// if (have serial file)
-		// System.out.println("Do you want to 1. restore previous Restaurant object or
-		// 2. create a new one?");
-		// int choice;
-		// while (true) {
-		// try {
-		// choice = sc.nextInt();
-		// sc.nextLine();
-		// if (choice != 1 && choice != 2)
-		// throw new Exception("Invalid choice, please put 1 and 2 only");
-		// break;
-		// } catch (Exception e) {
-		// System.out.println(e.getMessage());
-		// }
-		// }
-		// if (choice == 1)
-		// {
-		// try {
-		// FileInputStream fs = new FileInputStream("restaurant.ser");
-		// ObjectInputStream is = new ObjectInputStream(fs);
-		// r = (Restaurant) is.readObject(); // need cast because we'll get back type
-		// Object
-		// is.close();
-		// } catch (Exception ex) {
-		// ex.printStackTrace();
-		// }
-		// }
-		// else r = new Restaurant();
-		// do {
-		// while (true) {
-		// System.out.println("Setting up restaurant... Enter your chioce:");
-		// System.out.println("(1)Add table");
-		// System.out.println("(2)Remove table");
-		// System.out.println("(3)Add staff");
-		// System.out.println("(4)Remove staff");
-		// System.out.println("(5)Add member");
-		// System.out.println("(6)Finish and run restaurant");
-		// try {
-		// choice = sc.nextInt();
-		// sc.nextLine();
-		// break;
-		// } catch (Exception e) {
-		// System.out.println(e.getMessage());
-		// }
-		// }
-		// switch (choice) {
-		// case 1:
-		// int id = r.tableUI.scanID();
-		// int cap = r.tableUI.scanCapacity();
-		// Table t = new Table(id, cap);
-		// r.addTable(id, t);
-		// break;
-		// case 2:
-		// id = r.tableUI.scanID();
-		// r.removeTable(id);
-		// break;
-		// case 3:
-		// // code
-		// break;
-		// case 4:
-		// // code
-		// break;
-		// case 5:
-		// // code
-		// break;
-		// case 6:
-		// System.out.println("Restaurant is ready to run!");
-		// break;
-		// default:
-		// System.out.println("Invalid choice!");
-		// break;
-		// }
-		// } while (choice < 6);
+		while (true) {
+			System.out.println("Do you want to 1. restore previous Res1taurant object or 2. create a new one?");
+			while (true) {
+				try {
+					 choice = sc.nextInt();
+					 if (choice != 1 && choice != 2)
+						 throw new Exception("Invalid choice, please put 1 and 2 only");
+					 break;
+				} catch (InputMismatchException e) {
+					System.out.println("please input integer 1 or 2");
+					 sc.nextLine();
+				} catch (Exception e) {
+					 System.out.println(e.getMessage());
+					 sc.nextLine();
+				}
+			}
+			sc.nextLine();
+			if (choice == 1) {
+				System.out.println("Enter directory of serialization file: ");
+				String path = sc.nextLine();
+				File f = new File(path);
+				if(f.exists() && !f.isDirectory()) {
+					try {
+						FileInputStream fs = new FileInputStream(f);
+						ObjectInputStream is = new ObjectInputStream(fs);
+						r = (Restaurant) is.readObject(); // need cast because we'll get back type Object
+						r.restoreAutoRemove();
+						is.close();
+						System.out.println("Resetaurant restored!");
+						break;
+					} catch (Exception ex) {
+						System.out.println(ex.getMessage());
+						continue;
+					}
+				} else {
+					System.out.println("File doesn't exist!");
+					continue;
+				}
+			}
+			else if (choice == 2) {
+				System.out.println("New restaurant created!");
+				r = new Restaurant();
+				break;
+			}
+		}
 		do {
-			// while (true) {
-			// System.out.println("(1)Dine in (without reservation)");
-			// System.out.println("(2)Dine in (with reservation)");
-			// System.out.println("(3)Make a reservation");
-			// System.out.println("(4)Remove a reservation");
-			// System.out.println("(5)Find a reservation");
-			// System.out.println("(6)Show all reservations");
-			// System.out.println("(7)Close");
-			// System.out.print("Enter the number of your choice: ");
-			// try {
-			// choice = sc.nextInt();
-			// sc.nextLine();
-			// break;
-			// } catch (Exception e) {
-			// System.out.println(e.getMessage());
-			// }
-			// }
 			System.out.println("(1)Dine in (without reservation)");
 			System.out.println("(2)Dine in (with reservation)");
 			System.out.println("(3)Make a reservation");
