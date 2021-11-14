@@ -1,5 +1,4 @@
 package restaurant;
-
 import java.io.*;
 import java.util.concurrent.ScheduledFuture;
 import java.time.LocalDateTime;
@@ -9,8 +8,7 @@ import java.time.LocalDateTime;
  * @author Chen Xingyu
  *
  */
-public class Reservation implements Comparable<Reservation>, Serializable
-{
+public class Reservation implements Comparable<Reservation>, Serializable{
 	/**
 	 * number of people dining
 	 */

@@ -10,7 +10,6 @@ import java.io.*;
  * @since 2021-11-12
  */
 public class MemberUI {
-
 	/**
 	 * a scanner to scan user's input
 	 */

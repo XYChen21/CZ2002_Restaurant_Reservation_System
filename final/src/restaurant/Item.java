@@ -8,7 +8,6 @@ import java.io.Serializable;
  * @version 1.0
  * @since 2021-11-12
  */
-
 public class Item extends Food implements Comparable<Item>, Serializable {
 	/**
 	 * A collection of types an item object can possibly have: either main, sides, beverages, dessert

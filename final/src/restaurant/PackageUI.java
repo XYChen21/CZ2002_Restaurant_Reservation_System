@@ -1,5 +1,4 @@
 package restaurant;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -10,7 +9,6 @@ import java.util.Scanner;
  * @since 2021-11-12
  */
 public class PackageUI {
-
 	/**
 	 * A scanner to scan user input 
 	 */
@@ -212,5 +210,4 @@ public class PackageUI {
 		return choice;
 
 	}
-
 }

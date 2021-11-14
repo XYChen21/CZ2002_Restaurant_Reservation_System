@@ -143,4 +143,30 @@ public class ReservationUI
         }
         return choice;
     }
+    /**
+     * scan the reservation date provided by the user when user tries to find a reservation
+     * @return reservation date as a LocalDate object
+     */
+    public static LocalDate scanDate()
+    {
+     LocalDate date;
+     while (true)
+        {
+         System.out.print("Enter data of reservation(dd/MM/yyyy): ");
+            try {
+                String strDate = sc.nextLine();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                date = LocalDate.parse(strDate, formatter);
+                break;
+            } 
+            catch(DateTimeParseException e) {
+             System.out.println("Please enter the correct format for date time (dd/MM/yyyy)");
+            }
+            catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return date;
+     
+    }
 }

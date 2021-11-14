@@ -1,5 +1,4 @@
 package restaurant;
-
 import java.util.*;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
@@ -13,10 +12,8 @@ import com.amazonaws.services.sns.model.PublishResult;
 /**
  * A class to send confirmation notification to customers via SMS
  * @author Chen Xingyu
- *
  */
 public class Notification {
-	
 	/**
 	 * a method to send SMS message to customers with given phone number
 	 * @param message the message to be sent

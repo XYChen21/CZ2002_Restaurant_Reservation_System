@@ -63,12 +63,8 @@ public class Restaurant implements Serializable
 
 		int id = 1, cap = 2;
 		Table t;
-		while (id <= 10)
+		while (id <= 5)
 		{
-			t = new Table(id, cap);
-			tableManager.add(id, t);
-			resManager.initTableReservation(id);
-			id++;
 			t = new Table(id, cap);
 			tableManager.add(id, t);
 			resManager.initTableReservation(id);
@@ -184,20 +180,20 @@ public class Restaurant implements Serializable
 	}
 	
 	/**
-	 * find a reservation by providing reservation name, contact number of reservation date and time
-	 */
-	public void showRes()
-	{
-		String name = ReservationUI.scanName();
-		String contact = ReservationUI.scanContact();
-		LocalDateTime dateTime = ReservationUI.scanTime();
-		String key = name + contact + dateTime.toLocalDate();
-		Reservation res = resManager.getRes(key);
-		if (res == null)
-			System.out.println("Reservation not found!");
-		else
-			System.out.println(res.toString());
-	}
+	  * find a reservation by providing reservation name, contact number of reservation date and time
+	  */
+	 public void showRes()
+	 {
+	  String name = ReservationUI.scanName();
+	  String contact = ReservationUI.scanContact();
+	  LocalDate date = ReservationUI.scanDate();
+	  String key = name + contact + date;
+	  Reservation res = resManager.getRes(key);
+	  if (res == null)
+	   System.out.println("Reservation not found!");
+	  else
+	   System.out.println(res.toString());
+	 }
 	
 	/**
 	 * show all reservations in the system

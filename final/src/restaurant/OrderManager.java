@@ -240,7 +240,7 @@ public class OrderManager implements Serializable{
         .collect(Collectors.toCollection(ArrayList::new));
         double total = 0.0;
         double p = 0;
-
+        this.totalRevenue = 0.0;
 		HashMap<Food, Integer> saledItems = new HashMap<>();
 		orders4print.forEach(o -> 
 		{
@@ -250,10 +250,10 @@ public class OrderManager implements Serializable{
 
 		HashMap<Food, Integer> temp = saledItems;
 
-        System.out.println("                SCSE Restaurant                 ");
+        System.out.println("                Restaurant Name                 ");
         System.out.println("        ********************************        ");
         System.out.println();
-        System.out.println("From \t" + _start.toString() + "To \t" + _end.toString());
+        if(this._start != LocalDate.MIN) System.out.println("From \t" + _start.toString() + "\tTo \t" + _end.toString());
         System.out.println();
         System.out.println("------------------------------------------------");
 		switch(choice){
@@ -263,7 +263,7 @@ public class OrderManager implements Serializable{
 				temp.entrySet().stream()
 				.sorted((k1, k2) -> -k1.getValue().compareTo(k2.getValue()))
 				.forEach(k -> 
-				System.out.println(k.getKey() + "\t\t\t\t\t" + k.getValue())
+				System.out.println(k.getKey().getName() + "\t\t\t\t\t" + k.getValue())
 				);
 				break;
 			case 1:
@@ -272,7 +272,7 @@ public class OrderManager implements Serializable{
 				orders4print.sort((a, b) -> a.getorderID() - b.getorderID());
 				orders4print.forEach(
 					o -> {
-						System.out.println(o.getorderID() + "\t\t\t\t\t" + o.getTotal());
+						System.out.println(o.getorderID() + "\t\t\t\t\t" + String.format("%.2f", o.getTotal()));
 						this.totalRevenue += o.getTotal();
 					}
 				);
@@ -283,13 +283,13 @@ public class OrderManager implements Serializable{
 				orders4print.sort((a, b) -> (int)(a.getTotal() - b.getTotal()));
 				orders4print.forEach(
 					o -> {
-						System.out.println(o.getorderID() + "\t\t\t\t\t" + o.getTotal());
+						System.out.println(o.getorderID() + "\t\t\t\t\t" + String.format("%.2f", o.getTotal()));
 						this.totalRevenue += o.getTotal();
 					}
 				);
 				break;
 		}
 		System.out.println("------------------------------------------------");
-        if(total != 0.0) System.out.println("                                 Total: " + String.format("%-8.2f", this.totalRevenue));
+        if(this.totalRevenue != 0.0) System.out.println("                                 Total: " + String.format("%-8.2f", this.totalRevenue));
     }
 }

@@ -8,7 +8,6 @@ import java.io.Serializable;
  * @version 1.0
  * @since 2021-11-12
  */
-
 public class Member implements Serializable{
 	/**
 	 * The contact number of this Member

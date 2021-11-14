@@ -1,13 +1,11 @@
 package restaurant;
-
 import java.io.*;
 import java.time.*;
 /**
  * Represents a table in the restaurant.
  * @author Chen Xingyu
  */
-public class Table implements Comparable<Table>, Serializable
-{
+public class Table implements Comparable<Table>, Serializable{
 	/**
 	 * capacity of the table
 	 */

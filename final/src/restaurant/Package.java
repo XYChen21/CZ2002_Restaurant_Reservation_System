@@ -13,8 +13,7 @@ import java.util.Scanner;
  * @version 1.0
  * @since 2021-11-12
  */
-public class Package extends Food implements Serializable {
-
+public class Package extends Food implements Serializable{
 	/**
 	 * Represents a HashMap of item object and its quantity inside the package
 	 */
@@ -190,5 +189,4 @@ public class Package extends Food implements Serializable {
 		else
 			return true;
 	}
-
 }

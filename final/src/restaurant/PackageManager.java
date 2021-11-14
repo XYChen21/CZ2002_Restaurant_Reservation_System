@@ -1,5 +1,4 @@
 package restaurant;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -11,7 +10,7 @@ import java.io.*;
  * @version 1.0
  * @since 2021-11-12
  */
-public class PackageManager implements Serializable {
+public class PackageManager implements Serializable{
 //	private List<Package> menuPackage;
 	
 	/**
@@ -141,8 +140,8 @@ public class PackageManager implements Serializable {
 		Package p = getPackage(oldIndex);
 
 		if (p != null) {
-			System.out.println("Make sure it's lower than the total price of the items inside this package.");
 			p.setPrice(newPrice);
+			System.out.println("Updated successfully");
 		}
 
 		else {

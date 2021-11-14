@@ -9,7 +9,7 @@ import java.io.*;
  * @version 1.0
  * @since 2021-11-12
  */
-public class StaffUI{
+public class StaffUI {
 	/**
 	 * scanner to scan user's input
 	 */

@@ -16,7 +16,6 @@ import restaurant.Item.KindofFood;
  * @since 2021-11-12
  */
 public class ItemManager implements Serializable {
-	
 	/**
 	 * A HashMap collection of indexes of items and the item objects themselves
 	 */
