@@ -20,7 +20,7 @@ public class App {
 		Restaurant r = null;
 		int choice;
 		while (true) {
-			System.out.println("Do you want to 1. restore previous Res1taurant object or 2. create a new one?");
+			System.out.println("Do you want to 1. restore previous Restaurant object or 2. create a new one?");
 			while (true) {
 				try {
 					 choice = sc.nextInt();
