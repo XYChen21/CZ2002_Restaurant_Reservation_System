@@ -212,25 +212,23 @@ public class Restaurant implements Serializable
 		String contact = ReservationUI.scanContact();
 		LocalDateTime dateTime = ReservationUI.scanTime();
 		int pax = ReservationUI.scanPax();
+		String key = name + contact + dateTime.toLocalDate();
+		if (resManager.haveRes(key)) {
+			System.out.println("You've already made a reservation on that day, cannot make another reservation.");
+			return;
+		}
 		ArrayList<Integer> availTables = resManager.checkAvail(LocalDateTime.now());
 		Integer tID = tableManager.allocateTable(availTables, LocalDateTime.now(), pax);
-		String key = name + contact + dateTime.toLocalDate();
-//		System.out.println("key: "+key);
-		if (resManager.haveRes(key))
-			System.out.println("You've already made a reservation on that day, cannot make another reservation.");
-		else
+		if (tID != null)
 		{
-			if (tID != null)
-			{
-				Reservation res = new Reservation(dateTime, name, contact, pax, tID);
-				resManager.setAutoRemove(res);
-				resManager.addRes(tID, key, res);
-				System.out.println("Reservation made successfully!");
-				Notification.sendSMS(res.toStringCust(), contact);
-			}
-			else
-				System.out.println("Cannot make reservation for given date and time");
+			Reservation res = new Reservation(dateTime, name, contact, pax, tID);
+			resManager.setAutoRemove(res);
+			resManager.addRes(tID, key, res);
+			System.out.println("Reservation made successfully!");
+			Notification.sendSMS(res.toStringCust(), contact);
 		}
+		else
+			System.out.println("Cannot make reservation for given date and time since all tables are reserved!");
 	}
 	
 	/**
