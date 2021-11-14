@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * Represents an order made per customer in the restaurant.
- * @author Jacintha Wee
+ * @author Jacintha
  * @version 1.0
  * @since 2021-11-12
  */

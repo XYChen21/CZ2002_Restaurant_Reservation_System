@@ -10,8 +10,9 @@ import java.io.*;
  * @since 2021-11-12
  */
 public class OrderUI {
+	
 	/**
-	 * a scanner to scan user's input
+	 * Scanner to scan in user input
 	 */
 	private static Scanner sc = new Scanner(System.in);
 	
@@ -166,10 +167,6 @@ public class OrderUI {
 		return staffServer;
 	}
 	
-	/**
-	 * input a time period 
-	 * @return specified time period
-	 */
 	public static String[] scanTime(){
 		System.out.println("Specify a period (d/M/y; input null for all orders) - start:");
 		String s = sc.nextLine();
@@ -180,10 +177,6 @@ public class OrderUI {
 		return new String[] { s, e };
 	}
 	
-	/**
-	 * scan a choice for revenue style (choice 1: by item name; choice 2: by order id; choice 3: by payment amount)
-	 * @return choice
-	 */
 	public static int scanRevenueChoice() {
 	int choice;
 	while (true) {
