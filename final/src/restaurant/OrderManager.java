@@ -250,7 +250,7 @@ public class OrderManager implements Serializable{
 
 		HashMap<Food, Integer> temp = saledItems;
 
-        System.out.println("                Restaurant Name                 ");
+        System.out.println("                SCSE Restaurant                 ");
         System.out.println("        ********************************        ");
         System.out.println();
         System.out.println("From \t" + _start.toString() + "To \t" + _end.toString());
