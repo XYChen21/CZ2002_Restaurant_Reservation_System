@@ -39,7 +39,7 @@ public class ReservationUI
     }
     
     /**
-     * scan the reservation time provided by the user
+     * scan the reservation time provided by the user, only allow user to enter a reservation date time after current time from 08:00 to 20:00 each day
      * @return reservation date and time as a LocalDateTime object
      */
     public static LocalDateTime scanTime()
@@ -52,6 +52,9 @@ public class ReservationUI
                 String strDateTime = sc.nextLine();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
                 dateTime = LocalDateTime.parse(strDateTime, formatter);
+		LocalTime time = dateTime.toLocalTime();
+                if (time.isBefore(LocalTime.of(8, 0)) || time.isAfter(LocalTime.of(20, 0)))
+                	throw new Exception("Restaurant is closed, please enter a time from 08:00 to 20:00");
                 if (dateTime.isBefore(LocalDateTime.now()))
                     throw new Exception("Reservation time cannot be earlier than current time.");
                 break;
