@@ -167,16 +167,15 @@ public class ReservationManager implements Serializable{
     {
         Reservation res = allReservations.get(key);
         if (res == null)
-        {
             System.out.println("Reservation not found!");
-            return;
+        else {
+			res.cancelSchedule();
+			int tID = res.getTableID();
+	        ArrayList<Reservation> resAtTable = resByTable.get(tID);
+	        resAtTable.remove(res);
+	        allReservations.remove(key);
+	        System.out.println("Reservation successfully removed!");
         }
-		res.cancelSchedule();
-		int tID = res.getTableID();
-        ArrayList<Reservation> resAtTable = resByTable.get(tID);
-        resAtTable.remove(res);
-        allReservations.remove(key);
-        System.out.println("Reservation successfully removed!");
     }
     
     /**
