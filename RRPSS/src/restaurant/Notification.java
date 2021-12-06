@@ -21,7 +21,7 @@ public class Notification {
 	 */
 	public static void sendSMS(String message, String phoneNumber) 
 	{
-		BasicAWSCredentials basicAwsCredentials = new BasicAWSCredentials("AKIATYW5Q773CIBXA2X5", "+F8r/IdVaiZ1fb+cVDu2HY6Uh2MGzVuovsGXGC7i");
+		BasicAWSCredentials basicAwsCredentials = new BasicAWSCredentials("your_access_key_ID", "your_access_key");
 		AmazonSNS snsClient = AmazonSNSClient
 							.builder()
 			                .withRegion(Regions.AP_SOUTHEAST_1)
